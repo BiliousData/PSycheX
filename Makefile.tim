@@ -2,11 +2,13 @@ all: \
 	iso/menu/menu.arc \
 	iso/menu/char/bf.arc \
 	iso/menu/char/psychic.arc \
+	iso/menu/storybg/stback.arc \
 	iso/demo/demo.arc \
 	iso/demo/loading.tim \
 	iso/menu/loading.tim \
 	iso/font/boldfont.tim \
 	iso/font/arial.tim \
+	iso/font/ared.tim \
 	iso/stage/hud0.tim \
 	iso/stage/hud1.tim \
 	iso/stage/hud0weeb.tim \
@@ -63,6 +65,8 @@ iso/menu/menu.arc: iso/menu/back.tim iso/menu/back2.tim iso/menu/back3.tim iso/m
 iso/menu/char/bf.arc: iso/menu/char/bf.tim
 
 iso/menu/char/psychic.arc: iso/menu/char/psychic.tim
+
+iso/menu/storybg/stback.arc: iso/menu/storybg/fplace.tim
 
 # Demo
 iso/demo/demo.arc: iso/demo/back.tim iso/demo/ng.tim iso/demo/story.tim iso/demo/title.tim

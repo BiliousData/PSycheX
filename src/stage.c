@@ -2376,7 +2376,7 @@ void Stage_Tick(void)
          		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 				u8 flash_col = stage.fadeblack >> FIXED_SHIFT;
 				u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
-				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col2, 1);
+				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col2, 2);
 				stage.fadeblack += FIXED_MUL(stage.fadespeed, timer_dt*3);  
 
             
@@ -2413,6 +2413,7 @@ void Stage_Tick(void)
 					    }
 				}
 			}
+
 
 
 

@@ -107,6 +107,61 @@ void Font_Arial_DrawCol(struct FontData *this, const char *text, s32 x, s32 y, F
 	}
 }
 
+//Font_Ared
+
+s32 Font_Ared_GetWidth(struct FontData *this, const char *text)
+{
+	(void)this;
+	
+	//Draw string width character by character
+	s32 width = 0;
+	
+	u8 c;
+	while ((c = *text++) != '\0')
+	{
+		//Shift and validate character
+		if ((c -= 0x20) >= 0x60)
+			continue;
+		
+		//Add width
+		width += font_arialmap[c].gw;
+	}
+	
+	return width;
+}
+
+void Font_Ared_DrawCol(struct FontData *this, const char *text, s32 x, s32 y, FontAlign align, u8 r, u8 g, u8 b)
+{
+	//Offset position based off alignment
+	switch (align)
+	{
+		case FontAlign_Left:
+			break;
+		case FontAlign_Center:
+			x -= Font_Ared_GetWidth(this, text) >> 1;
+			break;
+		case FontAlign_Right:
+			x -= Font_Ared_GetWidth(this, text);
+			break;
+	}
+	
+	//Draw string character by character
+	u8 c;
+	while ((c = *text++) != '\0')
+	{
+		//Shift and validate character
+		if ((c -= 0x20) >= 0x60)
+			continue;
+		
+		//Draw character
+		RECT src = {font_arialmap[c].ix, font_arialmap[c].iy, font_arialmap[c].iw, font_arialmap[c].ih};
+		Gfx_BlitTexCol(&this->tex, &src, x + font_arialmap[c].gx, y + font_arialmap[c].gy, r, g, b);
+		
+		//Increment X
+		x += font_arialmap[c].gw;
+	}
+}
+
 //Common font functions
 void Font_Draw(struct FontData *this, const char *text, s32 x, s32 y, FontAlign align)
 {
@@ -130,6 +185,12 @@ void FontData_Load(FontData *this, Font font)
 			Gfx_LoadTex(&this->tex, IO_Read("\\FONT\\ARIAL.TIM;1"), GFX_LOADTEX_FREE);
 			this->get_width = Font_Arial_GetWidth;
 			this->draw_col = Font_Arial_DrawCol;
+			break;
+		case Font_Ared:
+		    //Load texture and set functions
+			Gfx_LoadTex(&this->tex, IO_Read("\\FONT\\ARED.TIM;1"), GFX_LOADTEX_FREE);
+			this->get_width = Font_Ared_GetWidth;
+			this->draw_col = Font_Ared_DrawCol;
 			break;
 	}
 	this->draw = Font_Draw;

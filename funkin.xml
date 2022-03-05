@@ -29,12 +29,14 @@
 				<file name = "demo.arc" type = "data" source = "iso/demo/demo.arc"/>
 				<file name = "bfm.arc" type = "data" source = "iso/menu/char/bf.arc"/>
 				<file name = "psychm.arc" type = "data" source = "iso/menu/char/psychic.arc"/>
+				<file name = "stback.arc" type = "data" source = "iso/menu/storybg/stback.arc"/>
 			</dir>
 			
 			<!-- Fonts -->
 			<dir name = "font">
 				<file name = "boldfont.tim" type = "data" source = "iso/font/boldfont.tim"/>
 				<file name = "arial.tim" type = "data" source = "iso/font/arial.tim"/>
+				<file name = "ared.tim" type = "data" source = "iso/font/ared.tim"/>
 			</dir>
 			
 			<!-- Stage assets -->
@@ -298,6 +300,11 @@
 				<dummy sectors="128"/>
 				<file name = "cutb.xa" type = "xa" source = "iso/music/cutb.xa"/>
 				<dummy sectors="128"/>
+			</dir>
+
+			<!-- Chungus -->
+			<dir name = "str">
+			    <file name = "intro.str" type = "str" source = "iso/movie/intro.str"/>
 			</dir>
 			
 			<!-- Dummy sectors -->

@@ -127,7 +127,10 @@ static struct
 	
 	//Menu assets
 	Gfx_Tex tex_back, tex_back2, tex_back3, tex_ng, tex_story, tex_title, tex_icon;
-	FontData font_bold, font_arial;
+
+	Gfx_Tex tex_fplace;
+
+	FontData font_bold, font_arial, font_ared;
 	
 	Character *Titlepsy; //Title psychic
 
@@ -236,6 +239,14 @@ static void Menu_DrawBack(boolean flash, s32 scroll, u8 r0, u8 g0, u8 b0, u8 r1,
 	}
 }
 
+static void Menu_DrawStoryBG()
+{
+	RECT storybg_src = {0, 0, 256, 77};
+	RECT storybg_dst = {0, 32, SCREEN_WIDTH, 112};
+
+	Gfx_DrawTex(&menu.tex_fplace, &storybg_src, &storybg_dst);
+}
+
 static void Menu_DifficultySelector(s32 x, s32 y)
 {
 	//Change difficulty
@@ -275,6 +286,13 @@ static void Menu_DifficultySelector(s32 x, s32 y)
 	
 	const RECT *diff_src = &diff_srcs[menu.page_param.stage.diff];
 	Gfx_BlitTex(&menu.tex_story, diff_src, x - (diff_src->w >> 1), y - 9 + ((pad_state.press & (PAD_LEFT | PAD_RIGHT)) != 0));
+}
+
+static void Menu_TrackHead(s32 x, s32 y)
+{
+	static const RECT track_src = {0, 69, 80, 16};
+
+	Gfx_BlitTex(&menu.tex_story, &track_src, x, y);
 }
 
 static void Menu_DrawWeek(const char *week, s32 x, s32 y)
@@ -319,10 +337,15 @@ void Menu_Load(MenuPage page)
 	Gfx_LoadTex(&menu.tex_title, Archive_Find(menu_arc, "title.tim"), 0);
 	Gfx_LoadTex(&menu.tex_icon, Archive_Find(menu_arc, "icon.tim"), 0);
 	Mem_Free(menu_arc);
+
+	IO_Data stback_arc = IO_Read("\\MENU\\STBACK.ARC;1");
+	Gfx_LoadTex(&menu.tex_fplace, Archive_Find(stback_arc, "fplace.tim"), 0);
+	Mem_Free(stback_arc);
 	
 	FontData_Load(&menu.font_bold, Font_Bold);
 	FontData_Load(&menu.font_arial, Font_Arial);
-	
+	FontData_Load(&menu.font_ared, Font_Ared);
+
 	menu.Titlepsy = Char_Titlepsy_New(FIXED_DEC(45,1), FIXED_DEC(94,1));
 	menu.StoryBF = Char_BFMenu_New(FIXED_DEC(15,1), FIXED_DEC(35,1));
 	menu.StoryPsychic = Char_PsychicM_New(FIXED_DEC(-80,1), FIXED_DEC(100,1));
@@ -508,6 +531,14 @@ void Menu_Tick(void)
 			{
 				stage.demo = 1;
 				menu.next_page = MenuPage_Demo;
+				menu.trans_time = FIXED_UNIT;
+				menu.page_state.title.fade = FIXED_DEC(255,1);
+				menu.page_state.title.fadespd = FIXED_DEC(300,1);
+			}
+
+			if (pad_state.press & PAD_SELECT)
+			{
+				menu.next_page = MenuPage_Movie;
 				menu.trans_time = FIXED_UNIT;
 				menu.page_state.title.fade = FIXED_DEC(255,1);
 				menu.page_state.title.fadespd = FIXED_DEC(300,1);
@@ -798,15 +829,24 @@ void Menu_Tick(void)
 				12,
 				FontAlign_Right
 			);
+
+			Menu_TrackHead(SCREEN_WIDTH -315, 148);
+
+			menu.font_bold.draw(&menu.font_bold,
+			    "TRACKS",
+				SCREEN_WIDTH - 312,
+				SCREEN_HEIGHT - 0,
+				FontAlign_Right
+				);
 			
 			const char * const *trackp = menu_options[menu.select].tracks;
 			for (size_t i = 0; i < COUNT_OF(menu_options[menu.select].tracks); i++, trackp++)
 			{
 				if (*trackp != NULL)
-					menu.font_bold.draw(&menu.font_bold,
+					menu.font_ared.draw(&menu.font_ared,
 						*trackp,
 						SCREEN_WIDTH - 312,
-						SCREEN_HEIGHT - (3 * 24) + (i * 24),
+						SCREEN_HEIGHT - (3 * 24) + (i * 12),
 						FontAlign_Left
 					);
 			}
@@ -814,10 +854,9 @@ void Menu_Tick(void)
 			menu.StoryBF->tick(menu.StoryBF);
 
 			menu.StoryPsychic->tick(menu.StoryPsychic);
+
+			Menu_DrawStoryBG();
 			
-			//Draw upper strip
-			RECT name_bar = {0, 32, SCREEN_WIDTH, 112};
-			Gfx_DrawRect(&name_bar, 249, 207, 81);
 			
 			//Draw options
 			s32 next_scroll = menu.select * FIXED_DEC(48,1);
@@ -1783,6 +1822,17 @@ void Menu_Tick(void)
 			LoadScr_Start();
 			Demu_Load(DemuPage_Opening);
 			gameloop = GameLoop_Demu;
+			LoadScr_End();
+			break;
+		}
+		case MenuPage_Movie:
+		{
+			//Unload
+			Menu_Unload();
+
+			//Play movie
+			LoadScr_Start();
+			gameloop = GameLoop_Movie;
 			LoadScr_End();
 			break;
 		}
