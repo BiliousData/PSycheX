@@ -304,7 +304,7 @@
 
 			<!-- Chungus -->
 			<dir name = "str">
-			    <file name = "intro.str" type = "str" source = "iso/movie/intro.str"/>
+			    <file name = "intro.str" type = "str" source = "iso/movie/introfix.str"/>
 			</dir>
 			
 			<!-- Dummy sectors -->
