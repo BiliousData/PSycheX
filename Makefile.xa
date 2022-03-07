@@ -5,7 +5,8 @@ all: \
   iso/music/week2a.xa \
   iso/music/week2b.xa \
   iso/music/cuta.xa \
-  iso/music/cutb.xa 
+  iso/music/cutb.xa \
+  iso/music/extra.xa
 
 # XA converts
 iso/music/%.xa: iso/music/%.ogg
@@ -21,3 +22,4 @@ iso/music/week2a.xa: iso/music/spookeezi.xa iso/music/spookeezv.xa iso/music/sou
 iso/music/week2b.xa: iso/music/monsteri.xa iso/music/monsterv.xa iso/music/cluckedi.xa iso/music/cluckedv.xa
 iso/music/cuta.xa: iso/music/bftransform.xa 
 iso/music/cutb.xa: iso/music/sendai.xa
+iso/music/extra.xa: iso/music/freeky.xa iso/music/bftdemo.xa

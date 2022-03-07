@@ -1,7 +1,7 @@
 	{ //StageId_1_1 (Psychic)
 		//Characters
-		{Char_BF_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(10,1),  FIXED_DEC(70,1)},
+		{Char_BF_New,    FIXED_DEC(285,1),  FIXED_DEC(100,1)},
+		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
 		{NULL},
 		
 		//Stage background
@@ -16,8 +16,8 @@
 	},
 	{ //StageId_1_2 (Wilter)
 		//Characters
-		{Char_SenpaiB_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(10,1),  FIXED_DEC(70,1)},
+		{Char_SenpaiB_New,    FIXED_DEC(285,1),  FIXED_DEC(100,1)},
+		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
 		{NULL},
 		
 		//Stage background
@@ -32,8 +32,8 @@
 	},
 	{ //StageId_1_3 (Uproar)
 		//Characters
-		{Char_BFS_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(10,1),  FIXED_DEC(70,1)},
+		{Char_BFS_New,    FIXED_DEC(275,1),  FIXED_DEC(92,1)},
+		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
 		{NULL},
 		
 		//Stage background
@@ -65,7 +65,7 @@
 	{ //StageId_1_5 (Bf Transformation cutscene)
 		//Characters
 		{Char_BF_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(10,1),  FIXED_DEC(70,1)},
+		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
 		{NULL},
 		
 		//Stage background
@@ -80,8 +80,8 @@
 	},
 	{ //StageId_1_6 (Uproar Cutscene)
 		//Characters
-		{Char_Sendai_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(10,1),  FIXED_DEC(70,1)},
+		{Char_Sendai_New,    FIXED_DEC(285,1),  FIXED_DEC(100,1)},
+		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
 		{NULL},
 		
 		//Stage background
@@ -98,7 +98,7 @@
 	{ //StageId_2_1 (Spookeez)
 		//Characters
 		{Char_BF_New,      FIXED_DEC(310,1),   FIXED_DEC(100,1)},
-		{Char_Psychic_New,  FIXED_DEC(10,1),   FIXED_DEC(70,1)},
+		{Char_Psychic_New,  FIXED_DEC(55,1),   FIXED_DEC(70,1)},
 		{Char_GF_New,       FIXED_DEC(205,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background
@@ -113,9 +113,9 @@
 	},
 	{ //StageId_2_2 (Late Drive)
 		//Characters
-		{Char_BF_New,      FIXED_DEC(310,1),   FIXED_DEC(100,1)},
-		{Char_Psychic_New,  FIXED_DEC(10,1),   FIXED_DEC(70,1)},
-		{Char_GF_New,       FIXED_DEC(205,1),  FIXED_DEC(-15,1)},
+		{Char_BF_New,      FIXED_DEC(275,1),   FIXED_DEC(92,1)},
+		{Char_Psychic_New,  FIXED_DEC(50,1),   FIXED_DEC(60,1)},
+		{Char_GF_New,       FIXED_DEC(202,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background
 		Back_Space_New,

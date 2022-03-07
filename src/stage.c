@@ -2325,6 +2325,49 @@ void Stage_Tick(void)
 				}
 			}
 
+			if (stage.stage_id == StageId_2_1)
+			{
+				switch (stage.song_step)
+				{
+					case 190:
+					    stage.notemode = 6;
+						break;
+					case 191:
+					    stage.notemode = 7;
+						break;
+		            case 192:
+		                stage.notemode = 2;
+				    	break;
+					case 316:
+					    stage.notemode = 7;
+						break;
+					case 317:
+					    stage.notemode = 6;
+						break;
+				    case 318:
+				        stage.notemode = 0;
+				    	break;
+					case 572:
+					    stage.notemode = 6;
+						break;
+					case 573:
+					    stage.notemode = 7;
+						break;
+					case 574:
+					    stage.notemode = 2;
+						break;
+					case 701:
+					    stage.notemode = 7;
+						break;
+					case 702:
+					    stage.notemode = 6;
+						break;
+					case 703:
+					    stage.notemode = 0;
+						break;
+				}
+		    }
+
 
 			if (stage.stage_id == StageId_1_1)
 			{

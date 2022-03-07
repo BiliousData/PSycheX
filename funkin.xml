@@ -300,6 +300,8 @@
 				<dummy sectors="128"/>
 				<file name = "cutb.xa" type = "xa" source = "iso/music/cutb.xa"/>
 				<dummy sectors="128"/>
+				<file name = "extra.xa" type = "xa" source = "iso/music/extra.xa"/>
+				<dummy sectors="128"/>
 			</dir>
 
 			<!-- Chungus -->

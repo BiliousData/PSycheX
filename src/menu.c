@@ -887,9 +887,9 @@ void Menu_Tick(void)
 				const char *text;
 			} menu_options[] = {
 				//{StageId_4_4, 0xFFFC96D7, "TEST"},
-				{StageId_1_1, 0x510088, "PSYCHIC"},
-				{StageId_1_2, 0x510088, "WILTER"},
-				{StageId_1_3, 0x510088, "UPROAR"},
+				{StageId_1_1, 0x580093, "PSYCHIC"},
+				{StageId_1_2, 0x580093, "WILTER"},
+				{StageId_1_3, 0x580093, "UPROAR"},
 			};
 			
 			//Initialize page
@@ -1001,70 +1001,74 @@ void Menu_Tick(void)
 				const char *text;
 			} menu_options[] = {
 				//{StageId_4_4, 0xFFFC96D7, "TEST"},
-								{StageId_1_4, 0xFF9B30F3,"OG MIND GAMES CREW"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"RIVEROAKEN"},
-				{StageId_1_4, 0xFF9B30F3,"PROJECT LEAD AND"},
-				{StageId_1_4, 0xFF9B30F3,"ANIMATOR"},
-				{StageId_1_4, 0xFF9B30F3,"WAIT I MADE THIS"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SHADOW MARIO"},
-				{StageId_1_4, 0xFF9B30F3,"MAIN PROGRAMMER"},
-				{StageId_1_4, 0xFF9B30F3,"WIKIHOW HOW TO"},
-				{StageId_1_4, 0xFF9B30F3,"HANDLE FAME"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"IFLICKY"},
-				{StageId_1_4, 0xFF9B30F3,"MAIN COMPOSER"},
-				{StageId_1_4, 0xFF9B30F3,"BERR DIG A NERR NERR"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"LEOMMING"},
-				{StageId_1_4, 0xFF9B30F3,"ADDITIONAL ARTS"},
-				{StageId_1_4, 0xFF9B30F3,"ARE KRAMPUS FURRIES"},
-				{StageId_1_4, 0xFF9B30F3,"DISCUSS"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"PJSVOICEARTS"},
-				{StageId_1_4, 0xFF9B30F3,"PSYCHIC AND SPIRITS"},
-				{StageId_1_4, 0xFF9B30F3,"VOICE ACTOR"},
-				{StageId_1_4, 0xFF9B30F3,"PRAISE THE SUN AND"},
-				{StageId_1_4, 0xFF9B30F3,"LET THE SUN SHINE"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"IYMPH"},
-				{StageId_1_4, 0xFF9B30F3,"UPROARS CHARTER"},
-				{StageId_1_4, 0xFF9B30F3,"OH BOY WHATS FOR DINNER"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"JOIN OUR DISCORD!"},
-				{StageId_1_4, 0xFF9B30F3,"IF YOU DARE..."},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3,"OG MIND GAMES CREW"},
+				{StageId_1_4, 0xFFb4007b, " "},
+				{StageId_1_4, 0xFFb4007b,"RIVEROAKEN"},
+				{StageId_1_4, 0xFFb4007b,"PROJECT LEAD AND"},
+				{StageId_1_4, 0xFFb4007b,"ANIMATOR"},
+				{StageId_1_4, 0xFFb4007b,"WAIT I MADE THIS"},
+				{StageId_1_4, 0xFF3f3f3f, " "},
+				{StageId_1_4, 0xFF3f3f3f,"SHADOW MARIO"},
+				{StageId_1_4, 0xFF3f3f3f,"MAIN PROGRAMMER"},
+				{StageId_1_4, 0xFF3f3f3f,"WIKIHOW HOW TO"},
+				{StageId_1_4, 0xFF3f3f3f,"HANDLE FAME"},
+				{StageId_1_4, 0xFFb644cb, " "},
+				{StageId_1_4, 0xFFb644cb,"IFLICKY"},
+				{StageId_1_4, 0xFFb644cb,"MAIN COMPOSER"},
+				{StageId_1_4, 0xFFb644cb,"BERR DIG A NERR NERR"},
+				{StageId_1_4, 0xFFec8074, " "},
+				{StageId_1_4, 0xFFec8074,"LEOMMING"},
+				{StageId_1_4, 0xFFec8074,"ADDITIONAL ARTS"},
+				{StageId_1_4, 0xFFec8074,"ARE KRAMPUS FURRIES"},
+				{StageId_1_4, 0xFFec8074,"DISCUSS"},
+				{StageId_1_4, 0xFFeb3949, " "},
+				{StageId_1_4, 0xFFeb3949,"PJSVOICEARTS"},
+				{StageId_1_4, 0xFFeb3949,"PSYCHIC AND SPIRITS"},
+				{StageId_1_4, 0xFFeb3949,"VOICE ACTOR"},
+				{StageId_1_4, 0xFFeb3949,"PRAISE THE SUN AND"},
+				{StageId_1_4, 0xFFeb3949,"LET THE SUN SHINE"},
+				{StageId_1_4, 0xFF5e5e5e, " "},
+				{StageId_1_4, 0xFF5e5e5e,"IYMPH"},
+				{StageId_1_4, 0xFF5e5e5e,"UPROARS CHARTER"},
+				{StageId_1_4, 0xFF5e5e5e,"OH BOY WHATS FOR DINNER"},
+				{StageId_1_4, 0xFF4b5de4, " "},
+				{StageId_1_4, 0xFF4b5de4,"JOIN OUR DISCORD!"},
+				{StageId_1_4, 0xFF4b5de4,"IF YOU DARE..."},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3,"SPECIAL THANKS"},
-				{StageId_1_1, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SALVATI"},
-				{StageId_1_4, 0xFF9B30F3,"PSYCHICS SOUNDFONT"},
-				{StageId_1_4, 0xFF9B30F3,"CREATOR"},
-				{StageId_1_4, 0xFF9B30F3,"BOTTOM TEXT"},
-				{StageId_1_1, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SLABRACCOON"},
-				{StageId_1_4, 0xFF9B30F3,"EMOTIONAL SUPPORT RACCOON"},
-				{StageId_1_4, 0xFF9B30F3,"FERAL GROWLING"},
-				{StageId_1_1, "SPACE"},
+				{StageId_1_1, 0xFF2fecec, " "},
+				{StageId_1_4, 0xFF2fecec,"SALVATI"},
+				{StageId_1_4, 0xFF2fecec,"PSYCHICS SOUNDFONT"},
+				{StageId_1_4, 0xFF2fecec,"CREATOR"},
+				{StageId_1_4, 0xFF2fecec,"BOTTOM TEXT"},
+				{StageId_1_1, 0xFFae4c20, " "},
+				{StageId_1_4, 0xFFae4c20,"SLABRACCOON"},
+				{StageId_1_4, 0xFFae4c20,"EMOTIONAL SUPPORT RACCOON"},
+				{StageId_1_4, 0xFFae4c20,"FERAL GROWLING"},
+				{StageId_1_1, 0xFF9B30F3, " "},
 				{StageId_1_1, 0xFF9B30F3, "MIND GAMES PSX BY"},
-				{StageId_1_1, "SPACE"},
-				{StageId_1_2, 0xFF9B30F3, "NINTENDOBRO"},
-				{StageId_1_2, 0xFF9B30F3, "CHARTED"},
-				{StageId_1_2, 0xFF9B30F3, "MENU ASSETS"},
-				{StageId_1_3, 0xFF9B30F3, "BF SPIRIT AND "},
-				{StageId_1_3, 0xFF9B30F3, "TITLE PSYCHIC"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_1, 0xFF6ccebd, " "},
+				{StageId_1_2, 0xFF6ccebd, "NINTENDOBRO"},
+				{StageId_1_2, 0xFF6ccebd, "CHARTED"},
+				{StageId_1_2, 0xFF6ccebd, "MENU ASSETS"},
+				{StageId_1_3, 0xFF6ccebd, "BF SPIRIT AND "},
+				{StageId_1_3, 0xFF6ccebd, "TITLE PSYCHIC"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_3, 0xFF9B30F3, "BILIOUSDATA"},
 				{StageId_1_3, 0xFF9B30F3, "BACKGROUNDS"},
 				{StageId_1_3, 0xFF9B30F3, "PSYCHIC AND BFSENPAI"},
 				{StageId_1_3, 0xFF9B30F3, "ARROW MOVEMENT"},
+				{StageId_2_1, 0xFF9B30F3, "STORY MODE ASSETS"},
 				{StageId_1_3, 0xFF9B30F3, "CODE"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_3, 0xFF9B30F3, "MRRUMBLEROSES"},
 				{StageId_1_3, 0xFF9B30F3, "GOT PERMISSION"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3, "PSX FUNKIN BY"},
 				{StageId_1_4, 0xFF9B30F3, "CUCKYDEV"},
+				{StageId_1_4, 0xFF9B30F3, " "},
+				{StageId_1_4, 0xFF9B30F3, "STRPLAY LIBRARY BY"},
+				{StageId_1_4, 0xFF9B30F3, "LAMEGUY"},
 
 
 			};
@@ -1074,6 +1078,9 @@ void Menu_Tick(void)
 			{
 				menu.scroll = COUNT_OF(menu_options) * FIXED_DEC(24 + SCREEN_HEIGHT2,1);
 				menu.page_param.stage.diff = StageDiff_Normal;
+				menu.page_state.freeplay.back_r = FIXED_DEC(255,1);
+				menu.page_state.freeplay.back_g = FIXED_DEC(255,1);
+				menu.page_state.freeplay.back_b = FIXED_DEC(255,1);
 				stage.backpick = RandomRange(0, 2);
 			}
 			
@@ -1108,7 +1115,7 @@ void Menu_Tick(void)
 				if (pad_state.press & PAD_CIRCLE)
 				{
 					menu.next_page = MenuPage_Main;
-					menu.next_select = 2; //Mods
+					menu.next_select = 2; //Freeplay
 					Trans_Start();
 				}
 			}
@@ -1136,11 +1143,21 @@ void Menu_Tick(void)
 			}
 			
 			//Draw background
+			fixed_t tgt_r = (fixed_t)((menu_options[menu.select].col >> 16) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_g = (fixed_t)((menu_options[menu.select].col >>  8) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_b = (fixed_t)((menu_options[menu.select].col >>  0) & 0xFF) << FIXED_SHIFT;
+			
+			menu.page_state.freeplay.back_r += (tgt_r - menu.page_state.freeplay.back_r) >> 4;
+			menu.page_state.freeplay.back_g += (tgt_g - menu.page_state.freeplay.back_g) >> 4;
+			menu.page_state.freeplay.back_b += (tgt_b - menu.page_state.freeplay.back_b) >> 4;
+			
 			Menu_DrawBack(
 				true,
 				8,
-				128 >> 1, 0 >> 1, 128 >> 1,
-				0, 0, 0		
+				menu.page_state.freeplay.back_r >> (FIXED_SHIFT + 1),
+				menu.page_state.freeplay.back_g >> (FIXED_SHIFT + 1),
+				menu.page_state.freeplay.back_b >> (FIXED_SHIFT + 1),
+				0, 0, 0
 			);
 			break;
 		}

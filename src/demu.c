@@ -323,7 +323,7 @@ void Demu_Load(DemuPage page)
 	stage.song_step = 0;
 	
 	//Play demu music
-	Audio_PlayXA_Track(XA_GettinFreaky, 0x40, 0, 1);
+	Audio_PlayXA_Track(XA_Freeky, 0x40, 0, 1);
 	Audio_WaitPlayXA();
 	
 	//Set background colour
@@ -377,7 +377,7 @@ void Demu_Tick(void)
 			u16 beat = stage.song_step >> 2;
 			
 			//Start title screen if opening ended
-			if (beat >= 16)
+			if (beat >= 12)
 			{
 				demu.page = demu.next_page = DemuPage_Title;
 				demu.page_swap = true;
@@ -390,47 +390,37 @@ void Demu_Tick(void)
 					demu.page = demu.next_page = DemuPage_Title;
 				
 				//Draw different text depending on beat
-				RECT src_ng = {0, 0, 128, 128};
+				RECT src_ng = {0, 0, 212, 132};
 				const char **funny_message = funny_messages[demu.page_state.opening.funny_message];
 				
 				switch (beat)
 				{
+					
 					case 3:
-						demu.font_bold.draw(&demu.font_bold, "PRESENT", SCREEN_WIDTH2, SCREEN_HEIGHT2 + 32, FontAlign_Center);
+						demu.font_bold.draw(&demu.font_bold, " ",    SCREEN_WIDTH2, SCREEN_HEIGHT2 - 32, FontAlign_Center);
+						Gfx_BlitTex(&demu.tex_ng, &src_ng, (SCREEN_WIDTH - 212) >> 1, SCREEN_HEIGHT2 - 32);
 				//Fallthrough
-					case 2:
 					case 1:
-						demu.font_bold.draw(&demu.font_bold, "NINJAMUFFIN",   SCREEN_WIDTH2, SCREEN_HEIGHT2 - 32, FontAlign_Center);
-						demu.font_bold.draw(&demu.font_bold, "PHANTOMARCADE", SCREEN_WIDTH2, SCREEN_HEIGHT2 - 16, FontAlign_Center);
-						demu.font_bold.draw(&demu.font_bold, "KAWAISPRITE",   SCREEN_WIDTH2, SCREEN_HEIGHT2,      FontAlign_Center);
-						demu.font_bold.draw(&demu.font_bold, "EVILSKER",      SCREEN_WIDTH2, SCREEN_HEIGHT2 + 16, FontAlign_Center);
+					case 2:
+						demu.font_bold.draw(&demu.font_bold, "RHYTHM GAME", SCREEN_WIDTH2, SCREEN_HEIGHT2 - 64, FontAlign_Center);
+						demu.font_bold.draw(&demu.font_bold, " ",           SCREEN_WIDTH2, SCREEN_HEIGHT2 - 48, FontAlign_Center);
 						break;
 					
 					case 7:
-						demu.font_bold.draw(&demu.font_bold, "NEWGROUNDS",    SCREEN_WIDTH2, SCREEN_HEIGHT2 - 32, FontAlign_Center);
-						Gfx_BlitTex(&demu.tex_ng, &src_ng, (SCREEN_WIDTH - 128) >> 1, SCREEN_HEIGHT2 - 16);
+						demu.font_bold.draw(&demu.font_bold, funny_message[1], SCREEN_WIDTH2, SCREEN_HEIGHT2, FontAlign_Center);
 				//Fallthrough
 					case 6:
 					case 5:
-						demu.font_bold.draw(&demu.font_bold, "NOT ASSOCIATION", SCREEN_WIDTH2, SCREEN_HEIGHT2 - 64, FontAlign_Center);
-						demu.font_bold.draw(&demu.font_bold, "WITH",           SCREEN_WIDTH2, SCREEN_HEIGHT2 - 48, FontAlign_Center);
-						break;
-					
-					case 11:
-						demu.font_bold.draw(&demu.font_bold, funny_message[1], SCREEN_WIDTH2, SCREEN_HEIGHT2, FontAlign_Center);
-				//Fallthrough
-					case 10:
-					case 9:
 						demu.font_bold.draw(&demu.font_bold, funny_message[0], SCREEN_WIDTH2, SCREEN_HEIGHT2 - 16, FontAlign_Center);
 						break;
 					
-					case 15:
+					case 11:
 						demu.font_bold.draw(&demu.font_bold, "FUNKIN", SCREEN_WIDTH2, SCREEN_HEIGHT2 + 8, FontAlign_Center);
 				//Fallthrough
-					case 14:
+					case 10:
 						demu.font_bold.draw(&demu.font_bold, "NIGHT", SCREEN_WIDTH2, SCREEN_HEIGHT2 - 8, FontAlign_Center);
 				//Fallthrough
-					case 13:
+					case 9:
 						demu.font_bold.draw(&demu.font_bold, "FRIDAY", SCREEN_WIDTH2, SCREEN_HEIGHT2 - 24, FontAlign_Center);
 						break;
 				}
@@ -925,68 +915,68 @@ void Demu_Tick(void)
 				const char *text;
 			} demu_options[] = {
 				//{StageId_4_4, 0xFFFC96D7, "TEST"},
-								{StageId_1_4, 0xFF9B30F3,"OG MIND GAMES CREW"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"RIVEROAKEN"},
-				{StageId_1_4, 0xFF9B30F3,"PROJECT LEAD AND"},
-				{StageId_1_4, 0xFF9B30F3,"ANIMATOR"},
-				{StageId_1_4, 0xFF9B30F3,"WAIT I MADE THIS"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SHADOW MARIO"},
-				{StageId_1_4, 0xFF9B30F3,"MAIN PROGRAMMER"},
-				{StageId_1_4, 0xFF9B30F3,"WIKIHOW HOW TO"},
-				{StageId_1_4, 0xFF9B30F3,"HANDLE FAME"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"IFLICKY"},
-				{StageId_1_4, 0xFF9B30F3,"MAIN COMPOSER"},
-				{StageId_1_4, 0xFF9B30F3,"BERR DIG A NERR NERR"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"LEOMMING"},
-				{StageId_1_4, 0xFF9B30F3,"ADDITIONAL ARTS"},
-				{StageId_1_4, 0xFF9B30F3,"ARE KRAMPUS FURRIES"},
-				{StageId_1_4, 0xFF9B30F3,"DISCUSS"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"PJSVOICEARTS"},
-				{StageId_1_4, 0xFF9B30F3,"PSYCHIC AND SPIRITS"},
-				{StageId_1_4, 0xFF9B30F3,"VOICE ACTOR"},
-				{StageId_1_4, 0xFF9B30F3,"PRAISE THE SUN AND"},
-				{StageId_1_4, 0xFF9B30F3,"LET THE SUN SHINE"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"IYMPH"},
-				{StageId_1_4, 0xFF9B30F3,"UPROARS CHARTER"},
-				{StageId_1_4, 0xFF9B30F3,"OH BOY WHATS FOR DINNER"},
-				{StageId_1_4, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"JOIN OUR DISCORD!"},
-				{StageId_1_4, 0xFF9B30F3,"IF YOU DARE..."},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3,"OG MIND GAMES CREW"},
+				{StageId_1_4, 0xFFb4007b, " "},
+				{StageId_1_4, 0xFFb4007b,"RIVEROAKEN"},
+				{StageId_1_4, 0xFFb4007b,"PROJECT LEAD AND"},
+				{StageId_1_4, 0xFFb4007b,"ANIMATOR"},
+				{StageId_1_4, 0xFFb4007b,"WAIT I MADE THIS"},
+				{StageId_1_4, 0xFF3f3f3f, " "},
+				{StageId_1_4, 0xFF3f3f3f,"SHADOW MARIO"},
+				{StageId_1_4, 0xFF3f3f3f,"MAIN PROGRAMMER"},
+				{StageId_1_4, 0xFF3f3f3f,"WIKIHOW HOW TO"},
+				{StageId_1_4, 0xFF3f3f3f,"HANDLE FAME"},
+				{StageId_1_4, 0xFFb644cb, " "},
+				{StageId_1_4, 0xFFb644cb,"IFLICKY"},
+				{StageId_1_4, 0xFFb644cb,"MAIN COMPOSER"},
+				{StageId_1_4, 0xFFb644cb,"BERR DIG A NERR NERR"},
+				{StageId_1_4, 0xFFec8074, " "},
+				{StageId_1_4, 0xFFec8074,"LEOMMING"},
+				{StageId_1_4, 0xFFec8074,"ADDITIONAL ARTS"},
+				{StageId_1_4, 0xFFec8074,"ARE KRAMPUS FURRIES"},
+				{StageId_1_4, 0xFFec8074,"DISCUSS"},
+				{StageId_1_4, 0xFFeb3949, " "},
+				{StageId_1_4, 0xFFeb3949,"PJSVOICEARTS"},
+				{StageId_1_4, 0xFFeb3949,"PSYCHIC AND SPIRITS"},
+				{StageId_1_4, 0xFFeb3949,"VOICE ACTOR"},
+				{StageId_1_4, 0xFFeb3949,"PRAISE THE SUN AND"},
+				{StageId_1_4, 0xFFeb3949,"LET THE SUN SHINE"},
+				{StageId_1_4, 0xFF5e5e5e, " "},
+				{StageId_1_4, 0xFF5e5e5e,"IYMPH"},
+				{StageId_1_4, 0xFF5e5e5e,"UPROARS CHARTER"},
+				{StageId_1_4, 0xFF5e5e5e,"OH BOY WHATS FOR DINNER"},
+				{StageId_1_4, 0xFF4b5de4, " "},
+				{StageId_1_4, 0xFF4b5de4,"JOIN OUR DISCORD!"},
+				{StageId_1_4, 0xFF4b5de4,"IF YOU DARE..."},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3,"SPECIAL THANKS"},
-				{StageId_1_1, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SALVATI"},
-				{StageId_1_4, 0xFF9B30F3,"PSYCHICS SOUNDFONT"},
-				{StageId_1_4, 0xFF9B30F3,"CREATOR"},
-				{StageId_1_4, 0xFF9B30F3,"BOTTOM TEXT"},
-				{StageId_1_1, "SPACE"},
-				{StageId_1_4, 0xFF9B30F3,"SLABRACCOON"},
-				{StageId_1_4, 0xFF9B30F3,"EMOTIONAL SUPPORT RACCOON"},
-				{StageId_1_4, 0xFF9B30F3,"FERAL GROWLING"},
-				{StageId_1_1, "SPACE"},
+				{StageId_1_1, 0xFF2fecec, " "},
+				{StageId_1_4, 0xFF2fecec,"SALVATI"},
+				{StageId_1_4, 0xFF2fecec,"PSYCHICS SOUNDFONT"},
+				{StageId_1_4, 0xFF2fecec,"CREATOR"},
+				{StageId_1_4, 0xFF2fecec,"BOTTOM TEXT"},
+				{StageId_1_1, 0xFFae4c20, " "},
+				{StageId_1_4, 0xFFae4c20,"SLABRACCOON"},
+				{StageId_1_4, 0xFFae4c20,"EMOTIONAL SUPPORT RACCOON"},
+				{StageId_1_4, 0xFFae4c20,"FERAL GROWLING"},
+				{StageId_1_1, 0xFF9B30F3, " "},
 				{StageId_1_1, 0xFF9B30F3, "MIND GAMES PSX BY"},
-				{StageId_1_1, "SPACE"},
+				{StageId_1_1, 0xFF9B30F3, " "},
 				{StageId_1_2, 0xFF9B30F3, "NINTENDOBRO"},
 				{StageId_1_2, 0xFF9B30F3, "CHARTED"},
 				{StageId_1_2, 0xFF9B30F3, "MENU ASSETS"},
 				{StageId_1_3, 0xFF9B30F3, "BF SPIRIT AND "},
 				{StageId_1_3, 0xFF9B30F3, "TITLE PSYCHIC"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_3, 0xFF9B30F3, "BILIOUSDATA"},
 				{StageId_1_3, 0xFF9B30F3, "BACKGROUNDS"},
 				{StageId_1_3, 0xFF9B30F3, "PSYCHIC AND BFSENPAI"},
 				{StageId_1_3, 0xFF9B30F3, "ARROW MOVEMENT"},
 				{StageId_1_3, 0xFF9B30F3, "CODE"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_3, 0xFF9B30F3, "MRRUMBLEROSES"},
 				{StageId_1_3, 0xFF9B30F3, "GOT PERMISSION"},
-				{StageId_1_4, "SPACE"},
+				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3, "PSX FUNKIN BY"},
 				{StageId_1_4, 0xFF9B30F3, "CUCKYDEV"},
 
@@ -998,6 +988,9 @@ void Demu_Tick(void)
 			{
 				demu.scroll = COUNT_OF(demu_options) * FIXED_DEC(24 + SCREEN_HEIGHT2,1);
 				demu.page_param.stage.diff = StageDiff_Normal;
+				demu.page_state.freeplay.back_r = FIXED_DEC(255,1);
+				demu.page_state.freeplay.back_g = FIXED_DEC(255,1);
+				demu.page_state.freeplay.back_b = FIXED_DEC(255,1);
 				stage.backpick = RandomRange(0, 2);
 			}
 			
@@ -1032,7 +1025,7 @@ void Demu_Tick(void)
 				if (pad_state.press & PAD_CIRCLE)
 				{
 					demu.next_page = DemuPage_Main;
-					demu.next_select = 2; //Mods
+					demu.next_select = 2; //Freeplay
 					Trans_Start();
 				}
 			}
@@ -1060,11 +1053,21 @@ void Demu_Tick(void)
 			}
 			
 			//Draw background
+			fixed_t tgt_r = (fixed_t)((demu_options[demu.select].col >> 16) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_g = (fixed_t)((demu_options[demu.select].col >>  8) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_b = (fixed_t)((demu_options[demu.select].col >>  0) & 0xFF) << FIXED_SHIFT;
+			
+			demu.page_state.freeplay.back_r += (tgt_r - demu.page_state.freeplay.back_r) >> 4;
+			demu.page_state.freeplay.back_g += (tgt_g - demu.page_state.freeplay.back_g) >> 4;
+			demu.page_state.freeplay.back_b += (tgt_b - demu.page_state.freeplay.back_b) >> 4;
+			
 			Demu_DrawBack(
 				true,
 				8,
-				128 >> 1, 0 >> 1, 128 >> 1,
-				0, 0, 0		
+				demu.page_state.freeplay.back_r >> (FIXED_SHIFT + 1),
+				demu.page_state.freeplay.back_g >> (FIXED_SHIFT + 1),
+				demu.page_state.freeplay.back_b >> (FIXED_SHIFT + 1),
+				0, 0, 0
 			);
 			break;
 		}

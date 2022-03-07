@@ -19,6 +19,7 @@ typedef enum
 	XA_Week2B, //WEEK2B.XA
 	XA_CutA,
 	XA_CutB,
+	XA_Extra,
 	
 	XA_Max,
 } XA_File;
@@ -43,6 +44,9 @@ typedef enum
 	//CUT.XA
 	XA_BfTransform,
 	XA_Sendai,
+	//EXTRA
+	XA_Freeky,
+	XA_Bftdemo,
 	
 	XA_TrackMax,
 } XA_Track;
