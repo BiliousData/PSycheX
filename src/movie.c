@@ -23,30 +23,26 @@ Movie movie;
 
 STRFILE StrFile[] = {
 	// File name	Resolution		Frame count
-	"\\STR\\INTRO.STR;1", 320, 240, 428
+	"\\STR\\INTRO.STR;1", 320, 240, 428,
+    "\\STR\\EARBLAST.STR;1", 320, 240, 428
 };
 
 void PlayMovie() {
     // Reset and initialize stuff
 	ResetCallback();
 	CdInit();
-	PadInit(0);
 	ResetGraph(0);
 	SetGraphDebug(0);
-
-    movie.playing = 1;
-	
 }
 
 void Movie_Tick(void) 
 {
     
     if (movie.playing == 0)
-        FntPrint("Press X to begin!");
-        Gfx_SetClear(0, 0, 0);
+        movie.playing = 1;
 
 
-    if (pad_state.press & PAD_CROSS)
+    if (movie.playing == 1)
     {
         switch (movie.select)
         {
@@ -55,6 +51,18 @@ void Movie_Tick(void)
             PlayStr(320, 240, 0, 0, &StrFile[0]);
             break;
         }
+    }
+
+    switch (movie.select)
+    {
+        case 0:
+            if (strPlayDone == 1)
+                movie.playing = 2;
+                LoadScr_Start();
+                gameloop = GameLoop_Stage;
+                Stage_Load(StageId_1_1, stage.stage_diff, true);
+                LoadScr_End();
+        break;
     }
 
 }

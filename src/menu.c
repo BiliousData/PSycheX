@@ -23,6 +23,7 @@
 #include "font.h"
 #include "trans.h"
 #include "loadscr.h"
+#include "movie.h"
 
 #include "stage.h"
 #include "character/titlepsy.h"
@@ -536,14 +537,6 @@ void Menu_Tick(void)
 				menu.page_state.title.fadespd = FIXED_DEC(300,1);
 			}
 
-			if (pad_state.press & PAD_SELECT)
-			{
-				menu.next_page = MenuPage_Movie;
-				menu.trans_time = FIXED_UNIT;
-				menu.page_state.title.fade = FIXED_DEC(255,1);
-				menu.page_state.title.fadespd = FIXED_DEC(300,1);
-			}
-
 
 			
 			//Draw Friday Night Funkin' logo
@@ -804,13 +797,14 @@ void Menu_Tick(void)
 				//Select option if cross is pressed
 				if (pad_state.press & (PAD_START | PAD_CROSS))
 				{
-					menu.next_page = MenuPage_Stage;
-					menu.page_param.stage.id = menu_options[menu.select].stage;
+					menu.next_page = MenuPage_Movie;
+					movie.playing = 0;
 					menu.page_param.stage.story = true;
 					menu.trans_time = FIXED_UNIT;
 					menu.page_state.title.fade = FIXED_DEC(255,1);
 					menu.page_state.title.fadespd = FIXED_DEC(510,1);
 					menu.StoryBF->set_anim(menu.StoryBF, CharAnim_Up);//Select week
+					stage.stage_diff = menu.page_param.stage.diff;
 				}
 				
 				//Return to main menu if circle is pressed

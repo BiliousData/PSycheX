@@ -224,10 +224,6 @@ static void strDoPlayback(STRFILE *str) {
 			break;
 		}
 		
-		if(PadRead(1) & PADstart) {  // stop button pressed exit animation routine
-			break;
-		}
-		
 	}
 	
 	// Shutdown streaming

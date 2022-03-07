@@ -22,6 +22,8 @@ typedef struct
   u8 playing;
 } Movie;
 
+extern Movie movie;
+
 void Movie_Tick();
 
 #endif
