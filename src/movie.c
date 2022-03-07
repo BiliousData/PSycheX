@@ -24,8 +24,8 @@ Movie movie;
 //str file list
 STRFILE StrFile[] = {
 	// File name	Resolution		Frame count
-	"\\STR\\INTRO.STR;1", 320, 240, 428,
-    "\\STR\\EARBLAST.STR;1", 320, 240, 428
+	"\\STR\\INTRO.STR;1", 320, 240, 428, //Intro cutscene
+    "\\STR\\EARBLAST.STR;1", 320, 240, 428 //Old fucked up audio version
 };
 
 void PlayMovie() {
@@ -56,6 +56,7 @@ void Movie_Tick(void)
     }
 
     //Switch to stage when movie is finished
+    //the stage that it switches to depends on movie selected
     switch (movie.select)
     {
         case 0:

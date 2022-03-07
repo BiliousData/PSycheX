@@ -19,7 +19,7 @@
 typedef struct
 {
   u8 select;
-  u8 playing;
+  u8 playing; //0 means not started yet, 1 means movie is playing, and 2 means movie has ended.
 } Movie;
 
 extern Movie movie;
