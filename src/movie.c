@@ -21,6 +21,7 @@
 
 Movie movie;
 
+//str file list
 STRFILE StrFile[] = {
 	// File name	Resolution		Frame count
 	"\\STR\\INTRO.STR;1", 320, 240, 428,
@@ -37,13 +38,14 @@ void PlayMovie() {
 
 void Movie_Tick(void) 
 {
-    
+    //auto start movie
     if (movie.playing == 0)
         movie.playing = 1;
 
-
+    //start movie when variable is one
     if (movie.playing == 1)
     {
+        //chooses which movie to play depending on select variable
         switch (movie.select)
         {
             case 0:
@@ -53,12 +55,14 @@ void Movie_Tick(void)
         }
     }
 
+    //Switch to stage when movie is finished
     switch (movie.select)
     {
         case 0:
             if (strPlayDone == 1)
-                movie.playing = 2;
-                LoadScr_Start();
+                movie.playing = 2; //prevents movie from looping
+                Gfx_SetClear(0, 0, 0);
+                LoadScr_Start(); //begin loading normal game
                 gameloop = GameLoop_Stage;
                 Stage_Load(StageId_1_1, stage.stage_diff, true);
                 LoadScr_End();
