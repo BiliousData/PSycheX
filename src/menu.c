@@ -731,7 +731,7 @@ void Menu_Tick(void)
 				menu.scroll >> (FIXED_SHIFT + 3),
 			#endif
 				155 >> 1, 48 >> 1, 243 >> 1,
-				155 >> 1, 48 >> 1, 243 >> 1
+				253 >> 1, 231 >> 1, 113 >> 1
 				
 			);
 			
