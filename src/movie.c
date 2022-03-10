@@ -61,12 +61,14 @@ void Movie_Tick(void)
     {
         case 0:
             if (strPlayDone == 1)
+            {
                 movie.playing = 2; //prevents movie from looping
-                Gfx_SetClear(0, 0, 0);
+                Gfx_SetClear(0, 0, 0); //make bg black before load screen appears
                 LoadScr_Start(); //begin loading normal game
                 gameloop = GameLoop_Stage;
                 Stage_Load(StageId_1_1, stage.stage_diff, true);
                 LoadScr_End();
+            }
         break;
     }
 
