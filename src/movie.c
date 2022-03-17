@@ -17,14 +17,14 @@
 
 #include "strplay.c"
 
-#define DEBUG 1
+//#define DEBUG 1
 
 Movie movie;
 
 //str file list
 STRFILE StrFile[] = {
 	// File name	Resolution		Frame count
-	"\\STR\\INTRO.STR;1", 320, 240, 428, //Intro cutscene
+	"\\STR\\INTRO.STR;1", 320, 240, 429, //Intro cutscene
     "\\STR\\EARBLAST.STR;1", 320, 240, 428 //Old fucked up audio version
 };
 
@@ -39,11 +39,11 @@ void PlayMovie() {
 void Movie_Tick(void) 
 {
     //auto start movie
-    if (movie.playing == 0)
-        movie.playing = 1;
+    //if (movie.playing == 0)
+    //    movie.playing = 1;
 
     //start movie when variable is one
-    if (movie.playing == 1)
+    if (movie.playing == 0)
     {
         //chooses which movie to play depending on select variable
         switch (movie.select)
@@ -57,19 +57,18 @@ void Movie_Tick(void)
 
     //Switch to stage when movie is finished
     //the stage that it switches to depends on movie selected
-    switch (movie.select)
+    if (strPlayDone == 1)
     {
-        case 0:
-            if (strPlayDone == 1)
-            {
-                movie.playing = 2; //prevents movie from looping
-                Gfx_SetClear(0, 0, 0); //make bg black before load screen appears
-                LoadScr_Start(); //begin loading normal game
-                gameloop = GameLoop_Stage;
+        movie.playing = 2; //prevent movie from looping
+        Gfx_SetClear(255, 0, 0); //make bg black before load screen appears
+        LoadScr_Start(); //begin loading normal game
+        switch (movie.select)
+        {
+            case 0:
                 Stage_Load(StageId_1_1, stage.stage_diff, true);
-                LoadScr_End();
-            }
-        break;
+            break;
+        }
+        LoadScr_End();
     }
 
 }
