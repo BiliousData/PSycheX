@@ -60,8 +60,9 @@ void Movie_Tick(void)
     if (strPlayDone == 1)
     {
         movie.playing = 2; //prevent movie from looping
-        Gfx_SetClear(255, 0, 0); //make bg black before load screen appears
+        Gfx_SetClear(0, 0, 0); //make bg black before load screen appears
         LoadScr_Start(); //begin loading normal game
+        gameloop = GameLoop_Stage;
         switch (movie.select)
         {
             case 0:
