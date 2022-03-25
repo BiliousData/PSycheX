@@ -51,7 +51,8 @@ all: \
 	iso/week7/back.arc \
 	iso/fplace/back.arc \
 	iso/flames/back.arc \
-	iso/space/back.arc
+	iso/space/back.arc \
+	iso/fplacechop/back.arc
 
 iso/%.tim: iso/%.png
 	tools/funkintimconv/funkintimconv $@ $<
@@ -160,3 +161,5 @@ iso/fplace/back.arc: iso/fplace/back0.tim iso/fplace/back1.tim
 iso/flames/back.arc: iso/flames/back0.tim iso/flames/back1.tim iso/flames/back2.tim
 
 iso/space/back.arc: iso/space/back3.tim iso/space/back4.tim
+
+iso/fplacechop/back.arc: iso/fplacechop/back0.tim iso/fplacechop/back1.tim iso/fplacechop/floor.tim iso/fplacechop/junk.tim iso/fplacechop/fplace.tim

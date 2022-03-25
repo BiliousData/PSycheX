@@ -22,6 +22,7 @@ SRCS = src/main.c \
        src/stage/fplace.c \
        src/stage/flames.c \
        src/stage/space.c \
+       src/stage/chop.c \
        src/animation.c \
        src/character.c \
        src/character/bf.c \

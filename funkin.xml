@@ -13,7 +13,7 @@
 			publisher     = "CUCKYDEV"
 			copyright     = "NINJAMUFFIN99"
 		/>
-		<license file="licensea.dat"/>
+		<license file="LICENSEA.DAT"/>
 		
 		<!-- Data directory tree -->
 		<directory_tree>
@@ -228,6 +228,7 @@
 			    <file name = "fplace.arc" type = "data" source = "iso/fplace/back.arc"/>
 				<file name = "flames.arc" type = "data" source = "iso/flames/back.arc"/> 
 				<file name = "space.arc" type = "data" source = "iso/space/back.arc"/>
+				<file name = "cool.arc" type = "data" source = "iso/fplacechop/back.arc"/>
 			</dir>
 			
 			<!-- Character assets -->
@@ -307,6 +308,7 @@
 			<!-- Chungus -->
 			<dir name = "str">
 			    <file name = "intro.str" type = "str" source = "iso/movie/introfix.str"/>
+				<file name = "earblast.str" type = "str" source = "iso/movie/brok.str"/>
 			</dir>
 			
 			<!-- Dummy sectors -->

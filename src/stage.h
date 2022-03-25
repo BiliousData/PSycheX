@@ -24,6 +24,9 @@
 #define INPUT_UP    (PAD_UP    | PAD_TRIANGLE)
 #define INPUT_RIGHT (PAD_RIGHT | PAD_CIRCLE)
 
+#define FREECAM_ON  (PAD_L2)
+#define FREECAM_OFF (PAD_R2)
+
 #define STAGE_FLAG_JUST_STEP     (1 << 0) //Song just stepped this frame
 #define STAGE_FLAG_VOCAL_ACTIVE  (1 << 1) //Song's vocal track is currently active
 #define STAGE_FLAG_SCORE_REFRESH (1 << 2) //Score text should be refreshed
@@ -238,6 +241,10 @@ typedef struct
 	u8 coolfade;
 
 	u8 demo;
+
+	u8 botplay;
+	
+	u8 freecam;
 
 	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2;
 	

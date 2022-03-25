@@ -39,3 +39,6 @@ iso/*/*.xa
 iso/*/*.cht
 
 # Big Chungus
+tools/funkinchrpak/funkinchrpak
+.flas/*
+LICENSEA.DAT

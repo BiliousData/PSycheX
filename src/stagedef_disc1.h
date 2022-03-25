@@ -1,11 +1,11 @@
 	{ //StageId_1_1 (Psychic)
 		//Characters
-		{Char_BF_New,    FIXED_DEC(285,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
+		{Char_BF_New,    FIXED_DEC(225,1),  FIXED_DEC(138,1)},
+		{Char_Psychic_New, FIXED_DEC(-15,1),  FIXED_DEC(108,1)},
 		{NULL},
 		
 		//Stage background
-		Back_Fireplace_New,
+		Back_Chop_New,
 		
 		//Song info
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},

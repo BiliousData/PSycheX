@@ -24,9 +24,6 @@
 #include "object/splash.h"
 
 //Stage constants
-//#define STAGE_PERFECT //Play all notes perfectly
-
-//#define STAGE_FREECAM //Freecam
 
 
 //welcome to the shitshow
@@ -191,6 +188,7 @@ boolean nohud;
 #include "stage/fplace.h"
 #include "stage/flames.h"
 #include "stage/space.h"
+#include "stage/chop.h"
 
 static const StageDef stage_defs[StageId_Max] = {
 	#include "stagedef_disc1.h"
@@ -230,7 +228,8 @@ static void Stage_FocusCharacter(Character *ch, fixed_t div)
 
 static void Stage_ScrollCamera(void)
 {
-	#ifdef STAGE_FREECAM
+	if (stage.freecam == 1)
+	{
 		if (pad_state.held & PAD_LEFT)
 			stage.camera.x -= FIXED_DEC(2,1);
 		if (pad_state.held & PAD_UP)
@@ -243,7 +242,9 @@ static void Stage_ScrollCamera(void)
 			stage.camera.zoom -= FIXED_DEC(1,100);
 		if (pad_state.held & PAD_CROSS)
 			stage.camera.zoom += FIXED_DEC(1,100);
-	#else
+	}
+	else if (stage.freecam == 0)
+	{
 		//Get delta position
 		fixed_t dx = stage.camera.tx - stage.camera.x;
 		fixed_t dy = stage.camera.ty - stage.camera.y;
@@ -260,7 +261,7 @@ static void Stage_ScrollCamera(void)
 		//	stage.camera.x += RandomRange(FIXED_DEC(-1,10),FIXED_DEC(1,10));
 		//	stage.camera.y += RandomRange(FIXED_DEC(-25,100),FIXED_DEC(25,100));
 		//}
-	#endif
+	}
 	
 	//Update other camera stuff
 	stage.camera.bzoom = FIXED_MUL(stage.camera.zoom, stage.bump);
@@ -797,6 +798,11 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 				Stage_NoteCheck(this, 2 | i);
 			if (this->pad_press & INPUT_RIGHT)
 				Stage_NoteCheck(this, 3 | i);
+			
+			if (this->pad_press & FREECAM_ON)
+			    stage.freecam = 1;
+			if (this->pad_press & FREECAM_OFF)
+			    stage.freecam = 0;
 		}
 		else
 		{
@@ -2648,7 +2654,14 @@ void Stage_Tick(void)
 				case StageMode_Normal:
 				{
 					//Handle player 1 and 2 inputs
-					Stage_ProcessPlayer(&stage.player_state[0], &pad_state, playing);
+					if (stage.botplay == 0)
+					{
+					    Stage_ProcessPlayer(&stage.player_state[0], &pad_state, playing);
+					}
+					else
+					{
+						Stage_ProcessPsyche(&stage.player_state[0], &pad_state, playing);
+					}
 					Stage_ProcessPsyche(&stage.player_state[1], &pad_state_2, playing);
 					break;
 				}

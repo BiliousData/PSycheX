@@ -45,13 +45,27 @@ void Movie_Tick(void)
     //start movie when variable is one
     if (movie.playing == 0)
     {
-        //chooses which movie to play depending on select variable
-        switch (movie.select)
+        if (movie.ratio == MovieRatio_Standard)
         {
-            case 0:
-            PlayMovie();
-            PlayStr(320, 240, 0, 0, &StrFile[0]);
-            break;
+            //chooses which movie to play depending on select variable
+            switch (movie.select)
+            {
+                case 0:
+                PlayMovie();
+                PlayStr(320, 240, 0, 0, &StrFile[0]);
+                break;
+            }
+        }
+        else
+        {
+            //chooses which movie to play depending on select variable
+            switch (movie.select)
+            {
+                case 0:
+                PlayMovie();
+                PlayStr(320, 240, 0, 0, &StrFile[1]);
+                break;
+            }
         }
     }
 
