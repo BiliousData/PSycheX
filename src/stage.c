@@ -267,6 +267,33 @@ static void Stage_ScrollCamera(void)
 	stage.camera.bzoom = FIXED_MUL(stage.camera.zoom, stage.bump);
 }
 
+static void Stage_MoveChar(void)
+{
+	if (stage.debug == 3)
+	{
+		if (pad_state_2.held & INPUT_LEFT)
+		    stage.player->x -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_DOWN)
+		    stage.player->y += FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_UP)
+		    stage.player->y -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_RIGHT)
+		    stage.player->x += FIXED_DEC(1,1);
+	}
+
+	if (stage.debug == 4)
+	{
+		if (pad_state_2.held & INPUT_LEFT)
+		    stage.opponent->x -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_DOWN)
+		    stage.opponent->y += FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_UP)
+		    stage.opponent->y -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_RIGHT)
+		    stage.opponent->x += FIXED_DEC(1,1);
+	}
+}
+
 //Stage section functions
 static void Stage_ChangeBPM(u16 bpm, u16 step)
 {
@@ -803,6 +830,14 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 			    stage.freecam = 1;
 			if (this->pad_press & FREECAM_OFF)
 			    stage.freecam = 0;
+
+			if (this->pad_press & DEBUG_SWITCH)
+			{
+				if (stage.debug < 4)
+				    stage.debug += 1;
+				else 
+				    stage.debug = 0;
+			}
 		}
 		else
 		{
@@ -2136,8 +2171,25 @@ void Stage_Tick(void)
 			boolean playing;
 			fixed_t next_scroll;
 
-			//tracker
-			FntPrint("current step is %d ", stage.song_step);
+			//trackers
+			//pressing select switches selected tracker
+			switch (stage.debug)
+			{
+				case 1:
+			        FntPrint("current step is %d ", stage.song_step);
+					break;
+				case 2:
+				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x, stage.camera.y, stage.camera.zoom);
+					break;
+				case 3:
+				    FntPrint("player1 pos X %d Y %d", stage.player->x, stage.player->y);
+					Stage_MoveChar();
+					break;
+				case 4:
+				    FntPrint("player2 pos X %d Y %d", stage.opponent->x, stage.opponent->y);
+					Stage_MoveChar();
+					break;
+			}
 
 
 			if (stage.stage_id == StageId_1_1)

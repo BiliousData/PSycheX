@@ -27,6 +27,8 @@
 #define FREECAM_ON  (PAD_L2)
 #define FREECAM_OFF (PAD_R2)
 
+#define DEBUG_SWITCH (PAD_SELECT)
+
 #define STAGE_FLAG_JUST_STEP     (1 << 0) //Song just stepped this frame
 #define STAGE_FLAG_VOCAL_ACTIVE  (1 << 1) //Song's vocal track is currently active
 #define STAGE_FLAG_SCORE_REFRESH (1 << 2) //Score text should be refreshed
@@ -243,8 +245,15 @@ typedef struct
 	u8 demo;
 
 	u8 botplay;
+
 	
+	//EPIC DEBUG SHIT
+	u8 debug; //0 is nothing, 1 is step counter, 2 is camera positions
 	u8 freecam;
+	u8 playerx;
+	u8 playery;
+	u8 opponentx;
+	u8 opponenty;
 
 	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2;
 	
