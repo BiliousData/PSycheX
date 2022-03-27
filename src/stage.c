@@ -269,6 +269,7 @@ static void Stage_ScrollCamera(void)
 
 static void Stage_MoveChar(void)
 {
+	//move player 1 with second controller's d pad when debug is 3
 	if (stage.debug == 3)
 	{
 		if (pad_state_2.held & INPUT_LEFT)
@@ -281,6 +282,7 @@ static void Stage_MoveChar(void)
 		    stage.player->x += FIXED_DEC(1,1);
 	}
 
+//move player 2 with second controller's d pad when debug is 4
 	if (stage.debug == 4)
 	{
 		if (pad_state_2.held & INPUT_LEFT)
@@ -2182,11 +2184,11 @@ void Stage_Tick(void)
 				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x, stage.camera.y, stage.camera.zoom);
 					break;
 				case 3:
-				    FntPrint("player1 pos X %d Y %d", stage.player->x, stage.player->y);
+				    FntPrint("player1 pos X %d Y %d", stage.player->x/1024, stage.player->y/1024);
 					Stage_MoveChar();
 					break;
 				case 4:
-				    FntPrint("player2 pos X %d Y %d", stage.opponent->x, stage.opponent->y);
+				    FntPrint("player2 pos X %d Y %d", stage.opponent->x/1024, stage.opponent->y/1024);
 					Stage_MoveChar();
 					break;
 			}
