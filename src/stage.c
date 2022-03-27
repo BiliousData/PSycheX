@@ -2181,7 +2181,7 @@ void Stage_Tick(void)
 			        FntPrint("current step is %d ", stage.song_step);
 					break;
 				case 2:
-				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x, stage.camera.y, stage.camera.zoom);
+				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
 					break;
 				case 3:
 				    FntPrint("player1 pos X %d Y %d", stage.player->x/1024, stage.player->y/1024);
