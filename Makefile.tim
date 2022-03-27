@@ -30,6 +30,7 @@ all: \
 	iso/psychic/main.arc \
 	iso/titlepsy/main.arc \
 	iso/end/main.arc \
+	isp/week1/back.arc \
 	iso/fplace/back.arc \
 	iso/flames/back.arc \
 	iso/space/back.arc \
@@ -97,7 +98,6 @@ iso/end/main.arc: iso/end/cut0.tim iso/end/cut1.tim iso/end/cut2.tim iso/end/cut
 iso/week1/back.arc: iso/week1/back0.tim iso/week1/back1.tim
 
 # Mind Games bg
-
 iso/fplace/back.arc: iso/fplace/back0.tim iso/fplace/back1.tim
 
 iso/flames/back.arc: iso/flames/back0.tim iso/flames/back1.tim iso/flames/back2.tim
