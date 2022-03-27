@@ -250,10 +250,7 @@ typedef struct
 	//EPIC DEBUG SHIT
 	u8 debug; //0 is nothing, 1 is step counter, 2 is camera positions
 	u8 freecam;
-	u8 playerx;
-	u8 playery;
-	u8 opponentx;
-	u8 opponenty;
+	u8 movietog; //turns off movies
 
 	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2;
 	

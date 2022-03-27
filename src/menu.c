@@ -797,8 +797,15 @@ void Menu_Tick(void)
 				//Select option if cross is pressed
 				if (pad_state.press & (PAD_START | PAD_CROSS))
 				{
-					menu.next_page = MenuPage_Movie;
-					movie.playing = 0;
+					if (stage.movietog == 1)
+					{
+					    menu.next_page = MenuPage_Movie;
+					    movie.playing = 0;
+					}
+					else
+					{
+						menu.next_page = MenuPage_Stage;
+					}
 					menu.page_param.stage.story = true;
 					menu.trans_time = FIXED_UNIT;
 					menu.page_state.title.fade = FIXED_DEC(255,1);
@@ -1193,6 +1200,7 @@ void Menu_Tick(void)
 				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
 				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
 				{OptType_Boolean, "BOTPLAY", &stage.botplay, {.spec_boolean = {0}}},
+				{OptType_Boolean, "MOVIES", &stage.movietog, {.spec_boolean = {0}}},
 			};
 			
 			//Initialize page
