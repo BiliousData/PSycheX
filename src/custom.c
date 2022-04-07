@@ -119,33 +119,40 @@ void Custom_Tick(void)
 				custom.noteselect++;
 			}
 
-            if (custom.noteselect == 0)
-            { 
-                for (custom.leftY  <= 100; custom.leftY  > 80; custom.leftY   = custom.leftY  - 1);
-                for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
-                for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
-                for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
-            }
-            if (custom.noteselect == 1)
+            switch (custom.noteselect)
             {
-                for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
-                for (custom.downY  <= 100; custom.downY  > 80; custom.downY  = custom.downY  - 1);
-                for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
-                for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
-            }
-            if (custom.noteselect == 2)
-            {
-                for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
-                for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
-                for (custom.upY    <= 100; custom.upY    >  80; custom.upY    = custom.upY    - 1);
-                for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
-            }
-            if (custom.noteselect == 3)
-            {
-                for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
-                for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
-                for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
-                for (custom.rightY <= 100; custom.rightY >  80; custom.rightY = custom.rightY - 1);
+                case 0:
+                {
+                    for (custom.leftY  <= 100; custom.leftY  > 80; custom.leftY   = custom.leftY  - 1);
+                    for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
+                    for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
+                    for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
+                    break;
+                }
+                case 1:
+                {
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
+                    for (custom.downY  <= 100; custom.downY  > 80; custom.downY  = custom.downY  - 1);
+                    for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
+                    for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
+                    break;
+                }
+                case 2:
+                {
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
+                    for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
+                    for (custom.upY    <= 100; custom.upY    >  80; custom.upY    = custom.upY    - 1);
+                    for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
+                    break;
+                }
+                case 3:
+                {
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
+                    for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
+                    for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
+                    for (custom.rightY <= 100; custom.rightY >  80; custom.rightY = custom.rightY - 1);
+                    break;
+                }
             }
             break;
 
