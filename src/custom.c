@@ -110,11 +110,11 @@ void Custom_Tick(void)
         case Main:
         {
             //Change option
-			if (pad_state.press & PAD_LEFT)
+			if (pad_state.press & PAD_LEFT && custom.noteselect > 0)
 			{
 				custom.noteselect--;
 			}
-			if (pad_state.press & PAD_RIGHT)
+			if (pad_state.press & PAD_RIGHT && custom.noteselect < 3)
 			{
 				custom.noteselect++;
 			}
