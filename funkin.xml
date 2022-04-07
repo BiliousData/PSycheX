@@ -30,6 +30,7 @@
 				<file name = "bfm.arc" type = "data" source = "iso/menu/char/bf.arc"/>
 				<file name = "psychm.arc" type = "data" source = "iso/menu/char/psychic.arc"/>
 				<file name = "stback.arc" type = "data" source = "iso/menu/storybg/stback.arc"/>
+				<file name = "notes.arc" type = "data" source = "iso/menu/customize/notes.arc"/>
 			</dir>
 			
 			<!-- Fonts -->
@@ -267,6 +268,8 @@
 				<file name = "cutb.xa" type = "xa" source = "iso/music/cutb.xa"/>
 				<dummy sectors="128"/>
 				<file name = "extra.xa" type = "xa" source = "iso/music/extra.xa"/>
+				<dummy sectors="128"/>
+				<file name = "custom.xa" type = "xa" source = "iso/music/custom.xa"/>
 				<dummy sectors="128"/>
 			</dir>
 

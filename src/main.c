@@ -17,6 +17,7 @@
 #include "demu.h"
 #include "stage.h"
 #include "movie.h"
+#include "custom.h"
 
 //Game loop
 GameLoop gameloop;
@@ -112,6 +113,9 @@ int main(int argc, char **argv)
 				break;
 			case GameLoop_Movie:
 			    Movie_Tick();
+				break;
+			case GameLoop_Custom:
+			    Custom_Tick();
 				break;
 		}
 		

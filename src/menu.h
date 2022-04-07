@@ -34,6 +34,7 @@ typedef enum
 	MenuPage_Stage, //Changes game loop
 	MenuPage_Demo,
 	MenuPage_Movie,
+	MenuPage_Custom,
 } MenuPage;
 
 //Menu functions

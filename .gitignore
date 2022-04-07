@@ -35,6 +35,8 @@ build/
 # Exclude converted assets
 iso/*/*.tim
 iso/*/*.arc
+iso/*/*/*.arc
+iso/*/*/*.tim
 iso/*/*.xa
 iso/*/*.cht
 
@@ -42,3 +44,7 @@ iso/*/*.cht
 tools/funkinchrpak/funkinchrpak
 .flas/*
 LICENSEA.DAT
+
+# wsl bullshit
+*.Identifier
+*Zone.Identifier

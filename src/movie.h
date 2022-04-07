@@ -18,7 +18,7 @@
 
 typedef struct
 {
-  u8 select;
+  u8 select; //change number to play different movies
   u8 playing; //0 means not started yet, 1 means movie is playing, and 2 means movie has ended.
   s32 ratio; //for selecting movie's aspect ratio
 } Movie;

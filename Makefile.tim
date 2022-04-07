@@ -3,6 +3,7 @@ all: \
 	iso/menu/char/bf.arc \
 	iso/menu/char/psychic.arc \
 	iso/menu/storybg/stback.arc \
+	iso/menu/customize/notes.arc \
 	iso/demo/demo.arc \
 	iso/demo/loading.tim \
 	iso/menu/loading.tim \
@@ -50,6 +51,8 @@ iso/menu/char/bf.arc: iso/menu/char/bf.tim
 iso/menu/char/psychic.arc: iso/menu/char/psychic.tim
 
 iso/menu/storybg/stback.arc: iso/menu/storybg/fplace.tim
+
+iso/menu/customize/notes.arc: iso/menu/customize/normal.tim
 
 # Demo
 iso/demo/demo.arc: iso/demo/back.tim iso/demo/ng.tim iso/demo/story.tim iso/demo/title.tim

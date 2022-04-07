@@ -28,6 +28,8 @@ static const XA_TrackDef xa_tracks[] = {
 	//EXTRA.XA
 	{XA_Extra, XA_LENGTH(11295)},  //XA_Freeky
 	{XA_Extra, XA_LENGTH(1800)},  //XA_Bftdemo
+	//CUSTOM.XA
+	{XA_Custom, XA_LENGTH(3700)}, //XA_Ludum
 };
 
 static const char *xa_paths[] = {
@@ -39,6 +41,7 @@ static const char *xa_paths[] = {
 	"\\MUSIC\\CUTA.XA;1",
 	"\\MUSIC\\CUTB.XA;1",
 	"\\MUSIC\\EXTRA.XA;1",
+	"\\MUSIC\\CUSTOM.XA;1",
 	NULL,
 };
 
@@ -70,6 +73,8 @@ static const XA_Mp3 xa_mp3s[] = {
 	//EXTRA.XA
 	{"freeky", false},
 	{"bftdemo", false},
+	//CUSTOM.XA
+	{"ludum", false},
 	
 	{NULL, false}
 };

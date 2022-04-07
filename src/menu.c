@@ -24,6 +24,7 @@
 #include "trans.h"
 #include "loadscr.h"
 #include "movie.h"
+#include "custom.h"
 
 #include "stage.h"
 #include "character/titlepsy.h"
@@ -138,6 +139,8 @@ static struct
 	Character *StoryBF;
 
 	Character *StoryPsychic;
+
+	u8 custom;
 
 } menu;
 
@@ -1172,12 +1175,14 @@ void Menu_Tick(void)
 		{
 			static const char *gamemode_strs[] = {"NORMAL", "SWAP", "TWO PLAYER"};
 			static const char *movieratio_strs[] = {"STANDARD", "WIDE"};
+			static const char *null_str[] = {""};
 			static const struct
 			{
 				enum
 				{
 					OptType_Boolean,
 					OptType_Enum,
+					OptType_Custom,
 				} type;
 				const char *text;
 				void *value;
@@ -1192,10 +1197,16 @@ void Menu_Tick(void)
 						s32 max;
 						const char **strs;
 					} spec_enum;
+					struct
+					{
+						s32 max;
+						const char **strs;
+					} spec_custom;
 				} spec;
 			} menu_options[] = {
 				{OptType_Enum,    "GAMEMODE", &stage.mode, {.spec_enum = {COUNT_OF(gamemode_strs), gamemode_strs}}},
 				//{OptType_Boolean, "INTERPOLATION", &stage.expsync},
+				{OptType_Enum, "CUSTOMIZE", &menu.custom, {.spec_enum = {COUNT_OF(null_str), null_str}}},
 				{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
 				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
 				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
@@ -1254,6 +1265,15 @@ void Menu_Tick(void)
 							if (++*((s32*)menu_options[menu.select].value) >= menu_options[menu.select].spec.spec_enum.max)
 								*((s32*)menu_options[menu.select].value) = 0;
 						break;
+
+					case OptType_Custom:
+					    if (pad_state.press & (PAD_CROSS))
+						    Trans_Start();
+						    menu.next_page = MenuPage_Custom;
+				            menu.trans_time = FIXED_UNIT;
+				            menu.page_state.title.fade = FIXED_DEC(255,1);
+				            menu.page_state.title.fadespd = FIXED_DEC(300,1);
+						break;
 				}
 				
 				//Return to main menu if circle is pressed
@@ -1261,6 +1281,19 @@ void Menu_Tick(void)
 				{
 					menu.next_page = MenuPage_Main;
 					menu.next_select = 3; //Options
+					Trans_Start();
+				}
+
+				if (pad_state.press & PAD_CROSS && menu.select == 1)
+				{
+				    Trans_Start();
+					menu.next_page = MenuPage_Custom;
+				}
+
+				//epic
+				if (menu.custom == 1)
+				{
+					menu.next_page = MenuPage_Custom;
 					Trans_Start();
 				}
 			}
@@ -1287,6 +1320,9 @@ void Menu_Tick(void)
 						break;
 					case OptType_Enum:
 						sprintf(text, "%s %s", menu_options[i].text, menu_options[i].spec.spec_enum.strs[*((s32*)menu_options[i].value)]);
+						break;
+					case OptType_Custom:
+					    sprintf(text, "%s %s", menu_options[i].text);
 						break;
 				}
 				menu.font_bold.draw(&menu.font_bold,
@@ -1855,6 +1891,18 @@ void Menu_Tick(void)
 			//Play movie
 			LoadScr_Start();
 			gameloop = GameLoop_Movie;
+			LoadScr_End();
+			break;
+		}
+		case MenuPage_Custom:
+		{
+			//Unload
+			Menu_Unload();
+
+			//Begin loading customization menu
+			LoadScr_Start();
+			gameloop = GameLoop_Custom;
+			Custom_Load();
 			LoadScr_End();
 			break;
 		}

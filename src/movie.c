@@ -83,7 +83,7 @@ void Movie_Tick(void)
                 Stage_Load(StageId_1_1, stage.stage_diff, true);
             break;
         }
-        LoadScr_End();
+        LoadScr_End(); //End load screen and start normal game
     }
 
 }

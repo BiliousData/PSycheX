@@ -20,6 +20,7 @@ typedef enum
 	XA_CutA,
 	XA_CutB,
 	XA_Extra,
+	XA_Custom,
 	
 	XA_Max,
 } XA_File;
@@ -47,6 +48,8 @@ typedef enum
 	//EXTRA
 	XA_Freeky,
 	XA_Bftdemo,
+	//CUSTOM
+	XA_Ludum, //Ludum Dare theme (for customization menu)
 	
 	XA_TrackMax,
 } XA_Track;
