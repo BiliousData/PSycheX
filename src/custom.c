@@ -11,6 +11,7 @@
 #include "audio.h"
 #include "trans.h"
 #include "main.h"
+#include "counter.h"
 
 void BackPick()
 {
@@ -23,6 +24,8 @@ static struct
 } asset;
 
 Custom custom;
+
+Counter counter;
 
 static void Menu_DrawBack()
 {
@@ -131,15 +134,15 @@ void Custom_Tick(void)
                 }
                 case 1:
                 {
-                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
-                    for (custom.downY  <= 100; custom.downY  > 80; custom.downY  = custom.downY  - 1);
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY  = custom.leftY  + 1);
+                    for (custom.downY  <= 100; custom.downY  >  80; custom.downY  = custom.downY  - 1);
                     for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
                     for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
                     break;
                 }
                 case 2:
                 {
-                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY  = custom.leftY  + 1);
                     for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
                     for (custom.upY    <= 100; custom.upY    >  80; custom.upY    = custom.upY    - 1);
                     for (custom.rightY >= 100; custom.rightY < 100; custom.rightY = custom.rightY + 1);
@@ -147,7 +150,7 @@ void Custom_Tick(void)
                 }
                 case 3:
                 {
-                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY   = custom.leftY  + 1);
+                    for (custom.leftY  >= 100; custom.leftY  < 100; custom.leftY  = custom.leftY  + 1);
                     for (custom.downY  >= 100; custom.downY  < 100; custom.downY  = custom.downY  + 1);
                     for (custom.upY    >= 100; custom.upY    < 100; custom.upY    = custom.upY    + 1);
                     for (custom.rightY <= 100; custom.rightY >  80; custom.rightY = custom.rightY - 1);
