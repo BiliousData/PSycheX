@@ -2177,17 +2177,17 @@ void Stage_Tick(void)
 			//pressing select switches selected tracker
 			switch (stage.debug)
 			{
-				case 1:
+				case 1: //step counter
 			        FntPrint("current step is %d ", stage.song_step);
 					break;
-				case 2:
+				case 2: //camera position
 				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
 					break;
-				case 3:
+				case 3: //Player 1 (bf) position
 				    FntPrint("player1 pos X %d Y %d", stage.player->x/1024, stage.player->y/1024);
 					Stage_MoveChar();
 					break;
-				case 4:
+				case 4: //Player 2 (dad) position
 				    FntPrint("player2 pos X %d Y %d", stage.opponent->x/1024, stage.opponent->y/1024);
 					Stage_MoveChar();
 					break;
