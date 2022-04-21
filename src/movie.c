@@ -8,6 +8,7 @@
 #include "font.h"
 #include "pad.h"
 #include "main.h"
+#include "gfx.h"
 
 #include <sys/types.h>
 #include <libetc.h>
@@ -25,6 +26,8 @@ Movie movie;
 STRFILE StrFile[] = {
 	// File name	Resolution		Frame count
 	"\\STR\\INTRO.STR;1", 320, 240, 429, //Intro cutscene
+    "\\STR\\WIDE.STR;1", 384, 240, 429, //true widescreen
+    "\\STR\\WINTRO.STR;1", 320, 180, 428, //16:9 version
     "\\STR\\EARBLAST.STR;1", 320, 240, 428 //Old fucked up audio version
 };
 
@@ -38,35 +41,20 @@ void PlayMovie() {
 
 void Movie_Tick(void) 
 {
-    //auto start movie
-    //if (movie.playing == 0)
-    //    movie.playing = 1;
 
-    //start movie when variable is one
+    //start movie
     if (movie.playing == 0)
     {
-        if (movie.ratio == MovieRatio_Standard)
+        
+        //chooses which movie to play depending on select variable
+        switch (movie.select)
         {
-            //chooses which movie to play depending on select variable
-            switch (movie.select)
-            {
-                case 0:
-                PlayMovie();
-                PlayStr(320, 240, 0, 0, &StrFile[0]);
-                break;
-            }
+            case 0:
+            PlayMovie();
+            PlayStr(320, 240, 0, 0, &StrFile[0]);
+            break;
         }
-        else
-        {
-            //chooses which movie to play depending on select variable
-            switch (movie.select)
-            {
-                case 0:
-                PlayMovie();
-                PlayStr(320, 240, 0, 0, &StrFile[1]);
-                break;
-            }
-        }
+        
     }
 
     //Switch to stage when movie is finished

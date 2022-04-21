@@ -64,7 +64,7 @@ void Custom_DrawNotes(void)
     RECT up_dst = {custom.upX, custom.upY, 32, 32};
     RECT right_dst = {custom.rightX, custom.rightY, 32, 32};
 
-    Gfx_DrawTex(&asset.tex_normal, &left_src, &left_dst);
+    Gfx_DrawTexCol(&asset.tex_normal, &left_src, &left_dst, custom.leftcol.red, custom.leftcol.green, custom.leftcol.blue);
     Gfx_DrawTex(&asset.tex_normal, &down_src, &down_dst);
     Gfx_DrawTex(&asset.tex_normal, &up_src, &up_dst);
     Gfx_DrawTex(&asset.tex_normal, &right_src, &right_dst);
@@ -106,9 +106,8 @@ void Custom_Load()
 
 void Custom_Tick(void)
 {
-    CustomState State;
 
-    switch (State)
+    switch (custom.CustomState)
     {
         case Main:
         {
@@ -117,10 +116,31 @@ void Custom_Tick(void)
 			{
 				custom.noteselect--;
 			}
+            else if (pad_state.press & PAD_LEFT && custom.noteselect == 0)
+            {
+                custom.noteselect = 3;
+            }
 			if (pad_state.press & PAD_RIGHT && custom.noteselect < 3)
 			{
 				custom.noteselect++;
 			}
+            else if (pad_state.press & PAD_RIGHT && custom.noteselect == 3)
+            {
+                custom.noteselect = 0;
+            }
+
+            if (pad_state.press & PAD_CROSS)
+            {
+
+                if (custom.noteselect == 0)
+                {
+                    for (custom.leftY  <= 100; custom.leftY  > 80; custom.leftY   = custom.leftY  - 1);
+                    for (custom.downY  >= 100; custom.downY  = -20; custom.downY  = custom.downY  + 1);
+                    for (custom.upY    >= 100; custom.upY    = -20; custom.upY    = custom.upY    + 1);
+                    for (custom.rightY >= 100; custom.rightY = -20; custom.rightY = custom.rightY + 1);
+                    custom.CustomState = Color;
+                }
+            }
 
             switch (custom.noteselect)
             {
@@ -159,6 +179,21 @@ void Custom_Tick(void)
             }
             break;
 
+        }
+        case Color:
+        {
+            if (pad_state.press & PAD_CIRCLE)
+            {
+                custom.CustomState = Main;
+            }
+
+            switch (custom.noteselect)
+            {
+                case 0:
+                {
+                    break;
+                }
+            }
         }
     }
 

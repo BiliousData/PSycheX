@@ -69,6 +69,10 @@ int main(int argc, char **argv)
 	Network_Init();
 	
 	Timer_Init();
+
+	custom.leftcol.red = 194;
+	custom.leftcol.green = 75;
+	custom.leftcol.blue = 153;
 	
 	//Start game depending on variable
     if (stage.demo == 1)

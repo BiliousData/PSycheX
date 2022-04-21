@@ -1207,7 +1207,8 @@ void Menu_Tick(void)
 				{OptType_Enum,    "GAMEMODE", &stage.mode, {.spec_enum = {COUNT_OF(gamemode_strs), gamemode_strs}}},
 				//{OptType_Boolean, "INTERPOLATION", &stage.expsync},
 				{OptType_Enum, "CUSTOMIZE", &menu.custom, {.spec_enum = {COUNT_OF(null_str), null_str}}},
-				{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
+				//ASS SHIT
+				//{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
 				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
 				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
 				{OptType_Boolean, "BOTPLAY", &stage.botplay, {.spec_boolean = {0}}},

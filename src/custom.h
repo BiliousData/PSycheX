@@ -40,16 +40,17 @@ typedef struct
     u8 rightX;
     u8 rightY;
 
+    enum
+    {
+       Main,
+       Color,
+       Skins,
+    } CustomState; //What menu the player is in
+    
+
 } Custom;
 
 extern Custom custom;
-
-typedef enum
-{
-    Main,
-    Color,
-    Skins,
-} CustomState; //What menu the player is in
 
 void Custom_Tick();
 void Custom_Load();
