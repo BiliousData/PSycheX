@@ -1,4 +1,4 @@
-
+//The Strplay library (which this relies on) was made by Lameguy64 of Meido-Tek Productions.
 
 #include "stage.h"
 #include "mem.h"
