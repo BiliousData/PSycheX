@@ -1878,6 +1878,8 @@ static void Stage_LoadState(void)
 		stage.player_state[i].score = 0;
 		strcpy(stage.player_state[i].score_text, "0");
 		
+		stage.delect = 0;
+		
 		stage.player_state[i].pad_held = stage.player_state[i].pad_press = 0;
 	}
 	
@@ -3163,27 +3165,27 @@ void Stage_Tick(void)
 				"Bep bee aa skoo dep?",
 				"I wouldn't try the door if I were you.",
 				"Now...",
-				"I have a couple of questions to ask you...",
+				"I have a couple of questions\nto ask you...",
 				"And you WILL answer them.",
 			};
 
 			char wiltdia[16] [150] = {
-				"Welp, you got me!"
-				"You're very clever, I'll give you that much."
-				"No ordinary person would have seen\nthrough my facade."
-				"Yeah, um..."
-				"...Who are you again?"
-				"Kh...!"
-				"You don't even remember me?!"
-				"Not in the slightest."
-				"Seriously?! W-Whatever!"
-				"Now listen here!"
-				"I've taken this body hostage, so don't even try anything!"
-				"Summon Daddy Dearest here this instant, or else he gets it!"
-				"...Daddy Dearest, huh..?"
-				"I don't know what your deal is, but..."
-				"I don't take commands from freaks of nature like you."
-				"What did you just call me?!"
+				"Welp, you got me!",
+				"You're very clever, I'll give you\nthat much.",
+				"No ordinary person would have seen\nthrough my facade.",
+				"Yeah, um...",
+				"...Who are you again?",
+				"Kh...!",
+				"You don't even remember me?!",
+				"Not in the slightest.",
+				"Seriously?! W-Whatever!",
+				"Now listen here!",
+				"I've taken this body hostage, so\ndon't even try anything!",
+				"Summon Daddy Dearest here this instant, or else he gets it!",
+				"...Daddy Dearest, huh..?",
+				"I don't know what your deal is, but...",
+				"I don't take commands from freaks of\nnature like you.",
+				"What did you just call me?!",
 			};
 
 			//Clear per-frame flags
@@ -3223,7 +3225,6 @@ void Stage_Tick(void)
 
 			Stage_DrawBox();
 
-			FntPrint("%s", psydia[stage.delect]);
 
 
 			if (pad_state.press & PAD_START)
@@ -3241,7 +3242,19 @@ void Stage_Tick(void)
 			{
 				case StageId_1_1:
 				{
+					FntPrint("%s", psydia[stage.delect]);
 					if (stage.delect == 9)
+					{
+						Audio_StopXA();
+			            stage.state = StageState_Play;
+					}
+					break;
+				}
+
+				case StageId_1_2:
+				{
+					FntPrint("%s", wiltdia[stage.delect]);
+					if (stage.delect == 16)
 					{
 						Audio_StopXA();
 			            stage.state = StageState_Play;
