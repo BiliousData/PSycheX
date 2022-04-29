@@ -835,7 +835,7 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 
 			if (this->pad_press & DEBUG_SWITCH)
 			{
-				if (stage.debug < 4)
+				if (stage.debug < 5)
 				    stage.debug += 1;
 				else 
 				    stage.debug = 0;
@@ -1653,6 +1653,14 @@ static void Stage_DrawNotes(void)
 	}
 }
 
+void Stage_DrawBox(void)
+{
+	RECT dia_src = {0, 0, 227, 63};
+	RECT_FIXED dia_dst = {0, 0, 120, 63};
+
+	Gfx_DrawTex(&stage.tex_dia, &dia_src, &dia_dst);
+}
+
 //Stage loads
 static void Stage_SwapChars(void)
 {
@@ -1844,8 +1852,18 @@ static void Stage_LoadState(void)
 	stage.flag = STAGE_FLAG_VOCAL_ACTIVE;
 	
 	stage.gf_speed = 1 << 2;
-	
-	stage.state = StageState_Play;
+
+	//check if song has dialogue
+	if (stage.story)
+	{
+		if (stage.stage_def->dialogue == 1)
+		{
+			stage.state = StageState_Dialogue;
+		}
+	}
+	else
+	   stage.state = StageState_Play;
+
 	
 	stage.player_state[0].character = stage.player;
 	stage.player_state[1].character = stage.opponent;
@@ -1881,6 +1899,8 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 	//Load HUD textures
 	Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
 	Gfx_LoadTex(&stage.tex_hud1, IO_Read("\\STAGE\\HUD1.TIM;1"), GFX_LOADTEX_FREE);
+
+	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
 	
 	//Load stage background
 	Stage_LoadStage();
@@ -2050,7 +2070,7 @@ void Stage_Tick(void)
 		//Return to menu when start is pressed
 		if (pad_state.press & PAD_START)
 		{
-			stage.trans = (stage.state == StageState_Play) ? StageTrans_Menu : StageTrans_Reload;
+			stage.trans = (stage.state == StageState_Play || stage.state == StageState_Dialogue) ? StageTrans_Menu : StageTrans_Reload;
 			Trans_Start();
 		}
 	}
@@ -2190,6 +2210,9 @@ void Stage_Tick(void)
 				case 4: //Player 2 (dad) position
 				    FntPrint("player2 pos X %d Y %d", stage.opponent->x/1024, stage.opponent->y/1024);
 					Stage_MoveChar();
+					break;
+				case 5: //Bg char (gf) position
+				    FntPrint("bg char pos X %d Y %d", stage.gf->x/1024, stage.gf->y/1024);
 					break;
 			}
 
@@ -3127,6 +3150,73 @@ void Stage_Tick(void)
 			//Scroll camera and tick player
 			Stage_ScrollCamera();
 			stage.player->tick(stage.player);
+			break;
+		}
+		case StageState_Dialogue:
+		{
+			//oh boy
+			char psydia[9] = {
+				"What brings you here so late at night?"
+				"Beep."
+				"Drop the act already."
+				"I could feel your malicious intent the\nmoment you set foot in here."
+				"Bep bee aa skoo dep?"
+				"I wouldn't try the door if I were you."
+				"Now..."
+				"I have a couple of questions to ask you..."
+				"And you WILL answer them."
+			};
+
+			//Clear per-frame flags
+			stage.flag &= ~(STAGE_FLAG_JUST_STEP | STAGE_FLAG_SCORE_REFRESH);
+
+			//play dialogue song
+			if (Audio_PlayingXA() != 1)
+			{
+				Audio_PlayXA_Track(stage.stage_def->diasong, 0x40, stage.stage_def->dia_channel, true); //read stagedef and play song
+			}
+
+			//Draw stage foreground
+			if (stage.back->draw_fg != NULL)
+				stage.back->draw_fg(stage.back);
+			
+			//Tick foreground objects
+			ObjectList_Tick(&stage.objlist_fg);
+			
+			//Tick characters
+			stage.player->tick(stage.player);
+			stage.opponent->tick(stage.opponent);
+			
+			//Draw stage middle
+			if (stage.back->draw_md != NULL)
+				stage.back->draw_md(stage.back);
+			
+			//Tick girlfriend
+			if (stage.gf != NULL)
+				stage.gf->tick(stage.gf);
+			
+			//Tick background objects
+			ObjectList_Tick(&stage.objlist_bg);
+			
+			//Draw stage background
+			if (stage.back->draw_bg != NULL)
+				stage.back->draw_bg(stage.back);
+
+			Stage_DrawBox();
+			FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
+
+
+			if (pad_state.press & PAD_CROSS)
+			{
+			    Audio_StopXA();
+			    stage.state = StageState_Play;
+			}
+
+
+
+
+
+			
 			break;
 		}
 		default:

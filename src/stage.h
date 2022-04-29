@@ -110,6 +110,8 @@ typedef struct
 	
 	u8 week, week_song;
 	u8 music_track, music_channel;
+	u8 dialogue;
+	u8 diasong, dia_channel;
 	
 	StageId next_stage;
 	u8 next_load;
@@ -164,6 +166,8 @@ typedef struct
 	
 	//HUD textures
 	Gfx_Tex tex_hud0, tex_hud1;
+
+	Gfx_Tex tex_dia;
 	
 	//Stage data
 	const StageDef *stage_def;
@@ -269,6 +273,7 @@ typedef struct
 		StageState_DeadDrop,   //Mic drop
 		StageState_DeadRetry,  //Retry prompt
 		StageState_DeadDecide, //Decided
+		StageState_Dialogue,   //Dialogue
 	} state;
 	
 	u8 note_swap;
@@ -284,6 +289,7 @@ void Stage_DrawTexCol(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixe
 void Stage_DrawTex(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixed_t zoom);
 void Stage_DrawTexArb(Gfx_Tex *tex, const RECT *src, const POINT_FIXED *p0, const POINT_FIXED *p1, const POINT_FIXED *p2, const POINT_FIXED *p3, fixed_t zoom);
 void Stage_BlendTexArb(Gfx_Tex *tex, const RECT *src, const POINT_FIXED *p0, const POINT_FIXED *p1, const POINT_FIXED *p2, const POINT_FIXED *p3, fixed_t zoom, u8 mode);
+void Stage_DrawBox();
 
 //Stage functions
 void Stage_Load(StageId id, StageDiff difficulty, boolean story);

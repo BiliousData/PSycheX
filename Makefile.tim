@@ -11,8 +11,10 @@ all: \
 	iso/font/arial.tim \
 	iso/font/ared.tim \
 	iso/stage/hud0.tim \
+	iso/stage/hud0butn.tim \
 	iso/stage/hud1.tim \
 	iso/stage/hud0weeb.tim \
+	iso/stage/dia.tim \
 	iso/bf/main.arc \
 	iso/bf/dead.arc \
 	iso/bf/weeb.arc \

@@ -45,6 +45,7 @@
 				<file name = "hud0.tim" type = "data" source = "iso/stage/hud0.tim"/>
 				<file name = "hud1.tim" type = "data" source = "iso/stage/hud1.tim"/>
 				<file name = "hud0weeb.tim" type = "data" source = "iso/stage/hud0weeb.tim"/>
+				<file name = "dia.tim" type = "data" source = "iso/stage/dia.tim"/>
 			</dir>
 			
 			<!-- Week 1 assets -->
@@ -270,6 +271,8 @@
 				<file name = "extra.xa" type = "xa" source = "iso/music/extra.xa"/>
 				<dummy sectors="128"/>
 				<file name = "custom.xa" type = "xa" source = "iso/music/custom.xa"/>
+				<dummy sectors="128"/>
+				<file name = "dialog.xa" type = "xa" source = "iso/music/dialog.xa"/>
 				<dummy sectors="128"/>
 			</dir>
 

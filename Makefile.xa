@@ -7,7 +7,8 @@ all: \
   iso/music/cuta.xa \
   iso/music/cutb.xa \
   iso/music/extra.xa \
-  iso/music/custom.xa
+  iso/music/custom.xa \
+  iso/music/dialog.xa
 
 # XA converts
 iso/music/%.xa: iso/music/%.ogg
@@ -25,3 +26,4 @@ iso/music/cuta.xa: iso/music/bftransform.xa
 iso/music/cutb.xa: iso/music/sendai.xa
 iso/music/extra.xa: iso/music/freeky.xa iso/music/bftdemo.xa
 iso/music/custom.xa: iso/music/ludum.xa
+iso/music/dialog.xa: iso/music/psy.xa iso/music/loveisaflower.xa iso/music/spiritualunrest.xa
