@@ -11,6 +11,8 @@
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},
 		1, 1,
 		XA_Bopeebo, 0,
+		1, //dialogue check
+		XA_Psy, 0, //dialogue song and it's channel
 		
 		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER
 	},
@@ -27,6 +29,8 @@
 		{FIXED_DEC(12,10),FIXED_DEC(2,1),FIXED_DEC(26,10)},
 		1, 2,
 		XA_Fresh, 2,
+		1,
+		XA_LoveIsAFlower, 1,
 		
 		StageId_1_6, STAGE_LOAD_FLAG | STAGE_LOAD_PLAYER | STAGE_LOAD_STAGE
 	},
@@ -43,6 +47,8 @@
 		{FIXED_DEC(17,10),FIXED_DEC(23,10),FIXED_DEC(3,1)},
 		1, 3,
 		XA_Dadbattle, 0,
+		1,
+		XA_SpiritualUnrest, 2,
 		
 		StageId_2_3, STAGE_LOAD_FLAG | STAGE_LOAD_PLAYER | STAGE_LOAD_STAGE | STAGE_LOAD_OPPONENT
 	},
@@ -75,6 +81,7 @@
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},
 		1, 1,
 		XA_BfTransform, 0,
+		0,
 		
 		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER
 	},
@@ -91,8 +98,9 @@
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},
 		1, 6,
 		XA_Sendai, 0,
+		0,
 		
-		StageId_1_3, 0,
+		StageId_1_3, STAGE_LOAD_FLAG | STAGE_LOAD_PLAYER | STAGE_LOAD_STAGE
 	},
 	
 	{ //StageId_2_1 (Spookeez)

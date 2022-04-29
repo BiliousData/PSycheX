@@ -30,6 +30,10 @@ static const XA_TrackDef xa_tracks[] = {
 	{XA_Extra, XA_LENGTH(1800)},  //XA_Bftdemo
 	//CUSTOM.XA
 	{XA_Custom, XA_LENGTH(3700)}, //XA_Ludum
+	//DIALOG.XA
+	{XA_Dialog, XA_LENGTH(4800)}, //XA_Psy
+	{XA_Dialog, XA_LENGTH(6400)}, //XA_LoveIsAFlower
+	{XA_Dialog, XA_LENGTH(7000)}, //XA_SpiritualUnrest
 };
 
 static const char *xa_paths[] = {
@@ -42,6 +46,7 @@ static const char *xa_paths[] = {
 	"\\MUSIC\\CUTB.XA;1",
 	"\\MUSIC\\EXTRA.XA;1",
 	"\\MUSIC\\CUSTOM.XA;1",
+	"\\MUSIC\\DIALOG.XA;1",
 	NULL,
 };
 
@@ -75,6 +80,10 @@ static const XA_Mp3 xa_mp3s[] = {
 	{"bftdemo", false},
 	//CUSTOM.XA
 	{"ludum", false},
+	//DIALOG.XA
+	{"psy", false},
+	{"loveisaflower", false},
+	{"spiritualunrest", false},
 	
 	{NULL, false}
 };

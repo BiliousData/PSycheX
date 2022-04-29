@@ -21,6 +21,7 @@ typedef enum
 	XA_CutB,
 	XA_Extra,
 	XA_Custom,
+	XA_Dialog,
 	
 	XA_Max,
 } XA_File;
@@ -50,6 +51,10 @@ typedef enum
 	XA_Bftdemo,
 	//CUSTOM
 	XA_Ludum, //Ludum Dare theme (for customization menu)
+	//DIALOG
+	XA_Psy, //Psychic Dialogue theme
+	XA_LoveIsAFlower, //Wilter Dialogue theme
+	XA_SpiritualUnrest, //Uproar Dialogue theme
 	
 	XA_TrackMax,
 } XA_Track;
