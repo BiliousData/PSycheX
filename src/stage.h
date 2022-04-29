@@ -250,6 +250,8 @@ typedef struct
 
 	u8 botplay;
 
+	u8 delect;
+
 	
 	//EPIC DEBUG SHIT
 	u8 debug; //0 is nothing, 1 is step counter, 2 is camera positions

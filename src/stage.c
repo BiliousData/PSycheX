@@ -3155,16 +3155,35 @@ void Stage_Tick(void)
 		case StageState_Dialogue:
 		{
 			//oh boy
-			char psydia[9] = {
-				"What brings you here so late at night?"
-				"Beep."
-				"Drop the act already."
-				"I could feel your malicious intent the\nmoment you set foot in here."
-				"Bep bee aa skoo dep?"
-				"I wouldn't try the door if I were you."
-				"Now..."
-				"I have a couple of questions to ask you..."
-				"And you WILL answer them."
+			char psydia[9][150] = {
+				"What brings you here so late at night?",
+				"Beep.",
+				"Drop the act already.",
+				"I could feel your malicious intent the\nmoment you set foot in here.",
+				"Bep bee aa skoo dep?",
+				"I wouldn't try the door if I were you.",
+				"Now...",
+				"I have a couple of questions to ask you...",
+				"And you WILL answer them.",
+			};
+
+			char wiltdia[16] [150] = {
+				"Welp, you got me!"
+				"You're very clever, I'll give you that much."
+				"No ordinary person would have seen\nthrough my facade."
+				"Yeah, um..."
+				"...Who are you again?"
+				"Kh...!"
+				"You don't even remember me?!"
+				"Not in the slightest."
+				"Seriously?! W-Whatever!"
+				"Now listen here!"
+				"I've taken this body hostage, so don't even try anything!"
+				"Summon Daddy Dearest here this instant, or else he gets it!"
+				"...Daddy Dearest, huh..?"
+				"I don't know what your deal is, but..."
+				"I don't take commands from freaks of nature like you."
+				"What did you just call me?!"
 			};
 
 			//Clear per-frame flags
@@ -3203,14 +3222,33 @@ void Stage_Tick(void)
 				stage.back->draw_bg(stage.back);
 
 			Stage_DrawBox();
-			FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
+
+			FntPrint("%s", psydia[stage.delect]);
 
 
-			if (pad_state.press & PAD_CROSS)
+			if (pad_state.press & PAD_START)
 			{
 			    Audio_StopXA();
 			    stage.state = StageState_Play;
 			}
+			
+			if (pad_state.press & PAD_CROSS)
+			{
+				stage.delect++;
+			}
+
+			switch (stage.stage_id)
+			{
+				case StageId_1_1:
+				{
+					if (stage.delect == 9)
+					{
+						Audio_StopXA();
+			            stage.state = StageState_Play;
+					}
+				}
+			}
+
 
 
 
