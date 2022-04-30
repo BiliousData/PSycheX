@@ -15,6 +15,7 @@
 #include "character.h"
 #include "player.h"
 #include "object.h"
+#include "font.h"
 
 #include "network.h"
 
@@ -266,6 +267,8 @@ typedef struct
 	
 	PlayerState player_state[2];
 	s32 max_score;
+
+	FontData font_arial;
 	
 	enum
 	{
