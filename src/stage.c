@@ -3171,18 +3171,21 @@ void Stage_Tick(void)
 
 			static const struct
 			{
-				const char *text;
-				u8 camera;
+				const char *text; //The text that is displayed
+				u8 camera; //Who the camera is pointing at, 0 for dad, 1 for bf
+				u8 charcount; //how many characters are in the line of dialogue
+				//s16 p1port; //player 1's portrait
+				//s16 p2port; //player 2's portrait
 			}psydia[] = {
-				{"What brings you here so late at night?",1},
-				{"Beep.",0},
-				{"Drop the act already.",1},
-				{"I could feel your malicious intent the\nmoment you set foot in here.",1},
-				{"Bep bee aa skoo dep?",0},
-				{"I wouldn't try the door if I were you.",1},
-				{"Now...",1},
-				{"I have a couple of questions\nto ask you...",1},
-				{"And you WILL answer them.",1},
+				{"What brings you here so late at night?",1,38},
+				{"Beep.",0,5},
+				{"Drop the act already.",1,21},
+				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67},
+				{"Bep bee aa skoo dep?",0,20},
+				{"I wouldn't try the door if I were you.",1,38},
+				{"Now...",1,6},
+				{"I have a couple of questions\nto ask you...",1,41},
+				{"And you WILL answer them.",1,25},
 			};
 			
 
