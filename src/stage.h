@@ -166,9 +166,7 @@ typedef struct
 	u32 offset;
 	
 	//HUD textures
-	Gfx_Tex tex_hud0, tex_hud1;
-
-	Gfx_Tex tex_dia;
+	Gfx_Tex tex_hud0, tex_hud1, tex_dia;
 	
 	//Stage data
 	const StageDef *stage_def;
@@ -298,6 +296,7 @@ void Stage_DrawBox();
 
 //Stage functions
 void Stage_Load(StageId id, StageDiff difficulty, boolean story);
+void Stage_LoadDia();
 void Stage_Unload();
 void Stage_Tick();
 

@@ -1653,12 +1653,12 @@ static void Stage_DrawNotes(void)
 	}
 }
 
-void Stage_DrawBox(void)
+void Stage_DrawBox()
 {
 	RECT dia_src = {0, 0, 227, 63};
-	RECT_FIXED dia_dst = {0, 0, 120, 63};
+	RECT_FIXED dia_dst = {FIXED_DEC(0,1), FIXED_DEC(0,1), FIXED_DEC(120,1), FIXED_DEC(63,1)};
 
-	Gfx_DrawTex(&stage.tex_dia, &dia_src, &dia_dst);
+	Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
 }
 
 //Stage loads
@@ -3165,17 +3165,26 @@ void Stage_Tick(void)
 		case StageState_Dialogue:
 		{
 			//oh boy
-			char psydia[9][150] = {
-				"What brings you here so late at night?",
-				"Beep.",
-				"Drop the act already.",
-				"I could feel your malicious intent the\nmoment you set foot in here.",
-				"Bep bee aa skoo dep?",
-				"I wouldn't try the door if I were you.",
-				"Now...",
-				"I have a couple of questions\nto ask you...",
-				"And you WILL answer them.",
+
+			RECT dia_src = {0, 0, 227, 63};
+	        RECT_FIXED dia_dst = {FIXED_DEC(-150,1), FIXED_DEC(30,1), FIXED_DEC(297,1), FIXED_DEC(76,1)};
+
+			static const struct
+			{
+				const char *text;
+				u8 camera;
+			}psydia[] = {
+				{"What brings you here so late at night?",1},
+				{"Beep.",0},
+				{"Drop the act already.",1},
+				{"I could feel your malicious intent the\nmoment you set foot in here.",1},
+				{"Bep bee aa skoo dep?",0},
+				{"I wouldn't try the door if I were you.",1},
+				{"Now...",1},
+				{"I have a couple of questions\nto ask you...",1},
+				{"And you WILL answer them.",1},
 			};
+			
 
 			char wiltdia[16] [150] = {
 				"Welp, you got me!",
@@ -3217,63 +3226,31 @@ void Stage_Tick(void)
 				Audio_PlayXA_Track(stage.stage_def->diasong, 0x40, stage.stage_def->dia_channel, true); //read stagedef and play song
 			}
 
-			//Draw stage foreground
-			if (stage.back->draw_fg != NULL)
-				stage.back->draw_fg(stage.back);
-			
-			//Tick foreground objects
-			ObjectList_Tick(&stage.objlist_fg);
-			
-			//Tick characters
-			stage.player->tick(stage.player);
-			stage.opponent->tick(stage.opponent);
-			
-			//Draw stage middle
-			if (stage.back->draw_md != NULL)
-				stage.back->draw_md(stage.back);
-			
-			//Tick girlfriend
-			if (stage.gf != NULL)
-				stage.gf->tick(stage.gf);
-			
-			//Tick background objects
-			ObjectList_Tick(&stage.objlist_bg);
-			
-			//Draw stage background
-			if (stage.back->draw_bg != NULL)
-				stage.back->draw_bg(stage.back);
-
-			Stage_DrawBox();
-
-
-			//skip dialogue
-			if (pad_state.press & PAD_START)
-			{
-			    Audio_StopXA();
-			    stage.state = StageState_Play;
-			}
-			
-			//progress to next message
-			if (pad_state.press & PAD_CROSS)
-			{
-				stage.delect++;
-			}
-
+			//text drawing shit
 			switch (stage.stage_id)
 			{
 				case StageId_1_1:
 				{
-					stage.font_arial.draw(&stage.font_arial,
-						("%s", psydia[stage.delect]),
-						0,
-						0,
-						FontAlign_Left
+					stage.font_arial.draw_col(&stage.font_arial,
+						psydia[stage.delect].text,
+						25,
+						170,
+						FontAlign_Left,
+						0 >> 1,
+						0 >> 1,
+						0 >> 1
 					);
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
 			            stage.state = StageState_Play;
 					}
+
+					//camera shit
+					if (psydia[stage.delect].camera == 1)
+					    Stage_FocusCharacter(stage.opponent, FIXED_UNIT / 24);
+					else
+					    Stage_FocusCharacter(stage.player, FIXED_UNIT / 24);
 					break;
 				}
 
@@ -3302,6 +3279,50 @@ void Stage_Tick(void)
 				default:
 				    break;
 			}
+
+			Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
+
+
+			//Draw stage foreground
+			if (stage.back->draw_fg != NULL)
+				stage.back->draw_fg(stage.back);
+			
+			//Tick foreground objects
+			ObjectList_Tick(&stage.objlist_fg);
+			
+			//Tick characters
+			stage.player->tick(stage.player);
+			stage.opponent->tick(stage.opponent);
+			
+			//Draw stage middle
+			if (stage.back->draw_md != NULL)
+				stage.back->draw_md(stage.back);
+			
+			//Tick girlfriend
+			if (stage.gf != NULL)
+				stage.gf->tick(stage.gf);
+			
+			//Tick background objects
+			ObjectList_Tick(&stage.objlist_bg);
+			
+			//Draw stage background
+			if (stage.back->draw_bg != NULL)
+				stage.back->draw_bg(stage.back);
+
+			//skip dialogue
+			if (pad_state.press & PAD_START)
+			{
+			    Audio_StopXA();
+			    stage.state = StageState_Play;
+			}
+			
+			//progress to next message
+			if (pad_state.press & PAD_CROSS)
+			{
+				stage.delect++;
+			}
+
+			Stage_ScrollCamera();
 
 
 
