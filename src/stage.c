@@ -1858,8 +1858,11 @@ static void Stage_LoadState(void)
 	{
 		if (stage.stage_def->dialogue == 1)
 		{
+			Stage_LoadDia();
 			stage.state = StageState_Dialogue;
 		}
+		else
+		    stage.state = StageState_Play;
 	}
 	else
 	   stage.state = StageState_Play;
@@ -1901,8 +1904,6 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 	//Load HUD textures
 	Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
 	Gfx_LoadTex(&stage.tex_hud1, IO_Read("\\STAGE\\HUD1.TIM;1"), GFX_LOADTEX_FREE);
-
-	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
 	
 	//Load stage background
 	Stage_LoadStage();
@@ -2051,6 +2052,13 @@ static boolean Stage_NextLoad(void)
 	}
 }
 
+void Stage_LoadDia(void)
+{
+	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
+
+	FontData_Load(&stage.font_arial, Font_Arial);
+}
+
 void Stage_Tick(void)
 {
 	SeamLoad:;
@@ -2072,7 +2080,7 @@ void Stage_Tick(void)
 		//Return to menu when start is pressed
 		if (pad_state.press & PAD_START)
 		{
-			stage.trans = (stage.state == StageState_Play || stage.state == StageState_Dialogue) ? StageTrans_Menu : StageTrans_Reload;
+			stage.trans = (stage.state == StageState_Play) ? StageTrans_Menu : StageTrans_Reload;
 			Trans_Start();
 		}
 	}
@@ -3188,6 +3196,18 @@ void Stage_Tick(void)
 				"What did you just call me?!",
 			};
 
+			char uproardia[9] [150] = {
+				"At least that guy's gone, he was\ngetting on my nerves.",
+				"Let me guess, you're another thorn\nin my side, huh?",
+				". . .",
+				"...You took the words straight\nfrom my mouth...",
+				"I had finally escaped that wretched\ngame, and of course YOU are here to\ngreet me...",
+				"...No matter...",
+				"...I'll just kill you and finally get\nmy revenge... It's really that simple...",
+				"...You don't mind your body being\ndissipated, right? It's only fair...",
+				"You took the words straight from\nmy mouth.",
+			};
+
 			//Clear per-frame flags
 			stage.flag &= ~(STAGE_FLAG_JUST_STEP | STAGE_FLAG_SCORE_REFRESH);
 
@@ -3226,13 +3246,14 @@ void Stage_Tick(void)
 			Stage_DrawBox();
 
 
-
+			//skip dialogue
 			if (pad_state.press & PAD_START)
 			{
 			    Audio_StopXA();
 			    stage.state = StageState_Play;
 			}
 			
+			//progress to next message
 			if (pad_state.press & PAD_CROSS)
 			{
 				stage.delect++;
@@ -3242,7 +3263,12 @@ void Stage_Tick(void)
 			{
 				case StageId_1_1:
 				{
-					FntPrint("%s", psydia[stage.delect]);
+					stage.font_arial.draw(&stage.font_arial,
+						("%s", psydia[stage.delect]),
+						0,
+						0,
+						FontAlign_Left
+					);
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
@@ -3259,7 +3285,22 @@ void Stage_Tick(void)
 						Audio_StopXA();
 			            stage.state = StageState_Play;
 					}
+					break;
 				}
+
+				case StageId_1_3:
+				{
+					FntPrint("%s", uproardia[stage.delect]);
+					if (stage.delect == 9)
+					{
+						Audio_StopXA();
+						stage.state = StageState_Play;
+					}
+					break;
+				}
+
+				default:
+				    break;
 			}
 
 
