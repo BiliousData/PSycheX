@@ -1079,6 +1079,9 @@ void Menu_Tick(void)
 				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3, "STRPLAY LIBRARY BY"},
 				{StageId_1_4, 0xFF9B30F3, "LAMEGUY"},
+				{StageId_1_4, 0xFF9B30F3, " "},
+				{StageId_1_4, 0xFF9B30F3, "IGORSOU"},
+				{StageId_1_4, 0xFF9B30F3, "CODE INSPIRATION"},
 
 
 			};
