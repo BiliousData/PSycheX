@@ -65,6 +65,8 @@
 		{FIXED_DEC(1,1),FIXED_DEC(1,1),FIXED_DEC(1,1)},
 		1, 4,
 		XA_Tutorial, 2,
+		0,
+		XA_Clucked, 2,
 		
 		StageId_1_4, 0
 	},
@@ -82,6 +84,7 @@
 		1, 1,
 		XA_BfTransform, 0,
 		0,
+		XA_Clucked, 2,
 		
 		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER
 	},
@@ -99,8 +102,9 @@
 		1, 6,
 		XA_Sendai, 0,
 		0,
+		XA_Clucked, 2,
 		
-		StageId_1_3, STAGE_LOAD_FLAG | STAGE_LOAD_PLAYER | STAGE_LOAD_STAGE
+		StageId_1_3, 0
 	},
 	
 	{ //StageId_2_1 (Spookeez)
