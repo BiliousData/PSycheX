@@ -2080,8 +2080,20 @@ void Stage_Tick(void)
 		//Return to menu when start is pressed
 		if (pad_state.press & PAD_START)
 		{
-			stage.trans = (stage.state == StageState_Play) ? StageTrans_Menu : StageTrans_Reload;
-			Trans_Start();
+			switch (stage.state)
+			{
+				case StageState_Play:
+				    stage.trans = StageTrans_Menu;
+					Trans_Start();
+					break;
+				case StageState_Dialogue:
+				    break;
+				default:
+				    stage.trans = StageTrans_Reload;
+					Trans_Start();
+					break;
+				    
+			}
 		}
 	}
 	
@@ -3172,7 +3184,7 @@ void Stage_Tick(void)
 			static const struct
 			{
 				const char *text; //The text that is displayed
-				u8 camera; //Who the camera is pointing at, 0 for dad, 1 for bf
+				u8 camera; //Who the camera is pointing at, 0 for bf, 1 for dad
 				u8 charcount; //how many characters are in the line of dialogue
 				//s16 p1port; //player 1's portrait
 				//s16 p2port; //player 2's portrait
@@ -3189,23 +3201,27 @@ void Stage_Tick(void)
 			};
 			
 
-			char wiltdia[16] [150] = {
-				"Welp, you got me!",
-				"You're very clever, I'll give you\nthat much.",
-				"No ordinary person would have seen\nthrough my facade.",
-				"Yeah, um...",
-				"...Who are you again?",
-				"Kh...!",
-				"You don't even remember me?!",
-				"Not in the slightest.",
-				"Seriously?! W-Whatever!",
-				"Now listen here!",
-				"I've taken this body hostage, so\ndon't even try anything!",
-				"Summon Daddy Dearest here this instant, or else he gets it!",
-				"...Daddy Dearest, huh..?",
-				"I don't know what your deal is, but...",
-				"I don't take commands from freaks of\nnature like you.",
-				"What did you just call me?!",
+			static const struct
+			{
+				const char *text;
+				u8 camera;
+			}wiltdia[] = {
+				{"Welp, you got me!",0},
+				{"You're very clever, I'll give you\nthat much.",0},
+				{"No ordinary person would have seen\nthrough my facade.",0},
+				{"Yeah, um...",1},
+				{"...Who are you again?",1},
+				{"Kh...!",0},
+				{"You don't even remember me?!",0},
+				{"Not in the slightest.",1},
+				{"Seriously?! W-Whatever!",0},
+				{"Now listen here!",0},
+				{"I've taken this body hostage, so\ndon't even try anything!",0},
+				{"Summon Daddy Dearest here this instant,\nor else he gets it!",0},
+				{"...Daddy Dearest, huh..?",1},
+				{"I don't know what your deal is, but...",1},
+				{"I don't take commands from freaks of\nnature like you.",1},
+				{"What did you just call me?!",0},
 			};
 
 			char uproardia[9] [150] = {
@@ -3259,12 +3275,26 @@ void Stage_Tick(void)
 
 				case StageId_1_2:
 				{
-					FntPrint("%s", wiltdia[stage.delect]);
+					stage.font_arial.draw_col(&stage.font_arial,
+						wiltdia[stage.delect].text,
+						25,
+						170,
+						FontAlign_Left,
+						0 >> 1,
+						0 >> 1,
+						0 >> 1
+					);
+
 					if (stage.delect == 16)
 					{
 						Audio_StopXA();
 			            stage.state = StageState_Play;
 					}
+
+					if (wiltdia[stage.delect].camera == 1)
+					    Stage_FocusCharacter(stage.opponent, FIXED_UNIT / 24);
+					else
+					    Stage_FocusCharacter(stage.player, FIXED_UNIT / 24);
 					break;
 				}
 
@@ -3284,6 +3314,10 @@ void Stage_Tick(void)
 			}
 
 			Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
+
+			static const RECT walterwhite = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+
+			Gfx_BlendRect(&walterwhite, 255, 255, 255, 255);
 
 
 			//Draw stage foreground
