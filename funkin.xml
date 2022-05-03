@@ -283,6 +283,11 @@
 				<file name = "wintro.str" type = "str" source = "iso/movie/wintro.str"/>
 				<file name = "earblast.str" type = "str" source = "iso/movie/brok.str"/>
 			</dir>
+
+			<!-- Dialogue portraits -->
+			<dir name = "dia">
+				<file name = "psytalk.tim" type = "data" source = "iso/diaports/psytalk.tim"/>
+			</dir>
 			
 			<!-- Dummy sectors -->
 			<dummy sectors="1024"/>

@@ -25,6 +25,18 @@
 
 //Stage constants
 
+//psychic portrait animation stuff
+static const CharFrame psytalk_frame[4] =
+{
+	{0, {  0,   0, 111, 114}, {0, 0}},
+	{0, {111,   0, 109, 114}, {-2, 0}},
+	{0, {  0, 114, 108, 114}, {-3, 0}},
+	{0, {108, 114, 108, 112}, {-3, -2}},
+};
+
+static const Animation psytalk_anim[1] = {
+	{1, (const u8[]){0, 0, 1, 1, 2, 2, 3, ASCR_REPEAT}},
+};
 
 //welcome to the shitshow
 int note_x[8] = {
@@ -1661,6 +1673,31 @@ void Stage_DrawBox()
 	Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
 }
 
+void PsyTalk_Draw(Stage *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &psytalk_frame[this->psytalk_frame];
+	
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(&stage.tex_psytalk, &src, &dst, stage.camera.bzoom);
+}
+
+void PsyTalk_SetFrame(void *user, u8 frame)
+{
+	Stage *this = (Stage*)user;
+	
+	//Check if this is a new frame
+	if (frame != stage.psytalk_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &psytalk_frame[this->psytalk_frame = frame];
+	}
+}
+
 //Stage loads
 static void Stage_SwapChars(void)
 {
@@ -2052,9 +2089,24 @@ static boolean Stage_NextLoad(void)
 	}
 }
 
+//load dialogue related files
 void Stage_LoadDia(void)
 {
 	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
+
+	//load different assets depending on stage
+	switch (stage.stage_id)
+	{
+		case StageId_1_1:
+		{
+			Gfx_LoadTex(&stage.tex_psytalk, IO_Read("\\DIA\\PSYTALK.TIM;1"), GFX_LOADTEX_FREE);
+			Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
+	        Animatable_SetAnim(&stage.psytalk_animatable, 0);
+			break;
+		}
+		default:
+		    break;
+	}
 
 	FontData_Load(&stage.font_arial, Font_Arial);
 }
@@ -2078,6 +2130,7 @@ void Stage_Tick(void)
 	#endif
 	{
 		//Return to menu when start is pressed
+		//Or skip dialogue, if applicable
 		if (pad_state.press & PAD_START)
 		{
 			switch (stage.state)
@@ -3181,23 +3234,26 @@ void Stage_Tick(void)
 			RECT dia_src = {0, 0, 227, 63};
 	        RECT_FIXED dia_dst = {FIXED_DEC(-150,1), FIXED_DEC(30,1), FIXED_DEC(297,1), FIXED_DEC(76,1)};
 
+			//???
+			Stage *this = (Stage*)this;
+
 			static const struct
 			{
 				const char *text; //The text that is displayed
 				u8 camera; //Who the camera is pointing at, 0 for bf, 1 for dad
 				u8 charcount; //how many characters are in the line of dialogue
 				//s16 p1port; //player 1's portrait
-				//s16 p2port; //player 2's portrait
+				u8 p2port; //player 2's portrait
 			}psydia[] = {
-				{"What brings you here so late at night?",1,38},
+				{"What brings you here so late at night?",1,38,1},
 				{"Beep.",0,5},
-				{"Drop the act already.",1,21},
-				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67},
+				{"Drop the act already.",1,21,1},
+				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67,1},
 				{"Bep bee aa skoo dep?",0,20},
-				{"I wouldn't try the door if I were you.",1,38},
-				{"Now...",1,6},
-				{"I have a couple of questions\nto ask you...",1,41},
-				{"And you WILL answer them.",1,25},
+				{"I wouldn't try the door if I were you.",1,38,1},
+				{"Now...",1,6,1},
+				{"I have a couple of questions\nto ask you...",1,41,1},
+				{"And you WILL answer them.",1,25,1},
 			};
 			
 
@@ -3250,6 +3306,8 @@ void Stage_Tick(void)
 			{
 				case StageId_1_1:
 				{
+					Animatable_Animate(&stage.psytalk_animatable, (void*)this, PsyTalk_SetFrame);
+
 					stage.font_arial.draw_col(&stage.font_arial,
 						psydia[stage.delect].text,
 						25,
@@ -3270,6 +3328,7 @@ void Stage_Tick(void)
 					    Stage_FocusCharacter(stage.opponent, FIXED_UNIT / 24);
 					else
 					    Stage_FocusCharacter(stage.player, FIXED_UNIT / 24);
+					    
 					break;
 				}
 
@@ -3314,6 +3373,18 @@ void Stage_Tick(void)
 			}
 
 			Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
+
+			//portrait shit
+			switch (psydia[stage.delect].p2port)
+			{
+				//normal
+				case 1:
+					PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+					break;
+				//nothing
+				default:
+				    break;
+			}
 
 			static const RECT walterwhite = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 

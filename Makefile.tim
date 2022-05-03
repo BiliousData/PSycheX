@@ -37,7 +37,8 @@ all: \
 	iso/fplace/back.arc \
 	iso/flames/back.arc \
 	iso/space/back.arc \
-	iso/fplacechop/back.arc
+	iso/fplacechop/back.arc \
+	iso/diaports/psytalk.tim
 
 iso/%.tim: iso/%.png
 	tools/funkintimconv/funkintimconv $@ $<

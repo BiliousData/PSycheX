@@ -167,6 +167,8 @@ typedef struct
 	
 	//HUD textures
 	Gfx_Tex tex_hud0, tex_hud1, tex_dia;
+
+	Gfx_Tex tex_psytalk;
 	
 	//Stage data
 	const StageDef *stage_def;
@@ -250,6 +252,10 @@ typedef struct
 	u8 botplay;
 
 	u8 delect;
+
+	Animatable psytalk_animatable;
+
+	u8 psytalk_frame, psytalk_tex_id;
 
 	
 	//EPIC DEBUG SHIT
