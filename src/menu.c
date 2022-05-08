@@ -734,7 +734,7 @@ void Menu_Tick(void)
 				menu.scroll >> (FIXED_SHIFT + 3),
 			#endif
 				155 >> 1, 48 >> 1, 243 >> 1,
-				155 >> 1, 48 >> 1, 243 >> 1
+				253 >> 1, 231 >> 1, 113 >> 1
 				
 			);
 			
@@ -1072,8 +1072,8 @@ void Menu_Tick(void)
 				{StageId_2_1, 0xFF9B30F3, "STORY MODE ASSETS"},
 				{StageId_1_3, 0xFF9B30F3, "CODE"},
 				{StageId_1_4, 0xFF9B30F3, " "},
-				{StageId_1_3, 0xFF9B30F3, "MRRUMBLEROSES"},
-				{StageId_1_3, 0xFF9B30F3, "GOT PERMISSION"},
+				{StageId_1_3, 0xFF126000, "MRRUMBLEROSES"},
+				{StageId_1_3, 0xFF126000, "GOT PERMISSION"},
 				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3, "PSX FUNKIN BY"},
 				{StageId_1_4, 0xFF9B30F3, "CUCKYDEV"},
@@ -1081,8 +1081,8 @@ void Menu_Tick(void)
 				{StageId_1_4, 0xFF9B30F3, "STRPLAY LIBRARY BY"},
 				{StageId_1_4, 0xFF9B30F3, "LAMEGUY"},
 				{StageId_1_4, 0xFF9B30F3, " "},
-				{StageId_1_4, 0xFF9B30F3, "IGORSOU"},
-				{StageId_1_4, 0xFF9B30F3, "CODE INSPIRATION"},
+				{StageId_1_4, 0xFFadd8e6, "IGORSOU"},
+				{StageId_1_4, 0xFFadd8e6, "CODE INSPIRATION"},
 
 
 			};
