@@ -57,71 +57,71 @@ static const CharFrame char_bft_frame[] = {
 	{BFT_ArcMain_Idle,     {  0,   0, 103, 104}, { 53,  97}}, //Idle 0
 
 	{BFT_ArcMain_Oof,      {  0,   0,  99,  89}, { 55,  83}}, //Anim 1 1
-	{BFT_ArcMain_Oof,      { 99,   0,  99,  90}, { 55,  83}}, //Anim 1 2
-	{BFT_ArcMain_Oof,      {  0,  90,  98,  91}, { 55,  83}}, //Anim 1 3
-	{BFT_ArcMain_Oof,      { 98,  90,  98,  91}, { 55,  83}}, //Anim 1 4
+	{BFT_ArcMain_Oof,      { 99,   0,  99,  90}, { 56,  83}}, //Anim 1 2
+	{BFT_ArcMain_Oof,      {  0,  90,  98,  91}, { 56,  84}}, //Anim 1 3
+	{BFT_ArcMain_Oof,      { 98,  90,  98,  91}, { 56,  84}}, //Anim 1 4
 
-	{BFT_ArcMain_Eh,       {  0,   0,  90,  87}, { 55,  83}}, //Anim 2 5
-	{BFT_ArcMain_Eh,       { 90,   0,  88,  88}, { 55,  83}}, //Anim 2 6
-	{BFT_ArcMain_Eh,       {  0,  88,  88,  90}, { 55,  83}}, //Anim 2 7
-	{BFT_ArcMain_Eh,       { 88,  88,  91,  90}, { 55,  83}}, //Anim 2 8
+	{BFT_ArcMain_Eh,       {  0,   0,  90,  87}, { 44,  81}}, //Anim 2 5
+	{BFT_ArcMain_Eh,       { 90,   0,  88,  88}, { 44,  81}}, //Anim 2 6
+	{BFT_ArcMain_Eh,       {  0,  88,  88,  90}, { 45,  83}}, //Anim 2 7
+	{BFT_ArcMain_Eh,       { 88,  88,  91,  90}, { 48,  83}}, //Anim 2 8
 
-	{BFT_ArcMain_Eey,      {  0,   0, 106,  85}, { 55,  83}}, //Anim 3 9
-	{BFT_ArcMain_Eey,      {106,   0, 102,  84}, { 55,  83}}, //Anim 3 10
-	{BFT_ArcMain_Eey,      {  0,  85,  99,  84}, { 55,  83}}, //Anim 3 11
-	{BFT_ArcMain_Eey,      { 99,  85,  98,  87}, { 55,  83}}, //Anim 3 12
+	{BFT_ArcMain_Eey,      {  0,   0, 106,  85}, { 65,  79}}, //Anim 3 9
+	{BFT_ArcMain_Eey,      {106,   0, 102,  84}, { 61,  78}}, //Anim 3 10
+	{BFT_ArcMain_Eey,      {  0,  85,  99,  84}, { 59,  78}}, //Anim 3 11
+	{BFT_ArcMain_Eey,      { 99,  85,  98,  87}, { 58,  81}}, //Anim 3 12
 
-	{BFT_ArcMain_Ack,      {  0,   0,  88,  94}, { 55,  83}}, //Anim 4 13
-	{BFT_ArcMain_Ack,      { 88,   0,  96,  97}, { 55,  83}}, //Anim 4 14
-	{BFT_ArcMain_Ack,      {  0,  97,  99,  97}, { 55,  83}}, //Anim 4 15
-	{BFT_ArcMain_Ack,      { 99,  97,  99,  97}, { 55,  83}}, //Anim 4 16
+	{BFT_ArcMain_Ack,      {  0,   0,  88,  94}, { 42,  87}}, //Anim 4 13
+	{BFT_ArcMain_Ack,      { 88,   0,  96,  97}, { 43,  90}}, //Anim 4 14
+	{BFT_ArcMain_Ack,      {  0,  97,  99,  97}, { 44,  90}}, //Anim 4 15
+	{BFT_ArcMain_Ack,      { 99,  97,  99,  97}, { 44,  90}}, //Anim 4 16
 	
-	{BFT_ArcMain_Beh,      {  0,   0,  99,  87}, { 55,  83}}, //Anim 5 17
-	{BFT_ArcMain_Beh,      { 99,   0,  99,  88}, { 55,  83}}, //Anim 5 18
-	{BFT_ArcMain_Beh,      {  0,  88, 100,  90}, { 55,  83}}, //Anim 5 19
-	{BFT_ArcMain_Beh,      {100,  88, 102,  90}, { 55,  83}}, //Anim 5 20
-	{BFT_ArcMain_Agga,     {  0,   0,  93,  92}, { 55,  83}}, //Anim 5 21
+	{BFT_ArcMain_Beh,      {  0,   0,  99,  87}, { 44,  81}}, //Anim 5 17
+	{BFT_ArcMain_Beh,      { 99,   0,  99,  88}, { 44,  81}}, //Anim 5 18
+	{BFT_ArcMain_Beh,      {  0,  88, 100,  90}, { 45,  83}}, //Anim 5 19
+	{BFT_ArcMain_Beh,      {100,  88, 102,  90}, { 48,  83}}, //Anim 5 20
+	{BFT_ArcMain_Agga,     {  0,   0,  93,  92}, { 48,  85}}, //Anim 5 21
 
-	{BFT_ArcMain_Agga,     { 93,   0,  98, 108}, { 55,  83}}, //Anim 6 22
-	{BFT_ArcMain_Agga,     {  0, 108,  99, 109}, { 55,  83}}, //Anim 6 23
-	{BFT_ArcMain_Agga,     { 99, 108,  99, 109}, { 55,  83}}, //Anim 6 24
-	{BFT_ArcMain_Deh,      {  0,   0,  99, 109}, { 55,  83}}, //Anim 6 25
+	{BFT_ArcMain_Agga,     { 93,   0,  98, 108}, { 42,  99}}, //Anim 6 22
+	{BFT_ArcMain_Agga,     {  0, 108,  99, 109}, { 41, 100}}, //Anim 6 23
+	{BFT_ArcMain_Agga,     { 99, 108,  99, 109}, { 41, 100}}, //Anim 6 24
+	{BFT_ArcMain_Deh,      {  0,   0,  99, 109}, { 41, 100}}, //Anim 6 25
 
-	{BFT_ArcMain_Deh,      { 99,   0, 100, 109}, { 55,  83}}, //Anim 7 26
-	{BFT_ArcMain_Deh,      {  0, 109, 117,  94}, { 55,  83}}, //Anim 7 27
-	{BFT_ArcMain_Deh,      {117, 109, 118,  90}, { 55,  83}}, //Anim 7 28
-	{BFT_ArcMain_Ded,      {  0,   0, 121,  91}, { 55,  83}}, //Anim 7 29
+	{BFT_ArcMain_Deh,      { 99,   0, 100, 109}, { 43,  99}}, //Anim 7 26
+	{BFT_ArcMain_Deh,      {  0, 109, 117,  94}, { 64,  87}}, //Anim 7 27
+	{BFT_ArcMain_Deh,      {117, 109, 118,  90}, { 64,  83}}, //Anim 7 28
+	{BFT_ArcMain_Ded,      {  0,   0, 121,  91}, { 66,  84}}, //Anim 7 29
 
-	{BFT_ArcMain_Switch0,  {  0,   0, 110,  91}, { 55,  83}}, //switch 30
-	{BFT_ArcMain_Switch0,  {110,   0, 107,  96}, { 55,  83}}, //switch 31
-	{BFT_ArcMain_Switch0,  {  0,  96,  99, 121}, { 55,  83}}, //switch 32
-	{BFT_ArcMain_Switch0,  { 99,  96,  94, 155}, { 55,  83}}, //switch 33
-	{BFT_ArcMain_Switch1,  {  0,   0,  98, 168}, { 55,  83}}, //switch 34
-	{BFT_ArcMain_Switch1,  { 98,   0,  98, 168}, { 55,  83}}, //switch 35
-	{BFT_ArcMain_Switch2,  {  0,   0,  88, 171}, { 55,  83}}, //switch 36
-	{BFT_ArcMain_Switch2,  { 88,   0,  88, 171}, { 55,  83}}, //switch 37
-	{BFT_ArcMain_Switch3,  {  0,   0,  83, 172}, { 55,  83}}, //switch 38
-	{BFT_ArcMain_Switch3,  { 83,   0,  83, 172}, { 55,  83}}, //switch 39
-	{BFT_ArcMain_Switch3,  {166,   0,  83, 172}, { 55,  83}}, //switch 40
-	{BFT_ArcMain_Switch4,  {  0,   0,  83, 172}, { 55,  83}}, //switch 41
-	{BFT_ArcMain_Switch4,  { 83,   0,  83, 168}, { 55,  83}}, //switch 42
-	{BFT_ArcMain_Switch4,  {166,   0,  83, 155}, { 55,  83}}, //switch 43
-	{BFT_ArcMain_Switch5,  {  0,   0,  86, 130}, { 55,  83}}, //switch 44
-	{BFT_ArcMain_Switch5,  { 86,   0,  88, 108}, { 55,  83}}, //switch 45
-	{BFT_ArcMain_Switch5,  {  0, 130,  91, 104}, { 55,  83}}, //switch 46
-	{BFT_ArcMain_Switch5,  { 91, 130,  94, 102}, { 55,  83}}, //switch 47
-	{BFT_ArcMain_Switch6,  {  0,   0,  88, 102}, { 55,  83}}, //switch 48
+	{BFT_ArcMain_Switch0,  {  0,   0, 110,  91}, { 66,  84}}, //switch 30
+	{BFT_ArcMain_Switch0,  {110,   0, 107,  96}, { 65,  89}}, //switch 31
+	{BFT_ArcMain_Switch0,  {  0,  96,  99, 121}, { 55, 114}}, //switch 32
+	{BFT_ArcMain_Switch0,  { 99,  96,  94, 155}, { 50, 148}}, //switch 33
+	{BFT_ArcMain_Switch1,  {  0,   0,  98, 168}, { 57, 161}}, //switch 34
+	{BFT_ArcMain_Switch1,  { 98,   0,  98, 168}, { 57, 161}}, //switch 35
+	{BFT_ArcMain_Switch2,  {  0,   0,  88, 171}, { 47, 165}}, //switch 36
+	{BFT_ArcMain_Switch2,  { 88,   0,  88, 171}, { 47, 165}}, //switch 37
+	{BFT_ArcMain_Switch3,  {  0,   0,  83, 172}, { 41, 165}}, //switch 38
+	{BFT_ArcMain_Switch3,  { 83,   0,  83, 172}, { 41, 165}}, //switch 39
+	{BFT_ArcMain_Switch3,  {166,   0,  83, 172}, { 42, 165}}, //switch 40
+	{BFT_ArcMain_Switch4,  {  0,   0,  83, 172}, { 42, 165}}, //switch 41
+	{BFT_ArcMain_Switch4,  { 83,   0,  83, 168}, { 42, 161}}, //switch 42
+	{BFT_ArcMain_Switch4,  {166,   0,  83, 155}, { 42, 148}}, //switch 43
+	{BFT_ArcMain_Switch5,  {  0,   0,  86, 130}, { 42, 123}}, //switch 44
+	{BFT_ArcMain_Switch5,  { 86,   0,  88, 108}, { 42, 101}}, //switch 45
+	{BFT_ArcMain_Switch5,  {  0, 130,  91, 104}, { 42,  97}}, //switch 46
+	{BFT_ArcMain_Switch5,  { 91, 130,  94, 102}, { 43,  96}}, //switch 47
+	{BFT_ArcMain_Switch6,  {  0,   0,  88, 102}, { 42,  96}}, //switch 48
 
-	{BFT_ArcMain_Wink0,    {  0,   0,  88, 104}, { 55,  83}}, //wink 49
-	{BFT_ArcMain_Wink0,    { 88,   0,  93, 104}, { 55,  83}}, //wink 50
-	{BFT_ArcMain_Wink0,    {  0, 104,  93, 104}, { 55,  83}}, //wink 51
-	{BFT_ArcMain_Wink0,    { 93, 104,  90, 104}, { 55,  83}}, //wink 52
-	{BFT_ArcMain_Wink1,    {  0,   0,  90, 104}, { 55,  83}}, //wink 53
-	{BFT_ArcMain_Wink1,    { 90,   0,  90, 104}, { 55,  83}}, //wink 54
-	{BFT_ArcMain_Wink1,    {  0, 104,  90, 104}, { 55,  83}}, //wink 55
-	{BFT_ArcMain_Wink1,    { 90, 104,  90, 104}, { 55,  83}}, //wink 56
-	{BFT_ArcMain_Wink2,    {  0,   0,  90, 104}, { 55,  83}}, //wink 57
-	{BFT_ArcMain_Wink2,    { 90,   0,  90, 104}, { 55,  83}}, //wink 58
+	{BFT_ArcMain_Wink0,    {  0,   0,  88, 104}, { 42,  97}}, //wink 49
+	{BFT_ArcMain_Wink0,    { 88,   0,  93, 104}, { 43,  97}}, //wink 50
+	{BFT_ArcMain_Wink0,    {  0, 104,  93, 104}, { 43,  97}}, //wink 51
+	{BFT_ArcMain_Wink0,    { 93, 104,  90, 104}, { 42,  97}}, //wink 52
+	{BFT_ArcMain_Wink1,    {  0,   0,  90, 104}, { 42,  97}}, //wink 53
+	{BFT_ArcMain_Wink1,    { 90,   0,  90, 104}, { 42,  97}}, //wink 54
+	{BFT_ArcMain_Wink1,    {  0, 104,  90, 104}, { 42,  97}}, //wink 55
+	{BFT_ArcMain_Wink1,    { 90, 104,  90, 104}, { 42,  97}}, //wink 56
+	{BFT_ArcMain_Wink2,    {  0,   0,  90, 104}, { 42,  97}}, //wink 57
+	{BFT_ArcMain_Wink2,    { 90,   0,  90, 104}, { 42,  97}}, //wink 58
 
 
 
