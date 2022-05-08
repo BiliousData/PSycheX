@@ -1,5 +1,7 @@
 //The Strplay library (which this relies on) was made by Lameguy64 of Meido-Tek Productions.
 
+//side note: this file appears to go nuts when compiled on linux, with it either crashing, or difficulties malfunctioning.
+
 #include "stage.h"
 #include "mem.h"
 #include "psx.h"

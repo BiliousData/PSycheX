@@ -1,6 +1,6 @@
 	{ //StageId_1_1 (Psychic)
 		//Characters
-		{Char_BF_New,    FIXED_DEC(225,1),  FIXED_DEC(138,1)},
+		{Char_BF_New,      FIXED_DEC(225,1),  FIXED_DEC(138,1)},
 		{Char_Psychic_New, FIXED_DEC(-15,1),  FIXED_DEC(108,1)},
 		{NULL},
 		
@@ -14,7 +14,7 @@
 		1, //dialogue check
 		XA_Psy, 0, //dialogue song and it's channel
 		
-		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER
+		StageId_1_5, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER || STAGE_LOAD_OPPONENT
 	},
 	{ //StageId_1_2 (Wilter)
 		//Characters
@@ -72,21 +72,21 @@
 	},
 	{ //StageId_1_5 (Bf Transformation cutscene)
 		//Characters
-		{Char_BF_New,    FIXED_DEC(310,1),  FIXED_DEC(100,1)},
-		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
+		{Char_BFT_New,    FIXED_DEC(225,1),  FIXED_DEC(138,1)},
+		{Char_Psychic_New, FIXED_DEC(-15,1),  FIXED_DEC(108,1)},
 		{NULL},
 		
 		//Stage background
-		Back_Fireplace_New,
+		Back_Chop_New,
 		
 		//Song info
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},
-		1, 1,
+		1, 5,
 		XA_BfTransform, 0,
 		0,
 		XA_Clucked, 2,
 		
-		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER
+		StageId_1_2, STAGE_LOAD_FLAG || STAGE_LOAD_PLAYER || STAGE_LOAD_OPPONENT
 	},
 	{ //StageId_1_6 (Uproar Cutscene)
 		//Characters

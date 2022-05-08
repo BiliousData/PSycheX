@@ -900,6 +900,7 @@ void Menu_Tick(void)
 				{StageId_1_1, 0x580093, "PSYCHIC"},
 				{StageId_1_2, 0x580093, "WILTER"},
 				{StageId_1_3, 0x580093, "UPROAR"},
+				{StageId_1_5, 0x580093, "BFT"},
 			};
 			
 			//Initialize page

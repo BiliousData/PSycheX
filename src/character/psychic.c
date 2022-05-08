@@ -39,7 +39,7 @@ typedef struct
 	Character character;
 	
 	//Render data and state
-	IO_Data arc_main;
+	IO_Data arc_idle, arc_notes;
 	IO_Data arc_ptr[Psychic_Arc_Max];
 	
 	Gfx_Tex tex;
@@ -127,7 +127,8 @@ void Char_Psychic_Free(Character *character)
 	Char_Psychic *this = (Char_Psychic*)character;
 	
 	//Free art
-	Mem_Free(this->arc_main);
+	Mem_Free(this->arc_idle);
+	Mem_Free(this->arc_notes);
 }
 
 Character *Char_Psychic_New(fixed_t x, fixed_t y)
@@ -159,7 +160,7 @@ Character *Char_Psychic_New(fixed_t x, fixed_t y)
 	this->character.focus_zoom = FIXED_DEC(1,1);
 	
 	//Load art
-	this->arc_main = IO_Read("\\CHAR\\PSYCHIC.ARC;1");
+	this->arc_idle = IO_Read("\\CHAR\\PSYCHIC1.ARC;1");
 	
 	const char **pathp = (const char *[]){
 		"idle0.tim", 
@@ -168,20 +169,48 @@ Character *Char_Psychic_New(fixed_t x, fixed_t y)
 		"idle3.tim", 
 		"idle4.tim", 
 		"idle5.tim", 
-		"left0.tim", 
-		"left1.tim", 
-		"down0.tim", 
-		"down1.tim", 
-		"up.tim", 
-		"right0.tim", 
-		"right1.tim", 
-		"right2.tim", 
-		"right3.tim",  
 		NULL
 	};
 	IO_Data *arc_ptr = this->arc_ptr;
 	for (; *pathp != NULL; pathp++)
-		*arc_ptr++ = Archive_Find(this->arc_main, *pathp);
+		*arc_ptr++ = Archive_Find(this->arc_idle, *pathp);
+
+	//load note sprites when not cutscene
+	switch (stage.stage_id)
+	{
+		case StageId_1_5:
+		{
+			this->arc_notes = NULL;
+			break;
+		}
+		case StageId_1_6:
+		{
+			this->arc_notes = NULL;
+			break;
+		}
+		default:
+		{
+			//Load note sprites	
+			this->arc_notes = IO_Read("\\CHAR\\PSYCHIC2.ARC;1");
+
+			const char **pathp = (const char *[]){
+				"left0.tim", 
+		        "left1.tim", 
+		        "down0.tim", 
+		        "down1.tim", 
+		        "up.tim", 
+		        "right0.tim", 
+		        "right1.tim", 
+		        "right2.tim", 
+		        "right3.tim",  
+				NULL
+			};
+
+			IO_Data *arc_ptr = &this->arc_ptr[Psychic_ArcMain_Left0];
+			for (; *pathp != NULL; pathp++)
+				*arc_ptr++ = Archive_Find(this->arc_notes, *pathp);
+		}
+	}
 	
 	//Initialize render state
 	this->tex_id = this->frame = 0xFF;

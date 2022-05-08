@@ -195,6 +195,7 @@ boolean nohud;
 #include "character/sendai.h"
 #include "character/bfspirit.h"
 #include "character/end.h"
+#include "character/bft.h"
 
 #include "stage/dummy.h"
 #include "stage/fplace.h"
@@ -2780,6 +2781,9 @@ void Stage_Tick(void)
 			{
 				//Check if screen should bump
 				boolean is_bump_step = (stage.song_step & 0xF) == 0;
+
+				if (stage.stage_id == StageId_1_5)
+					is_bump_step = NULL;
 				
 				//M.I.L.F bumps
 				//if (stage.stage_id == StageId_4_3 && stage.song_step >= (168 << 2) && stage.song_step < (200 << 2))
@@ -3375,16 +3379,18 @@ void Stage_Tick(void)
 			Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
 
 			//portrait shit
-			switch (psydia[stage.delect].p2port)
-			{
-				//normal
-				case 1:
-					PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
-					break;
-				//nothing
-				default:
-				    break;
-			}
+			//there has to be a better way of doing this
+			//but I'm too stupid to figure it out
+			    switch (psydia[stage.delect].p2port)
+			    {
+			    	//normal
+			    	case 1:
+			    		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			    		break;
+			    	//nothing
+			    	default:
+			    	    break;
+			    }
 
 			static const RECT walterwhite = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 

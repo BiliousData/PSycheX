@@ -30,7 +30,8 @@ all: \
 	iso/titlegf/main.arc \
 	iso/gf/speaker.tim \
 	iso/clucky/main.arc \
-	iso/psychic/main.arc \
+	iso/psychic/idle.arc \
+	iso/psychic/notes.arc \
 	iso/titlepsy/main.arc \
 	iso/end/main.arc \
 	iso/week1/back.arc \
@@ -38,7 +39,8 @@ all: \
 	iso/flames/back.arc \
 	iso/space/back.arc \
 	iso/fplacechop/back.arc \
-	iso/diaports/psytalk.tim
+	iso/diaports/psytalk.tim \
+	iso/bft/hell.arc
 
 iso/%.tim: iso/%.png
 	tools/funkintimconv/funkintimconv $@ $<
@@ -91,7 +93,9 @@ iso/titlegf/main.arc: iso/titlegf/gf.tim iso/titlegf/gfb.tim iso/titlegf/gfc.tim
 iso/clucky/main.arc: iso/clucky/idle0.tim iso/clucky/idle1.tim iso/clucky/left.tim iso/clucky/down.tim iso/clucky/up.tim iso/clucky/right.tim
 
 # Psychic
-iso/psychic/main.arc: iso/psychic/idle0.tim iso/psychic/idle1.tim iso/psychic/idle2.tim iso/psychic/idle3.tim iso/psychic/idle4.tim iso/psychic/idle5.tim iso/psychic/left0.tim iso/psychic/left1.tim iso/psychic/down0.tim iso/psychic/down1.tim iso/psychic/up.tim iso/psychic/right0.tim iso/psychic/right1.tim iso/psychic/right2.tim iso/psychic/right3.tim
+iso/psychic/idle.arc: iso/psychic/idle0.tim iso/psychic/idle1.tim iso/psychic/idle2.tim iso/psychic/idle3.tim iso/psychic/idle4.tim iso/psychic/idle5.tim
+
+iso/psychic/notes.arc: iso/psychic/left0.tim iso/psychic/left1.tim iso/psychic/down0.tim iso/psychic/down1.tim iso/psychic/up.tim iso/psychic/right0.tim iso/psychic/right1.tim iso/psychic/right2.tim iso/psychic/right3.tim
 
 # Titlepsy
 iso/titlepsy/main.arc: iso/titlepsy/idle0.tim iso/titlepsy/idle1.tim iso/titlepsy/idle2.tim iso/titlepsy/idle3.tim iso/titlepsy/idle4.tim iso/titlepsy/idle5.tim
@@ -111,3 +115,6 @@ iso/flames/back.arc: iso/flames/back0.tim iso/flames/back1.tim iso/flames/back2.
 iso/space/back.arc: iso/space/back3.tim iso/space/back4.tim
 
 iso/fplacechop/back.arc: iso/fplacechop/back0.tim iso/fplacechop/back1.tim iso/fplacechop/floor.tim iso/fplacechop/junk.tim iso/fplacechop/fplace.tim
+
+#insanity
+iso/bft/hell.arc: iso/bft/idle.tim iso/bft/oof.tim iso/bft/eh.tim iso/bft/eey.tim iso/bft/ack.tim iso/bft/beh.tim iso/bft/agga.tim iso/bft/deh.tim iso/bft/ded.tim iso/bft/switch0.tim iso/bft/switch1.tim iso/bft/switch2.tim iso/bft/switch3.tim iso/bft/switch4.tim iso/bft/switch5.tim iso/bft/switch6.tim iso/bft/wink0.tim iso/bft/wink1.tim iso/bft/wink2.tim

@@ -70,6 +70,10 @@
 				<file name = "1.4n.cht" type = "data" source = "iso/chart/tutorial.json.cht"/>
 				<file name = "1.4h.cht" type = "data" source = "iso/chart/tutorial-hard.json.cht"/>
 
+				<file name = "1.5e.cht" type = "data" source = "iso/chart/blank.json.cht"/>
+				<file name = "1.5n.cht" type = "data" source = "iso/chart/blank.json.cht"/>
+				<file name = "1.5h.cht" type = "data" source = "iso/chart/blank.json.cht"/>
+
 				<file name = "1.6e.cht" type = "data" source = "iso/chart/cut2.json.cht"/>
 				<file name = "1.6n.cht" type = "data" source = "iso/chart/cut2.json.cht"/>
 				<file name = "1.6h.cht" type = "data" source = "iso/chart/cut2.json.cht"/>
@@ -245,11 +249,14 @@
 				<!-- Clucky assets -->
 				<file name = "clucky.arc" type = "data" source = "iso/clucky/main.arc"/>
 
-				<file name = "psychic.arc" type = "data" source = "iso/psychic/main.arc"/>
+				<file name = "psychic1.arc" type = "data" source = "iso/psychic/idle.arc"/>
+				<file name = "psychic2.arc" type = "data" source = "iso/psychic/notes.arc"/>
 
 				<file name = "titlepsy.arc" type = "data" source = "iso/titlepsy/main.arc"/>
 				
 				<file name = "cut.arc" type = "data" source = "iso/end/main.arc"/>
+
+				<file name = "bft.arc" type = "data" source = "iso/bft/hell.arc"/>
 			</dir>
 			
 			<!-- Music -->

@@ -40,6 +40,7 @@ SRCS = src/main.c \
        src/character/sendai.c \
        src/character/bfspirit.c \
        src/character/end.c \
+       src/character/bft.c \
        src/object.c \
        src/object/combo.c \
        src/object/splash.c \
