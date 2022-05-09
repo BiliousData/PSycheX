@@ -120,8 +120,10 @@
 		{FIXED_DEC(15,10),FIXED_DEC(2,1),FIXED_DEC(25,10)},
 		1, 1,
 		XA_Bopeebo, 0,
+		0,
+		XA_Psy, 0,
 		
-		StageId_2_1, 0
+		StageId_2_2, STAGE_LOAD_FLAG | STAGE_LOAD_STAGE
 	},
 	{ //StageId_2_2 (Late Drive)
 		//Characters
@@ -136,6 +138,8 @@
 		{FIXED_DEC(25,10),FIXED_DEC(25,10),FIXED_DEC(25,10)},
 		2, 2,
 		XA_South, 2,
+		1,
+		XA_Voyage, 3,
 		
 		StageId_2_2, 0
 	},

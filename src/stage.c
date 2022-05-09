@@ -3296,6 +3296,20 @@ void Stage_Tick(void)
 				"You took the words straight from\nmy mouth.",
 			};
 
+			static const struct
+			{
+				const char *text;
+				u8 camera;
+			}latedrivedia[] = {
+				{"Huh?",1},
+				{"Where are we?",1},
+				{"Beep?",0},
+				{"That much is obvious.",1},
+				{"It seems that we are stuck in some sort of\nalternate reality...",1},
+				{"Eep skee dah?",0},
+				{"Since we're here anyway, I suppose one song\ncouldn't hurt.",1},
+			};
+
 			//Clear per-frame flags
 			stage.flag &= ~(STAGE_FLAG_JUST_STEP | STAGE_FLAG_SCORE_REFRESH);
 
@@ -3372,6 +3386,31 @@ void Stage_Tick(void)
 					break;
 				}
 
+				case StageId_2_2:
+				{
+					stage.font_arial.draw_col(&stage.font_arial,
+						latedrivedia[stage.delect].text,
+						25,
+						170,
+						FontAlign_Left,
+						0 >> 1,
+						0 >> 1,
+						0 >> 1
+					);
+
+					if (stage.delect == 7)
+					{
+						Audio_StopXA();
+			            stage.state = StageState_Play;
+					}
+
+					if (latedrivedia[stage.delect].camera == 1)
+					    Stage_FocusCharacter(stage.opponent, FIXED_UNIT / 24);
+					else
+					    Stage_FocusCharacter(stage.player, FIXED_UNIT / 24);
+					break;
+				}
+
 				default:
 				    break;
 			}
@@ -3381,17 +3420,23 @@ void Stage_Tick(void)
 			//portrait shit
 			//there has to be a better way of doing this
 			//but I'm too stupid to figure it out
-			    switch (psydia[stage.delect].p2port)
-			    {
-			    	//normal
-			    	case 1:
-			    		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
-			    		break;
-			    	//nothing
-			    	default:
-			    	    break;
-			    }
-
+			switch (stage.stage_id)
+			{
+				case StageId_1_1:	
+				{		
+			        switch (psydia[stage.delect].p2port)
+			        {
+			        	//normal
+			        	case 1:
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+			        	//nothing
+			        	default:
+			        	    break;
+			        }
+				}
+				
+			}
 			static const RECT walterwhite = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
 			Gfx_BlendRect(&walterwhite, 255, 255, 255, 255);
