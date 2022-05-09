@@ -34,7 +34,7 @@ static const XA_TrackDef xa_tracks[] = {
 	{XA_Dialog, XA_LENGTH(4800)}, //XA_Psy
 	{XA_Dialog, XA_LENGTH(6400)}, //XA_LoveIsAFlower
 	{XA_Dialog, XA_LENGTH(7000)}, //XA_SpiritualUnrest
-	{XA_Dialog, XA_LENGTH(2800)}, //XA_Voyage
+	{XA_Dialog, XA_LENGTH(2800)}, //XA_ItWillBeOkay
 };
 
 static const char *xa_paths[] = {
@@ -85,7 +85,7 @@ static const XA_Mp3 xa_mp3s[] = {
 	{"psy", false},
 	{"loveisaflower", false},
 	{"spiritualunrest", false},
-	{"voyage", false},
+	{"itwillbeokay", false},
 	
 	{NULL, false}
 };

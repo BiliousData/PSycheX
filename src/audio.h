@@ -55,7 +55,7 @@ typedef enum
 	XA_Psy, //Psychic Dialogue theme
 	XA_LoveIsAFlower, //Wilter Dialogue theme
 	XA_SpiritualUnrest, //Uproar Dialogue theme
-	XA_Voyage, //Late Drive Dialogue theme (name is made up, named after the voyager bg sprite, also thought it sounded cool)
+	XA_ItWillBeOkay, //Late Drive Dialogue theme (Name comes from the FL Studio track in Salvati's song "let me out", where the song originates.)
 	
 	XA_TrackMax,
 } XA_Track;

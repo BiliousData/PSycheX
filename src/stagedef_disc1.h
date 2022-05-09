@@ -139,7 +139,7 @@
 		2, 2,
 		XA_South, 2,
 		1,
-		XA_Voyage, 3,
+		XA_ItWillBeOkay, 3,
 		
 		StageId_2_2, 0
 	},
