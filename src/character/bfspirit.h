@@ -7,7 +7,7 @@
 #ifndef PSXF_GUARD_BFS_H
 #define PSXF_GUARD_BFS_H
 
-#include "../character.h"
+#include "../player.h"
 
 //Dad character functions
 Character *Char_BFS_New(fixed_t x, fixed_t y);
