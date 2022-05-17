@@ -85,7 +85,7 @@ iso/spirit/main.arc: iso/spirit/spirit0.tim iso/spirit/spirit1.tim
 iso/sendai/main.arc: iso/sendai/panic.tim iso/sendai/pain0.tim iso/sendai/pain1.tim iso/sendai/die0.tim iso/sendai/die1.tim iso/sendai/die2.tim
 
 # BFS bfspirit
-iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim 
+iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim iso/bfspirit/missl.tim iso/bfspirit/missd.tim iso/bfspirit/missu.tim iso/bfspirit/missr.tim
 
 # GF
 iso/gf/main.arc: iso/gf/gf0.tim iso/gf/gf1.tim iso/gf/gf2.tim
