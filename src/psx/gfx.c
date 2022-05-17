@@ -65,28 +65,6 @@ void Gfx_Init(void)
 	Gfx_Flip();
 }
 
-void Standard_Init(void)
-{
-    //Initialize display environment
-	SetDefDispEnv(&disp[0], 0, 0, 320, 240);
-	SetDefDispEnv(&disp[1], 0, 240, 320, 240);
-	
-	//Initialize draw environment
-	SetDefDrawEnv(&draw[0], 0, 240, 320, 240);
-	SetDefDrawEnv(&draw[1], 0, 0, 320, 240);
-}
-
-void Widescreen_Init(void)
-{
-    //Initialize display environment
-	SetDefDispEnv(&disp[0], 0, 0, 384, 240);
-	SetDefDispEnv(&disp[1], 0, 240, 384, 240);
-	
-	//Initialize draw environment
-	SetDefDrawEnv(&draw[0], 0, 240, 384, 240);
-	SetDefDrawEnv(&draw[1], 0, 0, 384, 240);
-}
-
 void Gfx_Quit(void)
 {
 	

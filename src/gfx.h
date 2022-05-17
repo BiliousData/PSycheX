@@ -16,8 +16,6 @@
 #define SCREEN_WIDTH2  (SCREEN_WIDTH >> 1)
 #define SCREEN_HEIGHT2 (SCREEN_HEIGHT >> 1)
 
-#define SCREEN_WIDEMODE 384
-
 #define SCREEN_WIDEADD (SCREEN_WIDTH - 320)
 #define SCREEN_TALLADD (SCREEN_HEIGHT - 240)
 #define SCREEN_WIDEADD2 (SCREEN_WIDEADD >> 1)
@@ -49,10 +47,6 @@ void Gfx_Flip(void);
 void Gfx_SetClear(u8 r, u8 g, u8 b);
 void Gfx_EnableClear(void);
 void Gfx_DisableClear(void);
-
-//movie specific shit
-void Standard_Init(void);
-void Widescreen_Init(void);
 
 typedef u8 Gfx_LoadTex_Flag;
 #define GFX_LOADTEX_FREE   (1 << 0)

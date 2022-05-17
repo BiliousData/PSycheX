@@ -221,6 +221,10 @@
 				<file name = "flames.arc" type = "data" source = "iso/flames/back.arc"/> 
 				<file name = "space.arc" type = "data" source = "iso/space/back.arc"/>
 				<file name = "cool.arc" type = "data" source = "iso/fplacechop/back.arc"/>
+				<file name = "inferno.arc" type = "data" source = "iso/flamec/back.arc"/>
+				<file name = "flamel.arc" type = "data" source = "iso/flamec/firel.arc"/>
+				<file name = "flamem.arc" type = "data" source = "iso/flamec/firem.arc"/>
+				<file name = "flamer.arc" type = "data" source = "iso/flamec/firer.arc"/>
 			</dir>
 			
 			<!-- Character assets -->
@@ -286,9 +290,7 @@
 			<!-- Chungus -->
 			<dir name = "str">
 			    <file name = "intro.str" type = "str" source = "iso/movie/introfix.str"/>
-				<file name = "wide.str" type = "str" source = "iso/movie/wide.str"/>
-				<file name = "wintro.str" type = "str" source = "iso/movie/wintro.str"/>
-				<file name = "earblast.str" type = "str" source = "iso/movie/brok.str"/>
+				<file name = "end.str" type = "str" source = "iso/movie/end.str"/>
 			</dir>
 
 			<!-- Dialogue portraits -->

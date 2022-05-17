@@ -36,12 +36,12 @@
 	},
 	{ //StageId_1_3 (Uproar)
 		//Characters
-		{Char_BFS_New,    FIXED_DEC(275,1),  FIXED_DEC(92,1)},
-		{Char_Psychic_New, FIXED_DEC(55,1),  FIXED_DEC(70,1)},
+		{Char_BFS_New,    FIXED_DEC(224,1),  FIXED_DEC(129,1)},
+		{Char_Psychic_New, FIXED_DEC(-72,1),  FIXED_DEC(108,1)},
 		{NULL},
 		
 		//Stage background
-		Back_Flames_New,
+		Back_FlameC_New,
 		
 		//Song info
 		{FIXED_DEC(17,10),FIXED_DEC(23,10),FIXED_DEC(3,1)},
@@ -50,7 +50,7 @@
 		1,
 		XA_SpiritualUnrest, 2,
 		
-		StageId_2_3, STAGE_LOAD_FLAG | STAGE_LOAD_PLAYER | STAGE_LOAD_STAGE | STAGE_LOAD_OPPONENT
+		StageId_1_3, 0
 	},
 	{ //StageId_1_4 (Tutorial)
 		//Characters

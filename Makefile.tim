@@ -40,7 +40,11 @@ all: \
 	iso/space/back.arc \
 	iso/fplacechop/back.arc \
 	iso/diaports/psytalk.tim \
-	iso/bft/hell.arc
+	iso/bft/hell.arc \
+	iso/flamec/back.arc \
+	iso/flamec/firel.arc \
+	iso/flamec/firem.arc \
+	iso/flamec/firer.arc
 
 iso/%.tim: iso/%.png
 	tools/funkintimconv/funkintimconv $@ $<
@@ -118,3 +122,9 @@ iso/fplacechop/back.arc: iso/fplacechop/back0.tim iso/fplacechop/back1.tim iso/f
 
 #insanity
 iso/bft/hell.arc: iso/bft/idle.tim iso/bft/oof.tim iso/bft/eh.tim iso/bft/eey.tim iso/bft/ack.tim iso/bft/beh.tim iso/bft/agga.tim iso/bft/deh.tim iso/bft/ded.tim iso/bft/switch0.tim iso/bft/switch1.tim iso/bft/switch2.tim iso/bft/switch3.tim iso/bft/switch4.tim iso/bft/switch5.tim iso/bft/switch6.tim iso/bft/wink0.tim iso/bft/wink1.tim iso/bft/wink2.tim
+
+#flamec chop
+iso/flamec/back.arc: iso/flamec/back0.tim iso/flamec/back1.tim iso/flamec/floor.tim iso/flamec/fplace.tim iso/flamec/junk.tim
+iso/flamec/firel.arc: iso/flamec/firel0.tim iso/flamec/firel1.tim
+iso/flamec/firem.arc: iso/flamec/firem0.tim iso/flamec/firem1.tim
+iso/flamec/firer.arc: iso/flamec/firer0.tim iso/flamec/firer1.tim

@@ -202,6 +202,7 @@ boolean nohud;
 #include "stage/flames.h"
 #include "stage/space.h"
 #include "stage/chop.h"
+#include "stage/flamec.h"
 
 static const StageDef stage_defs[StageId_Max] = {
 	#include "stagedef_disc1.h"
@@ -2255,6 +2256,17 @@ void Stage_Tick(void)
 				gameloop = GameLoop_Menu;
 		#endif
 				return;
+			case StageTrans_Movie:
+			{
+				if (stage.stage_id == StageId_1_3)
+					movie.select = 1;
+				Stage_Unload();
+
+				LoadScr_Start();
+				gameloop = GameLoop_Movie;
+				LoadScr_End();
+				break;
+			}
 		}
 	}
 	
@@ -2729,6 +2741,11 @@ void Stage_Tick(void)
 					{
 						if (Stage_NextLoad())
 							goto SeamLoad;
+					}
+					else if (stage.stage_id == StageId_1_3)
+					{
+						stage.trans = StageTrans_Movie;
+						Trans_Start();
 					}
 					else
 					{
