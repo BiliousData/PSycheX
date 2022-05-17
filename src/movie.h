@@ -20,14 +20,15 @@ typedef struct
 {
   u8 select; //change number to play different movies
   u8 playing; //0 means not started yet, 1 means movie is playing, and 2 means movie has ended.
-  s32 ratio; //for selecting movie's aspect ratio
+  u8 weekdone; //STUPID variable, for making setting it at the end or beginning of a week
+  //s32 ratio; //for selecting movie's aspect ratio
 } Movie;
 
-typedef enum
-{
-  MovieRatio_Standard, //(most likely) squished 4:3
-  MovieRatio_Widescreen, //16:9 with black bars on top and bottom
-} MovieRatio;
+//typedef enum
+//{
+//  MovieRatio_Standard, //(most likely) squished 4:3
+//  MovieRatio_Widescreen, //16:9 with black bars on top and bottom
+//} MovieRatio;
 
 extern Movie movie;
 
