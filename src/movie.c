@@ -20,7 +20,7 @@
 
 #include "strplay.c"
 
-//#define DEBUG 1
+#define DEBUG 1
 
 Movie movie;
 
@@ -55,11 +55,13 @@ void Movie_Tick(void)
             case 0:
             PlayMovie();
             PlayStr(320, 240, 0, 0, &StrFile[0]);
+            printf("Playing intro scene\n");
             break;
 
             case 1:
             PlayMovie();
             PlayStr(320, 240, 0, 0, &StrFile[4]);
+            printf("Playing end scene\n");
             break;
         }
         
@@ -71,11 +73,13 @@ void Movie_Tick(void)
     //send it to the main menu if the week is complete
     if (strPlayDone == 1)
     {
+        printf("Movie done, going to...\n");
         movie.playing = 2; //prevent movie from looping
         Gfx_SetClear(0, 0, 0); //make bg black before load screen appears
 
         if (movie.weekdone == 1)
         {
+            printf("Story Menu\n");
             LoadScr_Start(); //begin loading menu
             gameloop = GameLoop_Menu;
             Menu_Load(MenuPage_Story);
@@ -83,6 +87,7 @@ void Movie_Tick(void)
         }
         else
         {
+            printf("Psychic\n");
             LoadScr_Start(); //begin loading normal game
             gameloop = GameLoop_Stage;
             switch (movie.select)

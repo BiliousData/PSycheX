@@ -524,6 +524,7 @@ void Menu_Tick(void)
 			
 			if ((pad_state.press & PAD_START) && menu.next_page == menu.page && Trans_Idle())
 			{
+				printf("Entering Main Menu\n");
 				menu.trans_time = FIXED_UNIT;
 				menu.page_state.title.fade = FIXED_DEC(255,1);
 				menu.page_state.title.fadespd = FIXED_DEC(300,1);
@@ -533,6 +534,7 @@ void Menu_Tick(void)
 
 			if (pad_state.press & PAD_R1)
 			{
+				printf("R1 pressed, going to demo\n");
 				stage.demo = 1;
 				menu.next_page = MenuPage_Demo;
 				menu.trans_time = FIXED_UNIT;
@@ -660,15 +662,19 @@ void Menu_Tick(void)
 					{
 						case 0: //Story Mode
 							menu.next_page = MenuPage_Story;
+							printf("Entering Story Mode\n");
 							break;
 						case 1: //Freeplay
 							menu.next_page = MenuPage_Freeplay;
+							printf("Entering Freeplay\n");
 							break;
 						case 2: //Mods
 							menu.next_page = MenuPage_Credits;
+							printf("Entering Credits\n");
 							break;
 						case 3: //Options
 							menu.next_page = MenuPage_Options;
+							printf("Entering Options\n");
 							break;
 					#ifdef PSXF_NETWORK
 						case 4: //Join Server
@@ -800,13 +806,16 @@ void Menu_Tick(void)
 				//Select option if cross is pressed
 				if (pad_state.press & (PAD_START | PAD_CROSS))
 				{
+					printf("Starting Week\n");
 					if (stage.movietog == 1)
 					{
+						printf("Movies are on, going to intro\n");
 					    menu.next_page = MenuPage_Movie;
 					    movie.playing = 0;
 					}
 					else
 					{
+						printf("Movies are off, skipping straight to stage\n");
 						menu.next_page = MenuPage_Stage;
 					}
 					menu.page_param.stage.story = true;
