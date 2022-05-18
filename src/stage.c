@@ -39,6 +39,8 @@ static const Animation psytalk_anim[1] = {
 };
 
 //welcome to the shitshow
+//oh wait the shitshow is gone
+//go to the shitshow 2: Electric Boogaloo
 int note_x[8] = {
 	//BF
 	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
@@ -50,127 +52,6 @@ int note_x[8] = {
 	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
 	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
 	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-//flip left and right notes
-int note_lrflip[8] = {
-	//BF
-	 FIXED_DEC(128,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-//flip all bf notes
-int note_flip[8] = {
-	//BF
-	 FIXED_DEC(128,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-//swap bf and psyche's notes
-int note_swap[8] = {
-	//BF
-	 FIXED_DEC(-128,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(-94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(-60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(-26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-//lrflip transition
-int note_lrtrans1[8] = {
-	//BF
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-int note_lrtrans2[8] = {
-	//BF
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-//flip transition
-int note_fliptr1[8] = {
-	//BF
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(71,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(83,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-int note_fliptr2[8] = {
-	//BF
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(82,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(72,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-//swap transition
-int note_swaptr1[8] = {
-	//BF
-	 FIXED_DEC(-8,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(8,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
-};
-
-int note_swaptr2[8] = {
-	//BF
-	 FIXED_DEC(-42,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
-	 FIXED_DEC(-8,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
-	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
-	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
-	//Opponent
-	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
-	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
-	 FIXED_DEC(8,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
-	 FIXED_DEC(42,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
 };
 
 static const fixed_t note_y = FIXED_DEC(32 - SCREEN_HEIGHT2, 1);
@@ -417,186 +298,23 @@ static u8 Stage_HitNote(PlayerState *this, u8 type, fixed_t offset)
 		ObjectList_Add(&stage.objlist_fg, (Object*)combo);
 	
 	//Create note splashes if SICK
-	if (stage.notemode == 0)
+	
+	if (hit_type == 0)
 	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_x[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
+		for (int i = 0; i < 3; i++)
+		{
+			//Create splash object
+			Obj_Splash *splash = Obj_Splash_New(
+				
+				note_x[type ^ stage.note_swap],
+				note_y * (stage.downscroll ? -1 : 1),
+				type & 0x3
+			);
+			if (splash != NULL)
+				ObjectList_Add(&stage.objlist_splash, (Object*)splash);
+		}
 	}
-	else if (stage.notemode == 1)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_lrflip[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 2)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_flip[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 3)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_swap[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 4)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_lrtrans1[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 5)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_lrtrans2[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 6)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_fliptr1[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 7)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_fliptr2[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 8)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_swaptr1[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
-	else if (stage.notemode == 9)
-	{
-	    if (hit_type == 0)
-	    {
-	    	for (int i = 0; i < 3; i++)
-	    	{
-	    		//Create splash object
-	    		Obj_Splash *splash = Obj_Splash_New(
-	    			
-	    			note_swaptr2[type ^ stage.note_swap],
-	    			note_y * (stage.downscroll ? -1 : 1),
-	    			type & 0x3
-	    		);
-	    		if (splash != NULL)
-	    			ObjectList_Add(&stage.objlist_splash, (Object*)splash);
-	    	}
-	    }
-	}
+	
 	
 	return hit_type;
 }
@@ -1291,76 +1009,12 @@ static void Stage_DrawNotes(void)
 						note_src.w = 32;
 						note_src.h = 28 - (clip >> FIXED_SHIFT);
 						
-						if (stage.notemode == 0)
-						{
-						    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 1)
-						{
-						    note_dst.x = note_lrflip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 2)
-						{
-						    note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 3)
-						{
-						    note_dst.x = note_swap[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 4)
-						{
-						    note_dst.x = note_lrtrans1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 5)
-						{
-						    note_dst.x = note_lrtrans2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 6)
-						{
-						    note_dst.x = note_fliptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 7)
-						{
-						    note_dst.x = note_fliptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 8)
-						{
-						    note_dst.x = note_swaptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
-						else if (stage.notemode == 9)
-						{
-						    note_dst.x = note_swaptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (note_src.h << FIXED_SHIFT);
-						}
+					
+					    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+					    note_dst.y = y + clip;
+					    note_dst.w = note_src.w << FIXED_SHIFT;
+					    note_dst.h = (note_src.h << FIXED_SHIFT);
+					
 						
 						if (stage.downscroll)
 						{
@@ -1383,76 +1037,11 @@ static void Stage_DrawNotes(void)
 						note_src.y = ((note->type & 0x3) << 5);
 						note_src.w = 32;
 						note_src.h = 16;
-						if (stage.notemode == 0)
-						{
-						    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 1)
-						{
-						    note_dst.x = note_lrflip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 2)
-						{
-						    note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 3)
-						{
-						    note_dst.x = note_swap[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 4)
-						{
-						    note_dst.x = note_lrtrans1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 5)
-						{
-						    note_dst.x = note_lrtrans2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 6)
-						{
-						    note_dst.x = note_fliptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 7)
-						{
-						    note_dst.x = note_fliptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 8)
-						{
-						    note_dst.x = note_swaptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
-						else if (stage.notemode == 9)
-						{
-						    note_dst.x = note_swaptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-						    note_dst.y = y + clip;
-						    note_dst.w = note_src.w << FIXED_SHIFT;
-						    note_dst.h = (next_y - y) - clip;
-						}
+						
+						note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						note_dst.y = y + clip;
+						note_dst.w = note_src.w << FIXED_SHIFT;
+						note_dst.h = (next_y - y) - clip;
 						
 						if (stage.downscroll)
 							note_dst.y = -note_dst.y - note_dst.h;
@@ -1471,76 +1060,12 @@ static void Stage_DrawNotes(void)
 				note_src.y = (note->type & 0x2) << 4;
 				note_src.w = 32;
 				note_src.h = 32;
-				if (stage.notemode == 0)
-				{
-				    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 1)
-				{
-				    note_dst.x = note_lrflip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 2)
-				{
-				    note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 3)
-				{
-				    note_dst.x = note_swap[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 4)
-				{
-				    note_dst.x = note_lrtrans1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 5)
-				{
-				    note_dst.x = note_lrtrans2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 6)
-				{
-				    note_dst.x = note_fliptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 7)
-				{
-				    note_dst.x = note_fliptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 8)
-				{
-				    note_dst.x = note_swaptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 9)
-				{
-				    note_dst.x = note_swaptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
+				
+				note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+				note_dst.y = y - FIXED_DEC(16,1);
+				note_dst.w = note_src.w << FIXED_SHIFT;
+				note_dst.h = note_src.h << FIXED_SHIFT;
+				
 				if (stage.downscroll)
 					note_dst.y = -note_dst.y - note_dst.h;
 				Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
@@ -1589,76 +1114,12 @@ static void Stage_DrawNotes(void)
 				note_src.y = 0;
 				note_src.w = 32;
 				note_src.h = 32;
-				if (stage.notemode == 0)
-				{
-				    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 1)
-				{
-				    note_dst.x = note_lrflip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 2)
-				{
-				    note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 3)
-				{
-				    note_dst.x = note_swap[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 4)
-				{
-				    note_dst.x = note_lrtrans1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 5)
-				{
-				    note_dst.x = note_lrtrans2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 6)
-				{
-				    note_dst.x = note_fliptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 7)
-				{
-				    note_dst.x = note_fliptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 8)
-				{
-				    note_dst.x = note_swaptr1[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
-				else if (stage.notemode == 9)
-				{
-				    note_dst.x = note_swaptr2[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    note_dst.y = y - FIXED_DEC(16,1);
-				    note_dst.w = note_src.w << FIXED_SHIFT;
-				    note_dst.h = note_src.h << FIXED_SHIFT;
-				}
+			
+			    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+			    note_dst.y = y - FIXED_DEC(16,1);
+			    note_dst.w = note_src.w << FIXED_SHIFT;
+			    note_dst.h = note_src.h << FIXED_SHIFT;
+			
 				if (stage.downscroll)
 					note_dst.y = -note_dst.y - note_dst.h;
 				Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
@@ -1895,13 +1356,18 @@ static void Stage_LoadState(void)
 	//check if song has dialogue
 	if (stage.story)
 	{
+		printf("Checking for dialogue...\n");
 		if (stage.stage_def->dialogue == 1)
 		{
+			printf("Dialogue found!\n");
 			Stage_LoadDia();
 			stage.state = StageState_Dialogue;
 		}
 		else
+		{
+			printf("Dialogue not found.\n");
 		    stage.state = StageState_Play;
+		}
 	}
 	else
 	   stage.state = StageState_Play;
@@ -1930,6 +1396,112 @@ static void Stage_LoadState(void)
 	ObjectList_Free(&stage.objlist_bg);
 
 	stage.notemode = 0;
+}
+
+int note1x = 26;
+int note2x = 60;
+int note3x = 94;
+int note4x = 128;
+
+int note5x = -128;
+int note6x = -94;
+int note7x = -60;
+int note8x = -26;
+
+//Welcome to the shitshow 2: Electric Boogaloo
+void Stage_Note_Move(void)
+{
+
+	note_x[0] = FIXED_DEC(note1x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[1] = FIXED_DEC(note2x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[2] = FIXED_DEC(note3x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[3] = FIXED_DEC(note4x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[4] = FIXED_DEC(note5x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[5] = FIXED_DEC(note6x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[6] = FIXED_DEC(note7x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	note_x[7] = FIXED_DEC(note8x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+
+	switch (stage.notemode)
+	{
+		case 0: //normal, just for when stage starts
+		{
+			note1x = 26;
+  			note2x = 60;
+  			note3x = 94;
+  			note4x = 128;
+
+			note5x = -128;
+			note6x = -94;
+			note7x = -60;
+			note8x = -26;
+			break;
+		}
+		case 1: //left and right flip
+		{
+			if (note1x < 128)
+				note1x += 8;
+			if (note4x > 26)
+				note4x -= 8;
+			//READJUST CUZ' IT LANDS LIKE 2 PIXELS OFF
+			if (note1x == 130)
+				note1x = 128;
+			if (note4x == 24)
+				note4x = 26;
+			break;
+		}
+		case 2: //return to normal
+		{
+			if (note1x > 26)
+				note1x -= 8;
+			if (note1x == 24)
+				note1x = 26;
+			
+			if (note2x > 60)
+				note2x -= 4;
+			if (note2x == 58)
+				note2x = 60;
+
+			if (note3x < 94)
+				note3x += 4;
+			if (note3x == 96)
+				note3x = 94;
+
+			if (note4x < 128)
+				note4x += 8;
+			if (note4x == 130)
+				note4x = 128;
+			break;
+		}
+		case 3: //full flip
+		{
+			if (note1x < 128)
+				note1x += 8;
+
+			if (note2x < 94)
+				note2x += 4;
+
+			if (note3x > 60)
+				note3x -= 4;
+
+			if (note4x > 26)
+				note4x -= 8;
+
+			//READJUST CUZ' IT LANDS LIKE 2 PIXELS OFF
+			if (note1x == 130)
+				note1x = 128;
+			if (note2x == 96)
+				note2x = 94;
+			if (note3x == 58)
+				note3x = 60;
+			if (note4x == 24)
+				note4x = 26;
+			break;
+		}
+		case 4: //swap player 1 and 2's notes
+		{
+			break;
+		}
+	}
 }
 
 //Stage functions
@@ -2304,46 +1876,24 @@ void Stage_Tick(void)
 					break;
 			}
 
+			Stage_Note_Move();
+
 
 			if (stage.stage_id == StageId_1_1)
 		    {
                 switch (stage.song_step)
 				{
-					case 190:
-					    stage.notemode = 4;
-						break;
-					case 191:
-					    stage.notemode = 5;
-						break;
-		            case 192:
+		            case 190:
 		                stage.notemode = 1;
 				    	break;
-					case 316:
-					    stage.notemode = 5;
+					case 318:
+						stage.notemode = 2;
 						break;
-					case 317:
-					    stage.notemode = 4;
-						break;
-				    case 318:
-				        stage.notemode = 0;
-				    	break;
 					case 572:
-					    stage.notemode = 6;
-						break;
-					case 573:
-					    stage.notemode = 7;
-						break;
-					case 574:
-					    stage.notemode = 2;
+					    stage.notemode = 3;
 						break;
 					case 701:
-					    stage.notemode = 7;
-						break;
-					case 702:
-					    stage.notemode = 6;
-						break;
-					case 703:
-					    stage.notemode = 0;
+					    stage.notemode = 2;
 						break;
 				}
 		    }
@@ -2538,6 +2088,7 @@ void Stage_Tick(void)
 						break;
 				}
 		    }
+
 
 
 			if (stage.stage_id == StageId_1_1)
@@ -2908,126 +2459,17 @@ void Stage_Tick(void)
 			
 			for (u8 i = 0; i < 4; i++)
 			{
-				if (stage.notemode == 0)
-				{
-				    //BF
-				    note_dst.x = note_x[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_x[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 1)
-				{
-				    //BF
-				    note_dst.x = note_lrflip[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_lrflip[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 2)
-				{
-				    //BF
-				    note_dst.x = note_flip[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_flip[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 3)
-				{
-				    //BF
-				    note_dst.x = note_swap[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_swap[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 4)
-				{
-				    //BF
-				    note_dst.x = note_lrtrans1[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_lrtrans1[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 5)
-				{
-				    //BF
-				    note_dst.x = note_lrtrans2[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_lrtrans2[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 6)
-				{
-				    //BF
-				    note_dst.x = note_fliptr1[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_fliptr1[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 7)
-				{
-				    //BF
-				    note_dst.x = note_fliptr2[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_fliptr2[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 8)
-				{
-				    //BF
-				    note_dst.x = note_swaptr1[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_swaptr1[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
-				else if (stage.notemode == 9)
-				{
-				    //BF
-				    note_dst.x = note_swaptr2[i ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				    
-				    //Opponent
-				    note_dst.x = note_swaptr2[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
-				    Stage_DrawStrum(i | 4, &note_src, &note_dst);
-				    Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
-				}
+			
+			   //BF
+			   note_dst.x = note_x[i ^ stage.note_swap] - FIXED_DEC(16,1);
+			   Stage_DrawStrum(i, &note_src, &note_dst);
+			   Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
+			   
+			   //Opponent
+			   note_dst.x = note_x[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
+			   Stage_DrawStrum(i | 4, &note_src, &note_dst);
+			   Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
+			
 			}
 			
 			//Draw score
