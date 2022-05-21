@@ -24,6 +24,7 @@ all: \
 	iso/senpaib/dead.arc \
 	iso/sendai/main.arc \
 	iso/bfspirit/main.arc \
+	iso/bfspirit/dead.arc \
 	iso/gf/main.arc \
 	iso/gf/tut.arc \
 	iso/gf/weeb.arc \
@@ -85,7 +86,9 @@ iso/spirit/main.arc: iso/spirit/spirit0.tim iso/spirit/spirit1.tim
 iso/sendai/main.arc: iso/sendai/panic.tim iso/sendai/pain0.tim iso/sendai/pain1.tim iso/sendai/die0.tim iso/sendai/die1.tim iso/sendai/die2.tim
 
 # BFS bfspirit
-iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim iso/bfspirit/missl.tim iso/bfspirit/missd.tim iso/bfspirit/missu.tim iso/bfspirit/missr.tim
+iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim iso/bfspirit/missl.tim iso/bfspirit/missd.tim iso/bfspirit/missu.tim iso/bfspirit/missr.tim iso/bfspirit/dead0.tim
+
+iso/bfspirit/dead.arc: iso/bfspirit/dead1.tim iso/bfspirit/dead2.tim
 
 # GF
 iso/gf/main.arc: iso/gf/gf0.tim iso/gf/gf1.tim iso/gf/gf2.tim
@@ -99,7 +102,7 @@ iso/clucky/main.arc: iso/clucky/idle0.tim iso/clucky/idle1.tim iso/clucky/left.t
 # Psychic
 iso/psychic/idle.arc: iso/psychic/idle0.tim iso/psychic/idle1.tim iso/psychic/idle2.tim iso/psychic/idle3.tim iso/psychic/idle4.tim iso/psychic/idle5.tim
 
-iso/psychic/notes.arc: iso/psychic/left0.tim iso/psychic/left1.tim iso/psychic/down0.tim iso/psychic/down1.tim iso/psychic/up.tim iso/psychic/right0.tim iso/psychic/right1.tim iso/psychic/right2.tim iso/psychic/right3.tim
+iso/psychic/notes.arc: iso/psychic/left0.tim iso/psychic/left1.tim iso/psychic/down0.tim iso/psychic/down1.tim iso/psychic/up.tim iso/psychic/right0.tim iso/psychic/right1.tim iso/psychic/right2.tim iso/psychic/right3.tim iso/psychic/missl.tim iso/psychic/missd.tim iso/psychic/missu.tim iso/psychic/missr.tim
 
 # Titlepsy
 iso/titlepsy/main.arc: iso/titlepsy/idle0.tim iso/titlepsy/idle1.tim iso/titlepsy/idle2.tim iso/titlepsy/idle3.tim iso/titlepsy/idle4.tim iso/titlepsy/idle5.tim
