@@ -233,7 +233,10 @@
 				<file name = "bf.arc" type = "data" source = "iso/bf/main.arc"/>
 				<file name = "bfdead.arc" type = "data" source = "iso/bf/dead.arc"/>
 				<file name = "bfweeb.arc" type = "data" source = "iso/bf/weeb.arc"/>
+				
+				<!-- Bfspirit assets -->
 				<file name = "bfspirit.arc" type = "data" source = "iso/bfspirit/main.arc"/>
+				<file name = "spirit.arc" type = "data" source = "iso/bfspirit/dead.arc"/>
 				
 				<!-- Dad assets -->
 				<file name = "dad.arc" type = "data" source = "iso/dad/main.arc"/>
@@ -253,13 +256,13 @@
 				<!-- Clucky assets -->
 				<file name = "clucky.arc" type = "data" source = "iso/clucky/main.arc"/>
 
+				<!-- Psychic assets -->
 				<file name = "psychic1.arc" type = "data" source = "iso/psychic/idle.arc"/>
 				<file name = "psychic2.arc" type = "data" source = "iso/psychic/notes.arc"/>
-
 				<file name = "titlepsy.arc" type = "data" source = "iso/titlepsy/main.arc"/>
 				
+				
 				<file name = "cut.arc" type = "data" source = "iso/end/main.arc"/>
-
 				<file name = "bft.arc" type = "data" source = "iso/bft/hell.arc"/>
 			</dir>
 			
