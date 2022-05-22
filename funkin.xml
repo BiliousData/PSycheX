@@ -60,7 +60,7 @@
 				<!-- Fresh charts -->
 				<file name = "1.2e.cht" type = "data" source = "iso/chart/fresh-easy.json.cht"/>
 				<file name = "1.2n.cht" type = "data" source = "iso/chart/fresh.json.cht"/>
-				<file name = "1.2h.cht" type = "data" source = "iso/chart/fresh-hard.json.cht"/>
+				<file name = "1.2h.cht" type = "data" source = "iso/chart/wilter-hard.json.cht"/>
 				<!-- Dadbattle charts -->
 				<file name = "1.3e.cht" type = "data" source = "iso/chart/dadbattle-easy.json.cht"/>
 				<file name = "1.3n.cht" type = "data" source = "iso/chart/dadbattle.json.cht"/>

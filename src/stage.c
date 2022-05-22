@@ -39,9 +39,33 @@ static const Animation psytalk_anim[1] = {
 };
 
 //welcome to the shitshow
-//oh wait the shitshow is gone
-//go to the shitshow 2: Electric Boogaloo
 int note_x[8] = {
+	//BF
+	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
+	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
+	 FIXED_DEC(94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
+	 FIXED_DEC(128,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
+	//Opponent
+	 FIXED_DEC(-128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
+	 FIXED_DEC(-94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
+	 FIXED_DEC(-60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
+	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
+};
+
+int note_flip[8] = {
+	//BF
+	 FIXED_DEC(-128,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
+	 FIXED_DEC(-94,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
+	 FIXED_DEC(-60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 94
+	 FIXED_DEC(-26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 128
+	//Opponent
+	 FIXED_DEC(26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -128
+	 FIXED_DEC(60,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -94
+	 FIXED_DEC(94,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -60
+	 FIXED_DEC(128,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
+};
+//for noflip notes
+int note_norm[8] = {
 	//BF
 	 FIXED_DEC(26,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 26
 	 FIXED_DEC(60,1) + FIXED_DEC(SCREEN_WIDEADD,4),//default is 60
@@ -1049,6 +1073,48 @@ static void Stage_DrawNotes(void)
 					}
 				}
 			}
+			else if (note->type & NOTE_FLAG_FLIPX)
+			{
+				//Don't draw if already hit
+				if (note->type & NOTE_FLAG_HIT)
+					continue;
+				
+				//Draw note
+				note_src.x = 32 + ((note->type & 0x3) << 5);
+				note_src.y = 0;
+				note_src.w = 32;
+				note_src.h = 32;
+			
+			    note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+			    note_dst.y = y - FIXED_DEC(16,1);
+			    note_dst.w = note_src.w << FIXED_SHIFT;
+			    note_dst.h = note_src.h << FIXED_SHIFT;
+			
+				if (stage.downscroll)
+					note_dst.y = -note_dst.y - note_dst.h;
+				Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
+			}
+			else if (note->type & NOTE_FLAG_NOFLIP)
+			{
+				//Don't draw if already hit
+				if (note->type & NOTE_FLAG_HIT)
+					continue;
+				
+				//Draw note
+				note_src.x = 32 + ((note->type & 0x3) << 5);
+				note_src.y = 0;
+				note_src.w = 32;
+				note_src.h = 32;
+			
+			    note_dst.x = note_norm[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+			    note_dst.y = y - FIXED_DEC(16,1);
+			    note_dst.w = note_src.w << FIXED_SHIFT;
+			    note_dst.h = note_src.h << FIXED_SHIFT;
+			
+				if (stage.downscroll)
+					note_dst.y = -note_dst.y - note_dst.h;
+				Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
+			}
 			else if (note->type & NOTE_FLAG_MINE)
 			{
 				//Don't draw if already hit
@@ -1115,7 +1181,12 @@ static void Stage_DrawNotes(void)
 				note_src.w = 32;
 				note_src.h = 32;
 			
-			    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+			    if (stage.stage_id == StageId_1_2)
+				{
+					note_dst.x = note_norm[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+				}
+				else
+					note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
 			    note_dst.y = y - FIXED_DEC(16,1);
 			    note_dst.w = note_src.w << FIXED_SHIFT;
 			    note_dst.h = note_src.h << FIXED_SHIFT;
@@ -1499,7 +1570,104 @@ void Stage_Note_Move(void)
 		}
 		case 4: //swap player 1 and 2's notes
 		{
+			if (note1x > -128)
+				note1x -= 8;
+			
+			if (note2x > -94)
+				note2x -= 8;
+			
+			if (note3x > -60)
+				note3x -= 8;
+
+			if (note4x > -26)
+				note4x -= 8;
+
+			if (note5x < 26)
+				note5x += 8;
+
+			if (note6x < 60)
+				note6x += 8;
+
+			if (note7x < 94)
+				note7x += 8;
+
+			if (note8x < 128)
+				note8x += 8;
+			//READJUUUUUUUUUST
+			if (note1x == -134)
+				note1x = -128;
+
+			if (note2x == -100)
+				note2x = -94;
+
+			if (note3x == -66)
+				note3x = -60;
+
+			if (note4x == -32)
+				note4x = -26;
+
+			if (note5x == 32)
+				note5x = 26;
+
+			if (note6x == 66)
+				note6x = 60;
+
+			if (note7x == 100)
+				note7x = 94;
+				
+			if (note8x == 134)
+				note8x = 128;
 			break;
+		}
+		case 5:
+		{
+			if (note1x < 26)
+				note1x += 8;
+			
+			if (note2x < 60)
+				note2x += 8;
+			
+			if (note3x < 94)
+				note3x += 8;
+
+			if (note4x < 128)
+				note4x += 8;
+
+			if (note5x > -128)
+				note5x -= 8;
+
+			if (note6x > -94)
+				note6x -= 8;
+
+			if (note7x > -60)
+				note7x -= 8;
+
+			if (note8x > -26)
+				note8x -= 8;
+			//it's such a baaaad sign
+			if (note5x == -134)
+				note5x = -128;
+
+			if (note6x == -100)
+				note6x = -94;
+
+			if (note7x == -66)
+				note7x = -60;
+
+			if (note8x == -32)
+				note8x = -26;
+
+			if (note1x == 32)
+				note1x = 26;
+
+			if (note2x == 66)
+				note2x = 60;
+
+			if (note3x == 100)
+				note3x = 94;
+				
+			if (note4x == 134)
+				note4x = 128;
 		}
 	}
 }
@@ -1874,6 +2042,9 @@ void Stage_Tick(void)
 				case 5: //Bg char (gf) position
 				    FntPrint("bg char pos X %d Y %d", stage.gf->x/1024, stage.gf->y/1024);
 					break;
+				case 6: //ass
+					FntPrint("STRIKELINE X\n%d %d %d %d %d %d %d %d", note1x, note2x, note3x, note4x, note5x, note6x, note7x, note8x);
+					break;
 			}
 
 			Stage_Note_Move();
@@ -1903,40 +2074,16 @@ void Stage_Tick(void)
 				switch (stage.song_step)
 				{
 					case 381:
-					    stage.notemode = 8;
+					    stage.notemode = 4;
 						break;
-					case 382:
-					    stage.notemode = 9;
-						break;
-					case 383:
-					    stage.notemode = 3;
-					    break;
 					case 510:
-					    stage.notemode = 9;
-						break;
-					case 511:
-					    stage.notemode = 8;
-						break;
-					case 512:
-					    stage.notemode = 0;
+					    stage.notemode = 5;
 						break;
 					case 702:
-					    stage.notemode = 8;
-						break;
-					case 703:
-					    stage.notemode = 9;
-						break;
-					case 704:
-					    stage.notemode = 3;
+					    stage.notemode = 4;
 						break;
 					case 1022:
-					    stage.notemode = 9;
-						break;
-					case 1023:
-					    stage.notemode = 8;
-						break;
-					case 1024:
-					    stage.notemode = 0;
+					    stage.notemode = 5;
 						break;
 					
 				}
@@ -1947,77 +2094,29 @@ void Stage_Tick(void)
 				switch (stage.song_step)
 				{
 					case 253:
-					    stage.notemode = 8;
-						break;
-					case 254:
-					    stage.notemode = 9;
-						break;
-					case 255:
-					    stage.notemode = 3;
-					    break;
-					case 378:
-					    stage.notemode = 9;
-						break;
-					case 379:
-					    stage.notemode = 8;
-						break;
-					case 380:
-					    stage.notemode = 0;
-						break;
-					case 441:
 					    stage.notemode = 4;
 						break;
-					case 442:
+					case 378:
 					    stage.notemode = 5;
 						break;
-					case 443:
+					case 441:
 					    stage.notemode = 1;
 						break;
 					case 509:
-					    stage.notemode = 5;
-						break;
-					case 510:
-					    stage.notemode = 4;
-						break;
-					case 511:
-					    stage.notemode = 0;
+					    stage.notemode = 2;
 						break;
 					case 637:
-					    stage.notemode = 8;
+					    stage.notemode = 4;
 						break;
-					case 638:
-					    stage.notemode = 9;
-						break;
-					case 639:
-					    stage.notemode = 3;
-					    break;
 					case 765:
-					    stage.notemode = 9;
+					    stage.notemode = 5;
 						break;
-					case 766:
-					    stage.notemode = 8;
-						break;
-					case 767:
-					    stage.notemode = 0;
-					    break;
 					case 956:
-					    stage.notemode = 6;
+					    stage.notemode = 3;
 						break;
-					case 957:
-					    stage.notemode = 7;
-						break;
-					case 958:
-					    stage.notemode = 2;
-					    break;
 					case 1019:
-					    stage.notemode = 7;
+					    stage.notemode = 2;
 						break;
-					case 1020:
-					    stage.notemode = 6;
-						break;
-					case 1021:
-					    stage.notemode = 0;
-					    break;
 				}
 			}
 
