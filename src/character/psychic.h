@@ -7,7 +7,7 @@
 #ifndef PSXF_GUARD_PSYCHIC_H
 #define PSXF_GUARD_PSYCHIC_H
 
-#include "../character.h"
+#include "../player.h"
 
 //Dad character functions
 Character *Char_Psychic_New(fixed_t x, fixed_t y);
