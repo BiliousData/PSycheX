@@ -298,7 +298,7 @@
 
 			<!-- Dialogue portraits -->
 			<dir name = "dia">
-				<file name = "psytalk.tim" type = "data" source = "iso/diaports/psytalk.tim"/>
+				<file name = "psytalk.tim" type = "data" source = "iso/diaports/psychic/talk.tim"/>
 			</dir>
 			
 			<!-- Dummy sectors -->

@@ -40,7 +40,7 @@ all: \
 	iso/flames/back.arc \
 	iso/space/back.arc \
 	iso/fplacechop/back.arc \
-	iso/diaports/psytalk.tim \
+	iso/diaports/psychic/talk.tim \
 	iso/bft/hell.arc \
 	iso/flamec/back.arc \
 	iso/flamec/firel.arc \
