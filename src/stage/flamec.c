@@ -13,6 +13,10 @@
 #include "../timer.h"
 #include "../animation.h"
 
+boolean phase2;
+
+static const RECT wholescreen = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+
 //Week 4 background structure
 typedef struct
 {
@@ -52,6 +56,10 @@ typedef struct
 	u8 firer_frame, firer_tex_id;
 	
 	Animatable firer_animatable;
+
+	u8 blendy;
+
+	u8 countup, countdown;
 	
 } Back_FlameC;
 
@@ -174,6 +182,32 @@ void Back_FlameC_DrawFG(StageBack *back)
 	Back_FlameC *this = (Back_FlameC*)back;
 	
 	fixed_t fx, fy;
+	//make fire play idle animation
+	Animatable_Animate(&this->firel_animatable, (void*)this, FlameC_FireL_SetFrame);
+	Animatable_Animate(&this->firem_animatable, (void*)this, FlameC_FireM_SetFrame);
+	Animatable_Animate(&this->firer_animatable, (void*)this, FlameC_FireR_SetFrame);
+
+	fx = stage.camera.x;
+	fy = stage.camera.y;
+
+	//black fade thing
+	if (stage.song_step >= 1152)
+	{	
+		if (this->countup < 255)
+		this->countup += 5;
+	}
+	if (this->countup > 0)
+		Gfx_BlendRect(&wholescreen, 0, 0, 0, 1);
+
+	if (stage.song_step == 896)
+		phase2 = 1;
+
+
+	if (phase2 == 1)
+	{
+		FlameC_FireL_Draw(this, FIXED_DEC(250,1) - fx, FIXED_DEC(41,1) - fy); //fire fg right
+		FlameC_FireM_Draw(this, FIXED_DEC(-210,1) - fx, FIXED_DEC(31,1) - fy); //fire fg left
+	}
 	
 	
 }
@@ -185,11 +219,6 @@ void Back_FlameC_DrawBG(StageBack *back)
 
 	
 	fixed_t fx, fy;
-
-	//make fire play idle animation
-	Animatable_Animate(&this->firel_animatable, (void*)this, FlameC_FireL_SetFrame);
-	Animatable_Animate(&this->firem_animatable, (void*)this, FlameC_FireM_SetFrame);
-	Animatable_Animate(&this->firer_animatable, (void*)this, FlameC_FireR_SetFrame);
 
 	
 	
@@ -266,6 +295,12 @@ void Back_FlameC_DrawBG(StageBack *back)
 	Stage_DrawTex(&this->tex_junk, &tea_src, &tea_dst, stage.camera.bzoom); //spilled tea
 	Stage_DrawTex(&this->tex_junk, &chair_src, &chair_dst, stage.camera.bzoom); //tipped chair
 
+	if (phase2 == 1)
+	{
+		FlameC_FireM_Draw(this, FIXED_DEC(-112,1) - fx, FIXED_DEC(-5,1) - fy); //fire phase 2 left
+		FlameC_FireR_Draw(this, FIXED_DEC(232,1) - fx, FIXED_DEC(1,1) - fy); //fire phase 2 right
+	}
+
 	FlameC_FireM_Draw(this, FIXED_DEC(62,1) - fx, FIXED_DEC(-11,1) - fy); //fire middle
 	FlameC_FireL_Draw(this, FIXED_DEC(-22,1) - fx, FIXED_DEC(11,1) - fy); //fire left
 	FlameC_FireR_Draw(this, FIXED_DEC(162,1) - fx, FIXED_DEC(1,1) - fy); //fire right
@@ -274,6 +309,11 @@ void Back_FlameC_DrawBG(StageBack *back)
 	Stage_DrawTex(&this->tex_fireplace, &fireplace_src, &fireplace_dst, stage.camera.bzoom); //ruined fireplace
 	Stage_DrawTex(&this->tex_floor, &floorl_src, &floorl_dst, stage.camera.bzoom); //floor left
 	Stage_DrawTex(&this->tex_floor, &floorr_src, &floorr_dst, stage.camera.bzoom); //floor right
+	if (phase2 == 1)
+	{
+		Gfx_BlendRect(&wholescreen, 147, 0, 34, 0); //phase 2 red overlay
+	}
+
 	Stage_DrawTex(&this->tex_back0, &halll_src, &halll_dst, stage.camera.bzoom); //wall left
 	Stage_DrawTex(&this->tex_back1, &hallr_src, &hallr_dst, stage.camera.bzoom); //wall right
 }
@@ -304,6 +344,10 @@ StageBack *Back_FlameC_New(void)
 	this->back.draw_md = NULL;
 	this->back.draw_bg = Back_FlameC_DrawBG;
 	this->back.free = Back_FlameC_Free;
+
+	phase2 = 0;
+
+	this->blendy = 0;
 	
 	//Load background textures
 	IO_Data arc_back = IO_Read("\\PSYCHE\\INFERNO.ARC;1");

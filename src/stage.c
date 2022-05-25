@@ -2026,7 +2026,7 @@ void Stage_Tick(void)
 			switch (stage.debug)
 			{
 				case 1: //step counter
-			        FntPrint("current step is %d ", stage.song_step);
+			        FntPrint("current step is %d\n", stage.song_step);
 					break;
 				case 2: //camera position
 				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
@@ -2046,6 +2046,7 @@ void Stage_Tick(void)
 					FntPrint("STRIKELINE X\n%d %d %d %d %d %d %d %d", note1x, note2x, note3x, note4x, note5x, note6x, note7x, note8x);
 					break;
 			}
+			//FntPrint("uh %d", stage.fadeblack);
 
 			Stage_Note_Move();
 
@@ -2235,17 +2236,6 @@ void Stage_Tick(void)
 			if (stage.stage_id == StageId_2_3)
 			   nohud = 1;
 
-			if (stage.fadeblack < 255)
-			{
-         		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = stage.fadeblack >> FIXED_SHIFT;
-				u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
-				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col2, 2);
-				stage.fadeblack += FIXED_MUL(stage.fadespeed, timer_dt*3);  
-
-            
-			}
-
 			if (stage.fadewhite > 0)
 			{
          		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
@@ -2270,11 +2260,17 @@ void Stage_Tick(void)
 					    }
 					case 1150:
 					    {
-					    	stage.fadeblack = FIXED_DEC(0,1);
+					    	stage.fadeblack = 265200;
 				        	stage.fadeextra = FIXED_DEC(0,1);
 				        	stage.fadespeed = FIXED_DEC(80,1);
 					    	break;
 					    }
+					case 1213:
+						{
+							stage.fadeblack = 0;
+							stage.fadewhite = FIXED_DEC(255,1);
+							stage.fadespeed = FIXED_DEC(100,1);
+						}
 				}
 			}
 
@@ -2451,6 +2447,11 @@ void Stage_Tick(void)
 
 				if (stage.stage_id == StageId_1_5)
 					is_bump_step = NULL;
+				if (stage.stage_id == StageId_1_3)
+				{
+					if (stage.song_step >= 1150 && stage.song_step <= 1213)
+						is_bump_step = NULL;
+				}
 				
 				//M.I.L.F bumps
 				//if (stage.stage_id == StageId_4_3 && stage.song_step >= (168 << 2) && stage.song_step < (200 << 2))
@@ -2647,6 +2648,23 @@ void Stage_Tick(void)
 				Stage_DrawTex(&stage.tex_hud1, &health_fill, &health_dst, stage.bump);
 				health_dst.w = health_back.w << FIXED_SHIFT;
 				Stage_DrawTex(&stage.tex_hud1, &health_back, &health_dst, stage.bump);
+			}
+
+			//uproar fade shit
+			if (stage.fadeblack > 0)
+			{
+				if (stage.fadeblack == 522000)
+					break;
+				else
+				{
+         			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+					u8 flash_col = stage.fadeblack >> FIXED_SHIFT;
+					u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
+					Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+					stage.fadeblack += FIXED_MUL(stage.fadespeed, timer_dt*3);  
+				}
+
+            
 			}
 			
 			//Hardcoded stage stuff
