@@ -2445,6 +2445,7 @@ void Stage_Tick(void)
 				//Check if screen should bump
 				boolean is_bump_step = (stage.song_step & 0xF) == 0;
 
+				//if stage is cutscene, or cool uproar moment, don't bump
 				if (stage.stage_id == StageId_1_5)
 					is_bump_step = NULL;
 				if (stage.stage_id == StageId_1_3)
