@@ -23,6 +23,8 @@
 #include "object/combo.h"
 #include "object/splash.h"
 
+#include "stime.h"
+
 //Stage constants
 
 //psychic portrait animation stuff
@@ -1443,6 +1445,17 @@ static void Stage_LoadState(void)
 	else
 	   stage.state = StageState_Play;
 
+	switch (stage.stage_id)
+	{
+		case StageId_1_1:
+		{
+			time.converted_time = 118;
+			break;
+		}
+		default:
+			break;
+	}
+
 	
 	stage.player_state[0].character = stage.player;
 	stage.player_state[1].character = stage.opponent;
@@ -2023,6 +2036,10 @@ void Stage_Tick(void)
 
 			//trackers
 			//pressing select switches selected tracker
+
+			if (stage.song_step >= 0)
+				SongTimer();
+
 			switch (stage.debug)
 			{
 				case 1: //step counter
