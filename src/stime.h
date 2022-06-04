@@ -20,8 +20,8 @@ typedef struct
 
 extern Time time;
 
-void TimerPrep(void);
 void SongTimer(void);
+void ResetTimer(void);
 
 
 #endif

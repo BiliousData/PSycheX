@@ -9,7 +9,8 @@
 int timer_visual[2] = {0,0,}; //seconds and minutes.
 Time time;
 
-//Unless I am stupid and misunderstanding something, the time has to be divided manually, or else it won't work for some reason.
+//Note from BIliousData: Unless I am stupid and misunderstanding something, the time has to be divided manually, or else it won't work for some reason.
+//The time.converted_time can be found in stage.c, in a switch case as the game loads.
 
 void SongTimer(void)
 {
@@ -17,7 +18,7 @@ void SongTimer(void)
 	{
 		time.timer_tick = time.timer_tick + 1; //As the game adds 1 to it every frame, we have to reset it as soon as it reaches 60.
 
-		if (time.timer_tick == 60)
+		if (time.timer_tick == 60) //1 second.
 		{
 			time.timer_total = time.timer_total + 1; //adding 1 to total timer
 			timer_visual[1] = timer_visual[1] + 1; //adding 1 to visual timer
@@ -31,18 +32,28 @@ void SongTimer(void)
 		}
 
 		if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
-			FntPrint("%d:0%d", timer_visual[2], timer_visual[1]);
+			FntPrint("%d:0%d", timer_visual[2], timer_visual[1]); //printing visual timer with a 0
 		else
-			FntPrint("%d:%d", timer_visual[2], timer_visual[1]);
+			FntPrint("%d:%d", timer_visual[2], timer_visual[1]); //printing visual timer without a 0
 	}
 	else //but if finished,
 	{
 		if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
-			FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]);
+			FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is over with a 0.
 		else
-			FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]);
+			FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is  over without a 0.
 	}
 
 	//Voila!
 	
+}
+
+void ResetTimer(void) //reset timer when song starts
+{
+	time.total_time = 0;
+	time.timer_tick = 0;
+	time.timer_total = 0;
+
+	timer_visual[1] = 0;
+	timer_visual[2] = 0;
 }

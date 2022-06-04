@@ -1445,12 +1445,24 @@ static void Stage_LoadState(void)
 	else
 	   stage.state = StageState_Play;
 
+	//prepare timer
+	ResetTimer();
+
 	switch (stage.stage_id)
 	{
 		case StageId_1_1:
 		{
 			time.converted_time = 118;
 			break;
+		}
+		case StageId_1_2:
+		{
+			time.converted_time = 114;
+			break;
+		}
+		case StageId_1_3:
+		{
+			time.converted_time = 120;
 		}
 		default:
 			break;
