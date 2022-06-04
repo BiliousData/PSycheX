@@ -10,6 +10,7 @@ all: \
 	iso/font/boldfont.tim \
 	iso/font/arial.tim \
 	iso/font/ared.tim \
+	iso/font/cdr.tim \
 	iso/stage/hud0.tim \
 	iso/stage/hud0butn.tim \
 	iso/stage/hud1.tim \
