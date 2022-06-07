@@ -16,11 +16,23 @@ typedef struct
 	u8 converted_time; //from centiseconds to seconds
 	u8 timer_tick; //???
 	u8 timer_total; //Non-visual timer, counting in seconds
+	s32 timeropt; //for choosing timer type
+	//variables just for preparing for countdown
+	u8 mindown; //minute
+	u8 secdown; //second
 } Time;
+
+typedef enum
+{
+	CountDown,
+	CountUp,
+	Disabled,
+} TimerOpt;
 
 extern Time time;
 
 void SongTimer(void);
+void SongTimerDown(void);
 void ResetTimer(void);
 
 
