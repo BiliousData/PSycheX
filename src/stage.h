@@ -156,7 +156,7 @@ typedef struct
 	
 	boolean refresh_score;
 	s32 score, max_score;
-	char score_text[13];
+	char *score_text;
 	
 	u16 pad_held, pad_press;
 } PlayerState;
@@ -255,6 +255,8 @@ typedef struct
 
 	u8 botplay;
 
+	boolean coolhud;
+
 	u8 delect;
 
 	Animatable psytalk_animatable;
@@ -276,7 +278,14 @@ typedef struct
 	PlayerState player_state[2];
 	s32 max_score;
 
-	FontData font_arial;
+	//cuckydev please forgive me
+	int ratingpercent;
+	int notes_passed;
+	int notes_played;
+
+	u8 misses;
+
+	FontData font_arial, font_cdr;
 	
 	enum
 	{
@@ -309,6 +318,7 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story);
 void Stage_LoadDia();
 void Stage_Unload();
 void Stage_Tick();
+void Stage_RatingCalc();
 
 #ifdef PSXF_NETWORK
 void Stage_NetHit(Packet *packet);

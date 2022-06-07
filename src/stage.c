@@ -308,6 +308,9 @@ static u8 Stage_HitNote(PlayerState *this, u8 type, fixed_t offset)
 	};
 	this->score += score_inc[hit_type];
 	this->refresh_score = true;
+
+	stage.notes_passed++;
+	stage.notes_played++;
 	
 	//Restore vocals and health
 	Stage_StartVocal();
@@ -473,6 +476,8 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 	
 	//Missed a note
 	this->arrow_hitan[type & 0x3] = -1;
+	stage.notes_passed++;
+	stage.misses++;
 	
 	if (!stage.ghost)
 	{
@@ -917,7 +922,7 @@ static void Stage_DrawStrum(u8 i, RECT *note_src, RECT_FIXED *note_dst)
 static void Stage_DrawNotes(void)
 {
 	//Check if opponent should draw as bot
-	u8 bot = (stage.mode >= StageMode_2P) ? 0 : NOTE_FLAG_OPPONENT;
+	u8 bot = (stage.mode == StageMode_2P) ? 0 : NOTE_FLAG_OPPONENT;
 	
 	//Initialize scroll state
 	SectionScroll scroll;
@@ -976,6 +981,9 @@ static void Stage_DrawNotes(void)
 					Stage_CutVocal();
 					Stage_MissNote(this);
 					this->health -= 475;
+					stage.notes_passed++;
+					stage.misses++;
+					stage.player_state[0].refresh_score = true;
 					
 					//Send miss packet
 					#ifdef PSXF_NETWORK
@@ -1443,11 +1451,29 @@ static void Stage_LoadState(void)
 		}
 	}
 	else
-	   stage.state = StageState_Play;
+	{
+		FontData_Load(&stage.font_cdr, Font_CDR);
+	   	stage.state = StageState_Play;
+	}
 
 	//prepare timer
+	//set variables for counting down
+	switch (stage.stage_id)
+	{
+		case StageId_1_1:
+		{
+			time.mindown = 1;
+			time.secdown = 58;
+			break;
+		}
+		default:
+			break;
+	}
+
+	//reset timer
 	ResetTimer();
 
+	//set converted time
 	switch (stage.stage_id)
 	{
 		case StageId_1_1:
@@ -1486,6 +1512,10 @@ static void Stage_LoadState(void)
 		
 		stage.player_state[i].pad_held = stage.player_state[i].pad_press = 0;
 	}
+
+	stage.misses = 0;
+	stage.notes_passed = 0;
+	stage.notes_played = 0;
 	
 	ObjectList_Free(&stage.objlist_splash);
 	ObjectList_Free(&stage.objlist_fg);
@@ -2050,12 +2080,24 @@ void Stage_Tick(void)
 			//pressing select switches selected tracker
 
 			if (stage.song_step >= 0)
-				SongTimer();
+			{
+				switch (time.timeropt)
+				{
+					case CountDown:
+						SongTimerDown();
+						break;
+					case CountUp:
+						SongTimer();
+						break;
+					case Disabled:
+						break;
+				}
+			}
 
 			switch (stage.debug)
 			{
 				case 1: //step counter
-			        FntPrint("current step is %d\n", stage.song_step);
+			        FntPrint("current step is %d\n", stage.notes_passed);
 					break;
 				case 2: //camera position
 				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
@@ -2506,19 +2548,6 @@ void Stage_Tick(void)
 			switch (stage.mode)
 			{
 				case StageMode_Normal:
-				{
-					//Handle player 1 and 2 inputs
-					if (stage.botplay == 0)
-					{
-					    Stage_ProcessPlayer(&stage.player_state[0], &pad_state, playing);
-					}
-					else
-					{
-						Stage_ProcessPsyche(&stage.player_state[0], &pad_state, playing);
-					}
-					Stage_ProcessPsyche(&stage.player_state[1], &pad_state_2, playing);
-					break;
-				}
 				case StageMode_Swap:
 				{
 					//Handle player 1 inputs
@@ -2537,6 +2566,7 @@ void Stage_Tick(void)
 						if (playing && (note->type & NOTE_FLAG_OPPONENT) && !(note->type & NOTE_FLAG_HIT))
 						{
 							//Opponent hits note
+							stage.player_state[1].arrow_hitan[note->type & 0x3] = stage.step_time;
 							Stage_StartVocal();
 							if (note->type & NOTE_FLAG_SUSTAIN)
 								opponent_snote = note_anims[note->type & 0x3][(note->type & NOTE_FLAG_ALT_ANIM) != 0];
@@ -2607,48 +2637,71 @@ void Stage_Tick(void)
 			{
 				PlayerState *this = &stage.player_state[i];
 				
-				//Get string representing number
-				if (this->refresh_score)
+
+				if (stage.coolhud == 0)
 				{
-					if (this->score != 0)
-						sprintf(this->score_text, "%d0", this->score * stage.max_score / this->max_score);
-					else
-						strcpy(this->score_text, "0");
-					this->refresh_score = false;
-				}
-				
-				//Display score
-				RECT score_src = {80, 224, 40, 10};
-				RECT_FIXED score_dst = {(i ^ (stage.mode == StageMode_Swap)) ? FIXED_DEC(-100,1) : FIXED_DEC(14,1), (SCREEN_HEIGHT2 - 42) << FIXED_SHIFT, FIXED_DEC(40,1), FIXED_DEC(10,1)};
-				if (stage.downscroll)
-					score_dst.y = -score_dst.y - score_dst.h;
-				
-				Stage_DrawTex(&stage.tex_hud0, &score_src, &score_dst, stage.bump);
-				
-				//Draw number
-				score_src.y = 240;
-				score_src.w = 8;
-				score_dst.x += FIXED_DEC(40,1);
-				score_dst.w = FIXED_DEC(8,1);
-				
-				for (const char *p = this->score_text; ; p++)
-				{
-					//Get character
-					char c = *p;
-					if (c == '\0')
-						break;
+					//Get string representing number
+					if (this->refresh_score)
+					{
+						if (this->score != 0)
+							sprintf(this->score_text, "%d0", this->score * stage.max_score / this->max_score);
+						else
+							strcpy(this->score_text, "0");
+						this->refresh_score = false;
+					}
 					
-					//Draw character
-					if (c == '-')
-						score_src.x = 160;
-					else //Should be a number
-						score_src.x = 80 + ((c - '0') << 3);
+					//Display score
+					RECT score_src = {80, 224, 40, 10};
+					RECT_FIXED score_dst = {(i ^ (stage.mode == StageMode_Swap)) ? FIXED_DEC(-100,1) : FIXED_DEC(14,1), (SCREEN_HEIGHT2 - 42) << FIXED_SHIFT, FIXED_DEC(40,1), FIXED_DEC(10,1)};
+					if (stage.downscroll)
+						score_dst.y = -score_dst.y - score_dst.h;
 					
 					Stage_DrawTex(&stage.tex_hud0, &score_src, &score_dst, stage.bump);
 					
-					//Move character right
-					score_dst.x += FIXED_DEC(7,1);
+					//Draw number
+					score_src.y = 240;
+					score_src.w = 8;
+					score_dst.x += FIXED_DEC(40,1);
+					score_dst.w = FIXED_DEC(8,1);
+					
+					for (const char *p = this->score_text; ; p++)
+					{
+						//Get character
+						char c = *p;
+						if (c == '\0')
+							break;
+						
+						//Draw character
+						if (c == '-')
+							score_src.x = 160;
+						else //Should be a number
+							score_src.x = 80 + ((c - '0') << 3);
+						
+						Stage_DrawTex(&stage.tex_hud0, &score_src, &score_dst, stage.bump);
+						
+						//Move character right
+						score_dst.x += FIXED_DEC(7,1);
+					}
 				}
+				else
+				{
+					if (this->refresh_score)
+					{
+						if (this->score != 0)
+						{
+							//Calculate accuracy by dividing the notes that have passed by the notes that were actually hit, and then multiplying that by 100
+							stage.ratingpercent = stage.notes_passed / stage.notes_played * 100;
+							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:? (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, stage.ratingpercent);
+						}
+						else
+							sprintf(this->score_text, "Score:0  |  Misses:?  |  Rating:? (?%%)");
+						this->refresh_score = false;
+					}
+
+					//Display Score
+					stage.font_cdr.draw(&stage.font_cdr, this->score_text, 65, 220, FontAlign_Left);
+				}
+
 			}
 			
 			if (stage.mode < StageMode_2P)
@@ -2944,6 +2997,7 @@ void Stage_Tick(void)
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
+						FontData_Load(&stage.font_cdr, Font_CDR);
 			            stage.state = StageState_Play;
 					}
 

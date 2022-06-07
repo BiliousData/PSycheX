@@ -25,6 +25,7 @@
 #include "loadscr.h"
 #include "movie.h"
 #include "custom.h"
+#include "stime.h"
 
 #include "stage.h"
 #include "character/titlepsy.h"
@@ -1192,6 +1193,7 @@ void Menu_Tick(void)
 			static const char *gamemode_strs[] = {"NORMAL", "SWAP", "TWO PLAYER"};
 			static const char *movieratio_strs[] = {"STANDARD", "WIDE"};
 			static const char *null_str[] = {""};
+			static const char *time_str[] = {"COUNT DOWN", "COUNT UP", "DISABLED"};
 			static const struct
 			{
 				enum
@@ -1227,6 +1229,8 @@ void Menu_Tick(void)
 				//{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
 				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
 				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
+				{OptType_Enum, "TIMER", &time.timeropt, {.spec_enum = {COUNT_OF(time_str), time_str}}},
+				{OptType_Boolean, "PSYCH HUD", &stage.coolhud, {.spec_boolean = {0}}},
 				{OptType_Boolean, "BOTPLAY", &stage.botplay, {.spec_boolean = {0}}},
 				{OptType_Boolean, "MOVIES", &stage.movietog, {.spec_boolean = {0}}},
 			};
