@@ -40,6 +40,24 @@ static const Animation psytalk_anim[1] = {
 	{1, (const u8[]){0, 0, 1, 1, 2, 2, 3, ASCR_REPEAT}},
 };
 
+//Ratings
+static const struct
+{
+	const char *text;
+}ratings[] = {
+	{"You Suck!"}, //0% to 19%
+	{"Shit"}, //20% to 39%
+	{"Bad"}, //40% to 49%
+	{"Bruh"}, //50% to 59%
+	{"Meh"}, //60% to 68%
+	{"Nice"}, //69%
+	{"Good"}, //70% to 79%
+	{"Great"}, //80% to 89%
+	{"Sick!"}, //90% to 99%
+	{"Perfect!!"}, //100%
+};
+
+
 //welcome to the shitshow
 int note_x[8] = {
 	//BF
@@ -1516,6 +1534,9 @@ static void Stage_LoadState(void)
 	stage.misses = 0;
 	stage.notes_passed = 0;
 	stage.notes_played = 0;
+
+	//refresh score for psych hud
+	stage.player_state[0].refresh_score = true;
 	
 	ObjectList_Free(&stage.objlist_splash);
 	ObjectList_Free(&stage.objlist_fg);
@@ -2689,9 +2710,34 @@ void Stage_Tick(void)
 					{
 						if (this->score != 0)
 						{
+
 							//Calculate accuracy by dividing the notes that have passed by the notes that were actually hit, and then multiplying that by 100
 							stage.ratingpercent = stage.notes_played * 100 / stage.notes_passed;
-							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:? (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, stage.ratingpercent);
+
+							//get rating
+							//can't use a switch case because it needs less than and greater than, so this SUCKS
+							if (stage.ratingpercent >= 0 && stage.ratingpercent <= 19) //You Suck!
+								stage.ratingselect = 0;
+							else if (stage.ratingpercent >= 20 && stage.ratingpercent <= 39) //Shit
+								stage.ratingselect = 1;
+							else if (stage.ratingpercent >= 40 && stage.ratingpercent <= 49) //Bad
+								stage.ratingselect = 2;
+							else if (stage.ratingpercent >= 50 && stage.ratingpercent <= 59) //Bruh
+								stage.ratingselect = 3;
+							else if (stage.ratingpercent >= 60 && stage.ratingpercent <= 68) //Meh
+								stage.ratingselect = 4;
+							else if (stage.ratingpercent == 69) //Nice
+								stage.ratingselect = 5;
+							else if (stage.ratingpercent >= 70 && stage.ratingpercent <= 79) //Good
+								stage.ratingselect = 6;
+							else if (stage.ratingpercent >= 80 && stage.ratingpercent <= 89) //Great
+								stage.ratingselect = 7;
+							else if (stage.ratingpercent >= 90 && stage.ratingpercent <= 99) //Sick!
+								stage.ratingselect = 8;
+							else if (stage.ratingpercent ==100) //Perfect!!
+								stage.ratingselect = 9;
+
+							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent);
 						}
 						else
 							sprintf(this->score_text, "Score:0  |  Misses:?  |  Rating:? (?%%)");

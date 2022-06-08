@@ -257,6 +257,8 @@ typedef struct
 
 	boolean coolhud;
 
+	u8 ratingselect;
+
 	u8 delect;
 
 	Animatable psytalk_animatable;
