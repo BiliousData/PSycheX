@@ -1085,6 +1085,10 @@ void Menu_Tick(void)
 				{StageId_1_4, 0xFF9B30F3, "MAXDEV"},
 				{StageId_1_4, 0xFF9B30F3, "TIMER LUA CODE"},
 				{StageId_1_4, 0xFF9B30F3, " "},
+				{StageId_1_4, 0xFFadd8e6, "IGORSOU"},
+				{StageId_1_4, 0xFFadd8e6, "FIXED ACCURACY CODE"},
+				{StageId_1_4, 0xFFadd8e6, "CODE HELP"},
+				{StageId_1_4, 0xFFadd8e6, ""},
 				{StageId_1_3, 0xFF126000, "MRRUMBLEROSES"},
 				{StageId_1_3, 0xFF126000, "GOT PERMISSION"},
 				{StageId_1_4, 0xFF9B30F3, " "},
@@ -1093,9 +1097,6 @@ void Menu_Tick(void)
 				{StageId_1_4, 0xFF9B30F3, " "},
 				{StageId_1_4, 0xFF9B30F3, "STRPLAY LIBRARY BY"},
 				{StageId_1_4, 0xFF9B30F3, "LAMEGUY"},
-				{StageId_1_4, 0xFF9B30F3, " "},
-				{StageId_1_4, 0xFFadd8e6, "IGORSOU"},
-				{StageId_1_4, 0xFFadd8e6, "CODE INSPIRATION"},
 
 
 			};

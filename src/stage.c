@@ -2690,7 +2690,7 @@ void Stage_Tick(void)
 						if (this->score != 0)
 						{
 							//Calculate accuracy by dividing the notes that have passed by the notes that were actually hit, and then multiplying that by 100
-							stage.ratingpercent = stage.notes_passed / stage.notes_played * 100;
+							stage.ratingpercent = stage.notes_played * 100 / stage.notes_passed;
 							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:? (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, stage.ratingpercent);
 						}
 						else
