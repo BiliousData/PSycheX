@@ -28,16 +28,48 @@
 //Stage constants
 
 //psychic portrait animation stuff
-static const CharFrame psytalk_frame[4] =
+static const CharFrame psytalk_frame[] =
 {
-	{0, {  0,   0, 111, 114}, {0, 0}},
-	{0, {111,   0, 109, 114}, {-2, 0}},
-	{0, {  0, 114, 108, 114}, {-3, 0}},
-	{0, {108, 114, 108, 112}, {-3, -2}},
+	//normal
+	{0, {  0,   0, 111, 114}, {0, 0}}, //0
+	{0, {111,   0, 109, 114}, {-2, 0}}, //1
+	{0, {  0, 114, 108, 114}, {-3, 0}}, //2
+	{0, {108, 114, 108, 112}, {-3, -2}}, //3
+	//piss
+	{1, {   0,   0,  87, 106}, {0, 0}}, //4
+	{1, {  87,   0,  87, 106}, {0, 0}}, //5
+	{1, {   0, 106,  90, 105}, {0, 0}}, //6
+	{1, {  90, 106,  90, 105}, {0, 0}}, //7
+	//erect
+	{2, {   0,   0, 130, 119}, {0, 0}}, //8
+	{2, {   0, 119, 129, 119}, {0, 0}}, //9
+	{3, {   0,   0, 128, 120}, {0, 0}}, //10
+	{3, {   0, 120, 128, 117}, {0, 0}}, //11
+	//annoyed
+	{4, {   0,   0, 111, 114}, {0, 0}}, //12
+	{4, { 111,   0, 109, 114}, {0, 0}}, //13
+	{4, {   0, 114, 108, 114}, {0, 0}}, //14
+	{4, { 108, 114, 108, 112}, {0, 0}}, //15
+	//confused
+	{5, {   0,   0,  86, 116}, {0, 0}}, //16
+	{5, {  86,   0,  85, 117}, {0, 0}}, //17
+	{5, {   0, 117,  83, 118}, {0, 0}}, //18
+	{5, {  83, 117,  83, 115}, {0, 0}}, //19
+	//shock
+	{6, {   0,   0,  97, 124}, {0, 0}}, //20
+	{6, {  97,   0,  96, 124}, {0, 0}}, //21
+	{6, {   0, 124,  96, 124}, {0, 0}}, //22
+	{6, {  96, 124,  95, 123}, {0, 0}}, //23
 };
 
-static const Animation psytalk_anim[1] = {
-	{1, (const u8[]){0, 0, 1, 1, 2, 2, 3, ASCR_REPEAT}},
+//animations
+static const Animation psytalk_anim[] = {
+	{1, (const u8[]){0, 0, 1, 1, 2, 2, 3, ASCR_REPEAT}}, //normal
+	{1, (const u8[]){4, 4, 5, 5, 6, 6, 7, ASCR_REPEAT}}, //piss
+	{1, (const u8[]){8, 8, 9, 9, 10, 10, 11, ASCR_REPEAT}}, //erect
+	{1, (const u8[]){12, 12, 13, 13, 14, 14, 15, ASCR_REPEAT}}, //annoyed
+	{1, (const u8[]){16, 16, 17, 17, 18, 18, 19, ASCR_REPEAT}}, //confused
+	{1, (const u8[]){20, 20, 21, 21, 22, 22, 23, ASCR_REPEAT}}, //shock
 };
 
 //Ratings
@@ -1257,6 +1289,8 @@ void PsyTalk_SetFrame(void *user, u8 frame)
 	{
 		//Check if new art shall be loaded
 		const CharFrame *cframe = &psytalk_frame[this->psytalk_frame = frame];
+		if (cframe->tex != this->psytalk_tex_id)
+			Gfx_LoadTex(&this->tex_psytalk, this->arc_psytalk_ptr[this->psytalk_tex_id = cframe->tex], 0);
 	}
 }
 
@@ -1811,10 +1845,14 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 		Network_Send(&ready);
 	}
 	#endif
+
+	Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
+	Animatable_SetAnim(&stage.psytalk_animatable, 0);
 }
 
 void Stage_Unload(void)
 {
+	printf("Unloading Stage\n");
 	//Disable net mode to not break the game
 	if (stage.mode >= StageMode_Net1)
 		stage.mode = StageMode_Normal;
@@ -1910,6 +1948,8 @@ static boolean Stage_NextLoad(void)
 //load dialogue related files
 void Stage_LoadDia(void)
 {
+	Stage *this = (Stage*)Mem_Alloc(sizeof(Stage));
+
 	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
 
 	//load different assets depending on stage
@@ -1917,9 +1957,14 @@ void Stage_LoadDia(void)
 	{
 		case StageId_1_1:
 		{
-			Gfx_LoadTex(&stage.tex_psytalk, IO_Read("\\DIA\\PSYTALK.TIM;1"), GFX_LOADTEX_FREE);
-			Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
-	        Animatable_SetAnim(&stage.psytalk_animatable, 0);
+			this->arc_psytalk = IO_Read("\\DIA\\PSYTALK.ARC;1");
+			this->arc_psytalk_ptr[0] = Archive_Find(this->arc_psytalk, "talk.tim");
+			this->arc_psytalk_ptr[1] = Archive_Find(this->arc_psytalk, "piss.tim");
+			this->arc_psytalk_ptr[2] = Archive_Find(this->arc_psytalk, "erect0.tim");
+			this->arc_psytalk_ptr[3] = Archive_Find(this->arc_psytalk, "erect1.tim");
+			this->arc_psytalk_ptr[4] = Archive_Find(this->arc_psytalk, "annoy.tim");
+			this->arc_psytalk_ptr[5] = Archive_Find(this->arc_psytalk, "confuse.tim");
+			this->arc_psytalk_ptr[6] = Archive_Find(this->arc_psytalk, "shock.tim");
 			break;
 		}
 		default:
@@ -2956,13 +3001,13 @@ void Stage_Tick(void)
 			}psydia[] = {
 				{"What brings you here so late at night?",1,38,1},
 				{"Beep.",0,5},
-				{"Drop the act already.",1,21,1},
+				{"Drop the act already.",1,21,3},
 				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67,1},
 				{"Bep bee aa skoo dep?",0,20},
-				{"I wouldn't try the door if I were you.",1,38,1},
-				{"Now...",1,6,1},
+				{"I wouldn't try the door if I were you.",1,38,6},
+				{"Now...",1,6,5},
 				{"I have a couple of questions\nto ask you...",1,41,1},
-				{"And you WILL answer them.",1,25,1},
+				{"And you WILL answer them.",1,25,3},
 			};
 			
 
@@ -3029,7 +3074,7 @@ void Stage_Tick(void)
 			{
 				case StageId_1_1:
 				{
-					Animatable_Animate(&stage.psytalk_animatable, (void*)this, PsyTalk_SetFrame);
+					Animatable_Animate(&this->psytalk_animatable, (void*)this, PsyTalk_SetFrame);
 
 					stage.font_arial.draw_col(&stage.font_arial,
 						psydia[stage.delect].text,
@@ -3043,6 +3088,7 @@ void Stage_Tick(void)
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
+						Mem_Free(this->arc_psytalk);
 						FontData_Load(&stage.font_cdr, Font_CDR);
 			            stage.state = StageState_Play;
 					}
@@ -3134,6 +3180,32 @@ void Stage_Tick(void)
 			        {
 			        	//normal
 			        	case 1:
+							Animatable_SetAnim(&this->psytalk_animatable, 0);
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+						//piss
+						case 2:
+							Animatable_SetAnim(&this->psytalk_animatable, 1);
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+						//erect
+						case 3:
+							Animatable_SetAnim(&this->psytalk_animatable, 2);
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+						//annoyed
+						case 4:
+							Animatable_SetAnim(&this->psytalk_animatable, 3);
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+						//confused
+						case 5:
+							Animatable_SetAnim(&this->psytalk_animatable, 4);
+			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+			        		break;
+						//shock
+						case 6:
+							Animatable_SetAnim(&this->psytalk_animatable, 5);
 			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
 			        		break;
 			        	//nothing

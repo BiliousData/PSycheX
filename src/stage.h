@@ -173,6 +173,8 @@ typedef struct
 	Gfx_Tex tex_hud0, tex_hud1, tex_dia;
 
 	Gfx_Tex tex_psytalk;
+
+	IO_Data arc_psytalk, arc_psytalk_ptr[7];
 	
 	//Stage data
 	const StageDef *stage_def;
