@@ -1,8 +1,8 @@
 //This code relies upon strplay.c, which was created by Lameguy64 of Meido-Tek Productions.
 
 /*
-	I'll leave some documentation about this code here, so it shouldn't be too hard to understand.
-	Keep in mind this is a rewrite of the movie.c from the Mind Games port, so things are different.
+	I'll leave some basic info about this code throughout the file, so it shouldn't be too hard to understand.
+	Keep in mind this is a rewrite of the old movie.c, so things are a little different.
 
 	This code assumes that any str file you give it is 320x240, so keep that in mind.
 */
