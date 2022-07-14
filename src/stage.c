@@ -1845,9 +1845,6 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 		Network_Send(&ready);
 	}
 	#endif
-
-	Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
-	Animatable_SetAnim(&stage.psytalk_animatable, 0);
 }
 
 void Stage_Unload(void)
@@ -1957,6 +1954,9 @@ void Stage_LoadDia(void)
 	{
 		case StageId_1_1:
 		{
+			Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
+	        Animatable_SetAnim(&stage.psytalk_animatable, 0);
+	
 			this->arc_psytalk = IO_Read("\\DIA\\PSYTALK.ARC;1");
 			this->arc_psytalk_ptr[0] = Archive_Find(this->arc_psytalk, "talk.tim");
 			this->arc_psytalk_ptr[1] = Archive_Find(this->arc_psytalk, "piss.tim");
@@ -1965,6 +1965,9 @@ void Stage_LoadDia(void)
 			this->arc_psytalk_ptr[4] = Archive_Find(this->arc_psytalk, "annoy.tim");
 			this->arc_psytalk_ptr[5] = Archive_Find(this->arc_psytalk, "confuse.tim");
 			this->arc_psytalk_ptr[6] = Archive_Find(this->arc_psytalk, "shock.tim");
+	
+	        //Initialize render state
+	        this->psytalk_tex_id = this->psytalk_frame = 0xFF;
 			break;
 		}
 		default:
@@ -3074,7 +3077,7 @@ void Stage_Tick(void)
 			{
 				case StageId_1_1:
 				{
-					Animatable_Animate(&this->psytalk_animatable, (void*)this, PsyTalk_SetFrame);
+					//Animatable_Animate(&this->psytalk_animatable, (void*)this, PsyTalk_SetFrame);
 
 					stage.font_arial.draw_col(&stage.font_arial,
 						psydia[stage.delect].text,
