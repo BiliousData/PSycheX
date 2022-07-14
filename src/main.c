@@ -115,9 +115,6 @@ int main(int argc, char **argv)
 			case GameLoop_Stage:
 				Stage_Tick();
 				break;
-			case GameLoop_Movie:
-			    Movie_Tick();
-				break;
 			case GameLoop_Custom:
 			    Custom_Tick();
 				break;

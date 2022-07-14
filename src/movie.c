@@ -1,3 +1,11 @@
+/*
+    THIS SHIT IS ABANDONED LMAOOOO
+    This sucked, so I rewrote the code.
+    so go to the movie.c in the psx folder instead
+    I'm just leaving this here for histories sake
+*/
+
+
 //The Strplay library (which this relies on) was made by Lameguy64 of Meido-Tek Productions.
 
 //side note: this file appears to go nuts when compiled on linux, with it either crashing, or difficulties malfunctioning.

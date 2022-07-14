@@ -49,6 +49,14 @@
 	
 */
 
+/*
+	...And on top of that, this has been modified by BiliousData, for use in PSXFunkin'.
+
+	The modifications are mainly to replace the STRFILE *str paramater, so that it is the individual numbers.
+
+	This was done so that the path to the str could be set in the function, instead of called from a list.
+*/
+
 #define IS_RGB24	1	// 0:16-bit playback, 1:24-bit playback (recommended for quality)
 #define RING_SIZE	32	// Ring Buffer size (32 sectors seems good enough)
 
@@ -62,12 +70,12 @@
 
 
 // A simple struct to make STR handling a bit easier
-typedef struct {
-	char	FileName[32];
-	int		Xres;
-	int		Yres;
-	int		NumFrames;
-} STRFILE;
+//typedef struct {
+//	char	FileName[32];
+//	int		Xres;
+//	int		Yres;
+//	int		NumFrames;
+//} STRFILE;
 
 // Decode environment
 typedef struct {
@@ -92,10 +100,10 @@ static int strFrameWidth=0,strFrameHeight=0;	// Frame size of STR file
 static int strPlayDone=0;						// Playback completion flag
 
 // Main function prototypes
-int PlayStr(int xres, int yres, int xpos, int ypos, STRFILE *str);
+int PlayStr(int xres, int yres, int xpos, int ypos, char *filedir[32], int framecount);
 
 // Internal function prototypes
-static void strDoPlayback(STRFILE *str);
+static void strDoPlayback(filedir, xres, yres, framecount);
 static void strCallback();
 static void strNextVlc(STRENV *strEnv);
 static void strSync(STRENV *strEnv, int mode);
@@ -103,7 +111,7 @@ static u_long *strNext(STRENV *strEnv);
 static void strKickCD(CdlLOC *loc);
 
 
-int PlayStr(int xres, int yres, int xpos, int ypos, STRFILE *str) {
+int PlayStr(int xres, int yres, int xpos, int ypos, char *filedir[32], int framecount) {
 	
 	/*
 		Main STR playback routine.
@@ -113,14 +121,17 @@ int PlayStr(int xres, int yres, int xpos, int ypos, STRFILE *str) {
 			1 - Playback was finished.
 	*/
 	
-	strNumFrames=str->NumFrames;
+	strNumFrames=framecount;
 	strScreenWidth=xres;
 	strScreenHeight=yres;
 	strFrameX=xpos;
 	strFrameY=ypos;
+
+	printf("check dir %s\n", filedir);
 	
+	printf("start playback\n");
 	strPlayDone=0;
-	strDoPlayback(str);
+	strDoPlayback(filedir, xres, yres, framecount);
 	
 	if (strPlayDone == 0)
 		return(0);
@@ -129,7 +140,7 @@ int PlayStr(int xres, int yres, int xpos, int ypos, STRFILE *str) {
 	
 }
 
-static void strDoPlayback(STRFILE *str) {
+static void strDoPlayback(filedir, xres, yres, framecount) {
 	
 	/*
 		Does the actual STR playback.
@@ -142,21 +153,21 @@ static void strDoPlayback(STRFILE *str) {
 	// Buffers initialized here so we won't waste too much memory for playing FMVs
 	// (just make sure you have at least 192KB of free memory before calling this routine)
 	u_long	RingBuff[RING_SIZE*SECTOR_SIZE];	// Ring buffer
-	u_long	VlcBuff[2][str->Xres/2*str->Yres];	// VLC buffers
-	u_short	ImgBuff[2][16*PPW*str->Yres];		// Frame 'slice' buffers
+	u_long	VlcBuff[2][xres/2*yres];	// VLC buffers
+	u_short	ImgBuff[2][16*PPW*yres];		// Frame 'slice' buffers
 	
 	// Set display mask so we won't see garbage while the stream is being prepared
 	SetDispMask(0);
 	
+	printf("searching for file %s\n", filedir);
 	// Get the CD location of the STR file to play
-	if (CdSearchFile(&file, str->FileName) == 0) {
-		#ifdef DEBUG
-		printf("ERROR: I cannot find video file %s\n", str->FileName);
-		#endif
+	if (CdSearchFile(&file, filedir) == 0) {
+		printf("ERROR: I cannot find video file %s\n", filedir);
 		SetDispMask(1);
 		return;
 	}
 	
+	printf("Setting up buffer pointers\n");
 	// Setup the buffer pointers
 	strEnv.VlcBuff_ptr[0] = &VlcBuff[0][0];
 	strEnv.VlcBuff_ptr[1] = &VlcBuff[1][0];
@@ -165,6 +176,7 @@ static void strDoPlayback(STRFILE *str) {
 	strEnv.ImgBuff_ptr[1] = &ImgBuff[1][0];
 	strEnv.ImgID     = 0;
 	
+	printf("Setting up display buffers\n");
 	// Setup the display buffers on VRAM
 	strEnv.rect[0].x = strFrameX;	// First page
 	strEnv.rect[0].y = strFrameY;
@@ -172,6 +184,7 @@ static void strDoPlayback(STRFILE *str) {
 	strEnv.rect[1].y = strFrameY+strScreenHeight;
 	strEnv.RectID    = 0;
 	
+	printf("setting parameters for upload\n");
 	// Set the parameters for uploading frame slices
 	strEnv.slice.x = strFrameX;
 	strEnv.slice.y = strFrameY;

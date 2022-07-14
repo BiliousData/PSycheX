@@ -811,8 +811,7 @@ void Menu_Tick(void)
 					if (stage.movietog == 1)
 					{
 						printf("Movies are on, going to intro\n");
-					    menu.next_page = MenuPage_Movie;
-					    movie.playing = 0;
+						menu.next_page = MenuPage_Stage;
 					}
 					else
 					{
@@ -1885,6 +1884,10 @@ void Menu_Tick(void)
 		{
 			//Unload menu state
 			Menu_Unload();
+
+			//Start movie if enabled
+			if (stage.movietog == 1)
+				Movie_Play("\\STR\\INTRO.STR;1", 429);
 			
 			//Load new stage
 			LoadScr_Start();
@@ -1912,7 +1915,6 @@ void Menu_Tick(void)
 
 			//Play movie
 			LoadScr_Start();
-			gameloop = GameLoop_Movie;
 			LoadScr_End();
 			break;
 		}

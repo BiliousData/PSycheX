@@ -661,7 +661,8 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 		}
 	#endif
 	
-	#ifdef STAGE_PERFECT
+	if (stage.botplay)
+	{
 		//Do perfect note checks
 		if (playing)
 		{
@@ -722,7 +723,7 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 			this->pad_held = this->character->pad_held = 0;
 			this->pad_press = 0;
 		}
-	#endif
+	}
 }
 
 static void Stage_ProcessPsyche(PlayerState *this, Pad *pad, boolean playing)
@@ -2059,6 +2060,9 @@ void Stage_Tick(void)
 				{
 			    	//Load appropriate menu
 			    	Stage_Unload();
+					//play end if uproar
+					if (stage.stage_id == StageId_1_3 && stage.story)
+						Movie_Play("\\STR\\END.STR;1", 2313);
 			    	
 			    	LoadScr_Start();
 			    	#ifdef PSXF_NETWORK
@@ -2122,12 +2126,9 @@ void Stage_Tick(void)
 				return;
 			case StageTrans_Movie:
 			{
-				if (stage.stage_id == StageId_1_3)
-					movie.select = 1;
 				Stage_Unload();
 
 				LoadScr_Start();
-				gameloop = GameLoop_Movie;
 				LoadScr_End();
 				break;
 			}
@@ -2527,11 +2528,6 @@ void Stage_Tick(void)
 					{
 						if (Stage_NextLoad())
 							goto SeamLoad;
-					}
-					else if (stage.stage_id == StageId_1_3)
-					{
-						stage.trans = StageTrans_Movie;
-						Trans_Start();
 					}
 					else
 					{
