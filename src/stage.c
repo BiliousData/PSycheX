@@ -26,6 +26,7 @@
 #include "stime.h"
 
 //Stage constants
+boolean shakey; //Uproar note shake
 
 //psychic portrait animation stuff
 static const CharFrame psytalk_frame[] =
@@ -130,7 +131,20 @@ int note_norm[8] = {
 	 FIXED_DEC(-26,1) - FIXED_DEC(SCREEN_WIDEADD,4),//default is -26
 };
 
-static const fixed_t note_y = FIXED_DEC(32 - SCREEN_HEIGHT2, 1);
+//static const fixed_t note_y = FIXED_DEC(32 - SCREEN_HEIGHT2, 1);
+
+int note_y[8] = {
+	//BF
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	//Opponent
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+	FIXED_DEC(32 - SCREEN_HEIGHT2, 1),
+};
 
 static const u16 note_key[] = {INPUT_LEFT, INPUT_DOWN, INPUT_UP, INPUT_RIGHT};
 static const u8 note_anims[4][3] = {
@@ -386,7 +400,7 @@ static u8 Stage_HitNote(PlayerState *this, u8 type, fixed_t offset)
 			Obj_Splash *splash = Obj_Splash_New(
 				
 				note_x[type ^ stage.note_swap],
-				note_y * (stage.downscroll ? -1 : 1),
+				note_y[type ^ stage.note_swap] * (stage.downscroll ? -1 : 1),
 				type & 0x3
 			);
 			if (splash != NULL)
@@ -1014,7 +1028,7 @@ static void Stage_DrawNotes(void)
 		
 		fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 		fixed_t time = (scroll.start - stage.song_time) + (scroll.length * (note->pos - scroll.start_step) / scroll.length_step);
-		fixed_t y = note_y + FIXED_MUL(stage.speed, time * 150);
+		fixed_t y = note_y[(note->type & 0x7) ^ stage.note_swap] + FIXED_MUL(stage.speed, time * 150);
 		
 		//Check if went above screen
 		if (y < FIXED_DEC(-16 - SCREEN_HEIGHT2, 1))
@@ -1113,7 +1127,7 @@ static void Stage_DrawNotes(void)
 				{
 					//Get note height
 					fixed_t next_time = (scroll.start - stage.song_time) + (scroll.length * (note->pos + 12 - scroll.start_step) / scroll.length_step);
-					fixed_t next_y = note_y + FIXED_MUL(stage.speed, next_time * 150) - scroll.size;
+					fixed_t next_y = note_y[(note->type & 0x7) ^ stage.note_swap] + FIXED_MUL(stage.speed, next_time * 150) - scroll.size;
 					fixed_t next_size = next_y - y;
 					
 					if (clip < next_size)
@@ -1590,18 +1604,61 @@ int note6x = -94;
 int note7x = -60;
 int note8x = -26;
 
+int note1y = 32;
+int note2y = 32;
+int note3y = 32;
+int note4y = 32;
+
+int note5y = 32;
+int note6y = 32;
+int note7y = 32;
+int note8y = 32;
+
 //Welcome to the shitshow 2: Electric Boogaloo
 void Stage_Note_Move(void)
 {
 
-	note_x[0] = FIXED_DEC(note1x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[1] = FIXED_DEC(note2x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[2] = FIXED_DEC(note3x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[3] = FIXED_DEC(note4x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[4] = FIXED_DEC(note5x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[5] = FIXED_DEC(note6x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[6] = FIXED_DEC(note7x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
-	note_x[7] = FIXED_DEC(note8x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+	if (shakey == 0)
+	{
+		note_x[0] = FIXED_DEC(note1x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[1] = FIXED_DEC(note2x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[2] = FIXED_DEC(note3x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[3] = FIXED_DEC(note4x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[4] = FIXED_DEC(note5x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[5] = FIXED_DEC(note6x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[6] = FIXED_DEC(note7x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[7] = FIXED_DEC(note8x,1) + FIXED_DEC(SCREEN_WIDEADD,4);
+
+		note_y[0] = FIXED_DEC(note1y - SCREEN_HEIGHT2, 1);
+		note_y[1] = FIXED_DEC(note2y - SCREEN_HEIGHT2, 1);
+		note_y[2] = FIXED_DEC(note3y - SCREEN_HEIGHT2, 1);
+		note_y[3] = FIXED_DEC(note4y - SCREEN_HEIGHT2, 1);
+		note_y[4] = FIXED_DEC(note5y - SCREEN_HEIGHT2, 1);
+		note_y[5] = FIXED_DEC(note6y - SCREEN_HEIGHT2, 1);
+		note_y[6] = FIXED_DEC(note7y - SCREEN_HEIGHT2, 1);
+		note_y[7] = FIXED_DEC(note8y - SCREEN_HEIGHT2, 1);
+	}
+	else
+	{
+		note_x[0] = FIXED_DEC(note1x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[1] = FIXED_DEC(note2x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[2] = FIXED_DEC(note3x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[3] = FIXED_DEC(note4x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[4] = FIXED_DEC(note5x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[5] = FIXED_DEC(note6x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[6] = FIXED_DEC(note7x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+		note_x[7] = FIXED_DEC(note8x,1) + RandomRange(FIXED_DEC(-15,10), FIXED_DEC(15,10)) + FIXED_DEC(SCREEN_WIDEADD,4);
+
+		note_y[0] = FIXED_DEC(note1y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[1] = FIXED_DEC(note2y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[2] = FIXED_DEC(note3y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[3] = FIXED_DEC(note4y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[4] = FIXED_DEC(note5y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[5] = FIXED_DEC(note6y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[6] = FIXED_DEC(note7y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+		note_y[7] = FIXED_DEC(note8y - SCREEN_HEIGHT2, 1) + RandomRange(FIXED_DEC(-1,1), FIXED_DEC(1,1));
+	}
+	
 
 	switch (stage.notemode)
 	{
@@ -1616,6 +1673,16 @@ void Stage_Note_Move(void)
 			note6x = -94;
 			note7x = -60;
 			note8x = -26;
+
+			note1y = 32;
+			note2y = 32;
+			note3y = 32;
+			note4y = 32;
+
+			note5y = 32;
+			note6y = 32;
+			note7y = 32;
+			note8y = 32;
 			break;
 		}
 		case 1: //left and right flip
@@ -2167,7 +2234,7 @@ void Stage_Tick(void)
 			switch (stage.debug)
 			{
 				case 1: //step counter
-			        FntPrint("current step is %d\n", stage.notes_passed);
+			        FntPrint("current step is %d\n", stage.song_step);
 					break;
 				case 2: //camera position
 				    FntPrint("camera X %d Y %d zoom %d", stage.camera.x/1024, stage.camera.y/1024, stage.camera.zoom);
@@ -2397,6 +2464,7 @@ void Stage_Tick(void)
 					    	stage.fadewhite = FIXED_DEC(255,1);
 			                stage.fadeextra = FIXED_DEC(0,1);
 			                stage.fadespeed = FIXED_DEC(90,1);
+							shakey = 1;
 							break;
 					    }
 					case 1150:
@@ -2406,11 +2474,17 @@ void Stage_Tick(void)
 				        	stage.fadespeed = FIXED_DEC(80,1);
 					    	break;
 					    }
+					case 1152:
+						{
+							shakey = 0;
+							break;
+						}
 					case 1213:
 						{
 							stage.fadeblack = 0;
 							stage.fadewhite = FIXED_DEC(255,1);
 							stage.fadespeed = FIXED_DEC(100,1);
+							shakey = 1;
 						}
 				}
 			}
@@ -2687,11 +2761,13 @@ void Stage_Tick(void)
 			
 			   //BF
 			   note_dst.x = note_x[i ^ stage.note_swap] - FIXED_DEC(16,1);
+			   note_dst.y = note_y[i ^ stage.note_swap] - FIXED_DEC(16,1);
 			   Stage_DrawStrum(i, &note_src, &note_dst);
 			   Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
 			   
 			   //Opponent
 			   note_dst.x = note_x[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
+			   note_dst.y = note_y[(i | 0x4) ^ stage.note_swap] - FIXED_DEC(16,1);
 			   Stage_DrawStrum(i | 4, &note_src, &note_dst);
 			   Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
 			
