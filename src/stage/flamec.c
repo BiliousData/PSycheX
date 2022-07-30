@@ -14,6 +14,7 @@
 #include "../animation.h"
 
 boolean phase2;
+boolean finale;
 
 static const RECT wholescreen = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
@@ -201,12 +202,20 @@ void Back_FlameC_DrawFG(StageBack *back)
 
 	if (stage.song_step == 896)
 		phase2 = 1;
-
-
-	if (phase2 == 1)
+	if (stage.song_step == 1493)
 	{
-		FlameC_FireL_Draw(this, FIXED_DEC(250,1) - fx, FIXED_DEC(41,1) - fy); //fire fg right
-		FlameC_FireM_Draw(this, FIXED_DEC(-210,1) - fx, FIXED_DEC(31,1) - fy); //fire fg left
+		finale = 1;
+		Gfx_SetClear(255, 255, 255);
+	}
+
+
+	if (finale == 0)
+	{
+		if (phase2 == 1)
+		{
+			FlameC_FireL_Draw(this, FIXED_DEC(250,1) - fx, FIXED_DEC(41,1) - fy); //fire fg right
+			FlameC_FireM_Draw(this, FIXED_DEC(-210,1) - fx, FIXED_DEC(31,1) - fy); //fire fg left
+		}
 	}
 	
 	
@@ -291,31 +300,34 @@ void Back_FlameC_DrawBG(StageBack *back)
 		FIXED_DEC(256,1)
 	};
 
-	Stage_DrawTex(&this->tex_junk, &table_src, &table_dst, stage.camera.bzoom); //tipped table
-	Stage_DrawTex(&this->tex_junk, &tea_src, &tea_dst, stage.camera.bzoom); //spilled tea
-	Stage_DrawTex(&this->tex_junk, &chair_src, &chair_dst, stage.camera.bzoom); //tipped chair
-
-	if (phase2 == 1)
+	if (finale == 0)
 	{
-		FlameC_FireM_Draw(this, FIXED_DEC(-112,1) - fx, FIXED_DEC(-5,1) - fy); //fire phase 2 left
-		FlameC_FireR_Draw(this, FIXED_DEC(232,1) - fx, FIXED_DEC(1,1) - fy); //fire phase 2 right
+		Stage_DrawTex(&this->tex_junk, &table_src, &table_dst, stage.camera.bzoom); //tipped table
+		Stage_DrawTex(&this->tex_junk, &tea_src, &tea_dst, stage.camera.bzoom); //spilled tea
+		Stage_DrawTex(&this->tex_junk, &chair_src, &chair_dst, stage.camera.bzoom); //tipped chair
+
+		if (phase2 == 1)
+		{
+			FlameC_FireM_Draw(this, FIXED_DEC(-112,1) - fx, FIXED_DEC(-5,1) - fy); //fire phase 2 left
+			FlameC_FireR_Draw(this, FIXED_DEC(232,1) - fx, FIXED_DEC(1,1) - fy); //fire phase 2 right
+		}
+
+		FlameC_FireM_Draw(this, FIXED_DEC(62,1) - fx, FIXED_DEC(-11,1) - fy); //fire middle
+		FlameC_FireL_Draw(this, FIXED_DEC(-22,1) - fx, FIXED_DEC(11,1) - fy); //fire left
+		FlameC_FireR_Draw(this, FIXED_DEC(162,1) - fx, FIXED_DEC(1,1) - fy); //fire right
+
+
+		Stage_DrawTex(&this->tex_fireplace, &fireplace_src, &fireplace_dst, stage.camera.bzoom); //ruined fireplace
+		Stage_DrawTex(&this->tex_floor, &floorl_src, &floorl_dst, stage.camera.bzoom); //floor left
+		Stage_DrawTex(&this->tex_floor, &floorr_src, &floorr_dst, stage.camera.bzoom); //floor right
+		if (phase2 == 1)
+		{
+			Gfx_BlendRect(&wholescreen, 147, 0, 34, 0); //phase 2 red overlay
+		}
+
+		Stage_DrawTex(&this->tex_back0, &halll_src, &halll_dst, stage.camera.bzoom); //wall left
+		Stage_DrawTex(&this->tex_back1, &hallr_src, &hallr_dst, stage.camera.bzoom); //wall right
 	}
-
-	FlameC_FireM_Draw(this, FIXED_DEC(62,1) - fx, FIXED_DEC(-11,1) - fy); //fire middle
-	FlameC_FireL_Draw(this, FIXED_DEC(-22,1) - fx, FIXED_DEC(11,1) - fy); //fire left
-	FlameC_FireR_Draw(this, FIXED_DEC(162,1) - fx, FIXED_DEC(1,1) - fy); //fire right
-
-	
-	Stage_DrawTex(&this->tex_fireplace, &fireplace_src, &fireplace_dst, stage.camera.bzoom); //ruined fireplace
-	Stage_DrawTex(&this->tex_floor, &floorl_src, &floorl_dst, stage.camera.bzoom); //floor left
-	Stage_DrawTex(&this->tex_floor, &floorr_src, &floorr_dst, stage.camera.bzoom); //floor right
-	if (phase2 == 1)
-	{
-		Gfx_BlendRect(&wholescreen, 147, 0, 34, 0); //phase 2 red overlay
-	}
-
-	Stage_DrawTex(&this->tex_back0, &halll_src, &halll_dst, stage.camera.bzoom); //wall left
-	Stage_DrawTex(&this->tex_back1, &hallr_src, &hallr_dst, stage.camera.bzoom); //wall right
 }
 
 void Back_FlameC_Free(StageBack *back)
@@ -346,6 +358,7 @@ StageBack *Back_FlameC_New(void)
 	this->back.free = Back_FlameC_Free;
 
 	phase2 = 0;
+	finale = 0;
 
 	this->blendy = 0;
 	
