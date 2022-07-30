@@ -273,7 +273,7 @@ typedef struct
 	u8 freecam; //give player 1 control of the camera, and disables the auto cam
 	u8 movietog; //turns off movies
 
-	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2;
+	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeinwhite;
 	
 	s16 song_step;
 	

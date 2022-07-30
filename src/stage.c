@@ -27,6 +27,7 @@
 
 //Stage constants
 boolean shakey; //Uproar note shake
+boolean drawpsychic;
 
 //psychic portrait animation stuff
 static const CharFrame psytalk_frame[] =
@@ -1592,6 +1593,8 @@ static void Stage_LoadState(void)
 	ObjectList_Free(&stage.objlist_bg);
 
 	stage.notemode = 0;
+	shakey = 0;
+	stage.fadeinwhite = 0;
 }
 
 int note1x = 26;
@@ -2444,17 +2447,6 @@ void Stage_Tick(void)
 			if (stage.stage_id == StageId_2_3)
 			   nohud = 1;
 
-			if (stage.fadewhite > 0)
-			{
-         		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = stage.fadewhite >> FIXED_SHIFT;
-				u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
-				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
-				stage.fadewhite -= FIXED_MUL(stage.fadespeed, timer_dt*3);  
-
-            
-			}
-
 			if (stage.stage_id == StageId_1_3)
 			{
 				switch (stage.song_step)
@@ -2485,6 +2477,34 @@ void Stage_Tick(void)
 							stage.fadewhite = FIXED_DEC(255,1);
 							stage.fadespeed = FIXED_DEC(100,1);
 							shakey = 1;
+							break;
+						}
+					case 1470:
+						{
+							stage.fadeinwhite = 265200;
+							stage.fadespeed = FIXED_DEC(80,1);
+							break;
+						}
+					case 1472:
+						{
+							shakey = 0;
+							break;
+						}
+					case 1493:
+						{
+							//fadewhitemode = 1;
+							stage.opponent->x = FIXED_DEC(-97,1); //launch psychic off screen
+							stage.fadeinwhite = 0;
+							stage.fadewhite = FIXED_DEC(255,1);
+			                stage.fadeextra = FIXED_DEC(0,1);
+			                stage.fadespeed = FIXED_DEC(80,1);
+							break;
+						}
+					case 1544:
+						{
+							stage.fadeinwhite = 265200;
+							stage.fadespeed = FIXED_DEC(80,1);
+							break;
 						}
 				}
 			}
@@ -2863,9 +2883,13 @@ void Stage_Tick(void)
 							sprintf(this->score_text, "Score:0  |  Misses:?  |  Rating:? (?%%)");
 						this->refresh_score = false;
 					}
+					char bungo;
+					//sprintf(bungo, "White Fade-in %d\nStep %d", stage.fadeinwhite, stage.song_step);
 
 					//Display Score
 					stage.font_cdr.draw(&stage.font_cdr, this->score_text, 65, 220, FontAlign_Left);
+
+					//stage.font_cdr.draw(&stage.font_cdr, bungo, 65, 210, FontAlign_Left);
 				}
 
 			}
@@ -2902,7 +2926,7 @@ void Stage_Tick(void)
 			//uproar fade shit
 			if (stage.fadeblack > 0)
 			{
-				if (stage.fadeblack == 522000)
+				if (stage.fadeblack >= 522000)
 					break;
 				else
 				{
@@ -2912,6 +2936,40 @@ void Stage_Tick(void)
 					Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
 					stage.fadeblack += FIXED_MUL(stage.fadespeed, timer_dt*3);  
 				}
+
+            
+			}
+
+			if (stage.fadeinwhite > 0)
+			{
+
+				if (stage.fadeinwhite >= 522000)
+				{
+					//This sucks
+					static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+					u8 flash_col = stage.fadeinwhite >> FIXED_SHIFT;
+					u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
+					Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
+					break;
+				}
+				else
+				{
+					static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+					u8 flash_col = stage.fadeinwhite >> FIXED_SHIFT;
+					u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
+					Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
+					stage.fadeinwhite += FIXED_MUL(stage.fadespeed, timer_dt*3);  
+				}
+
+			}
+
+			if (stage.fadewhite > 0)
+			{
+         		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = stage.fadewhite >> FIXED_SHIFT;
+				u8 flash_col2 = stage.fadeextra >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
+				stage.fadewhite -= FIXED_MUL(stage.fadespeed, timer_dt*3);  
 
             
 			}
