@@ -12,6 +12,8 @@
 #include "../random.h"
 #include "../main.h"
 
+boolean silhouette;
+
 //Boyfriend skull fragments
 static SkullFragment char_bfs_skull[15] = {
 	{ 1 * 8, -87 * 8, -13, -13},
@@ -58,6 +60,15 @@ enum
 	BFS_ArcMain_Missu,
 	BFS_ArcMain_Missr,
 	BFS_ArcMain_Dead0,
+
+	BF_ArcMain_BF0,
+	BF_ArcMain_BF1,
+	BF_ArcMain_BF2,
+	BF_ArcMain_BF3,
+	BF_ArcMain_BF4,
+	BF_ArcMain_BF5,
+	BF_ArcMain_BF6,
+	BF_ArcMain_Dead0, //BREAK
 	
 	BFS_Arc_Max,
 };
@@ -77,7 +88,7 @@ typedef struct
 	Character character;
 	
 	//Render data and state
-	IO_Data arc_main, arc_dead;
+	IO_Data arc_main, arc_dead, arc_bf;
 	CdlFILE file_dead_arc; //dead.arc file position
 	IO_Data arc_ptr[BFS_Arc_Max];
 	
@@ -138,6 +149,47 @@ static const CharFrame char_BFS_frame[] = {
 	{BFS_ArcDead_Dead2, {128,   0, 128, 128}, { 53,  98}}, //36 dead2 body twitch 1
 	{BFS_ArcDead_Dead2, {  0, 128, 128, 128}, { 53,  98}}, //37 dead2 balls twitch 0
 	{BFS_ArcDead_Dead2, {128, 128, 128, 128}, { 53,  98}}, //38 dead2 balls twitch 1
+
+
+	//regular boyfriend sprites
+	{BF_ArcMain_BF0, {  0,   0, 102,  99}, { 53,  92}}, //39 idle 1
+	{BF_ArcMain_BF0, {103,   0, 102,  99}, { 53,  92}}, //40 idle 2
+	{BF_ArcMain_BF0, {  0, 100, 102, 101}, { 53,  94}}, //41 idle 3
+	{BF_ArcMain_BF0, {103, 100, 103, 104}, { 53,  97}}, //42 idle 4
+	{BF_ArcMain_BF1, {  0,   0, 103, 104}, { 53,  97}}, //43 idle 5
+	
+	{BF_ArcMain_BF1, {104,   0,  96, 102}, { 56,  95}}, //44 left 1
+	{BF_ArcMain_BF1, {  0, 105,  94, 102}, { 54,  95}}, //45 left 2
+	
+	{BF_ArcMain_BF1, { 95, 103,  94,  89}, { 52,  82}}, //46 down 1
+	{BF_ArcMain_BF2, {  0,   0,  94,  90}, { 52,  83}}, //47 down 2
+	
+	{BF_ArcMain_BF2, { 95,   0,  93, 112}, { 41, 104}}, //48 up 1
+	{BF_ArcMain_BF2, {  0,  91,  94, 111}, { 42, 103}}, //49 up 2
+	
+	{BF_ArcMain_BF2, { 95, 113, 102, 102}, { 41,  95}}, //50 right 1
+	{BF_ArcMain_BF3, {  0,   0, 102, 102}, { 41,  95}}, //51 right 2
+	
+	{BF_ArcMain_BF3, {103,   0,  99, 105}, { 54,  98}}, //52 peace 1
+	{BF_ArcMain_BF3, {  0, 103, 104, 103}, { 54,  96}}, //53 peace 2
+	{BF_ArcMain_BF3, {105, 106, 104, 104}, { 54,  97}}, //54 peace 3
+	
+	{BF_ArcMain_BF4, {  0,   0, 128, 128}, { 53,  92}}, //55 sweat 1
+	{BF_ArcMain_BF4, {128,   0, 128, 128}, { 53,  93}}, //56 sweat 2
+	{BF_ArcMain_BF4, {  0, 128, 128, 128}, { 53,  98}}, //57 sweat 3
+	{BF_ArcMain_BF4, {128, 128, 128, 128}, { 53,  98}}, //58 sweat 4
+	
+	{BF_ArcMain_BF5, {  0,   0,  93, 108}, { 52, 101}}, //59 left miss 1
+	{BF_ArcMain_BF5, { 94,   0,  93, 108}, { 52, 101}}, //60 left miss 2
+	
+	{BF_ArcMain_BF5, {  0, 109,  95,  98}, { 50,  90}}, //61 down miss 1
+	{BF_ArcMain_BF5, { 96, 109,  95,  97}, { 50,  89}}, //62 down miss 2
+	
+	{BF_ArcMain_BF6, {  0,   0,  90, 107}, { 44,  99}}, //63 up miss 1
+	{BF_ArcMain_BF6, { 91,   0,  89, 108}, { 44, 100}}, //64 up miss 2
+	
+	{BF_ArcMain_BF6, {  0, 108,  99, 108}, { 42, 101}}, //65 right miss 1
+	{BF_ArcMain_BF6, {100, 109, 101, 108}, { 43, 101}}, //66 right miss 2
 };
 
 static const Animation char_BFS_anim[PlayerAnim_Max] = {
@@ -170,6 +222,36 @@ static const Animation char_BFS_anim[PlayerAnim_Max] = {
 	{10, (const u8[]){34, 34, 34, ASCR_BACK, 1}}, //PlayerAnim_Dead4
 	{ 3, (const u8[]){37, 38, 34, ASCR_REPEAT}},  //PlayerAnim_Dead5
 	
+};
+
+static const Animation char_bf_anim[PlayerAnim_Max] = {
+	{2, (const u8[]){39, 40, 41, 42, 43, ASCR_BACK, 1}}, //CharAnim_Idle
+	{2, (const u8[]){44, 45, ASCR_BACK, 1}},             //CharAnim_Left
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_LeftAlt
+	{2, (const u8[]){46, 47, ASCR_BACK, 1}},             //CharAnim_Down
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_DownAlt
+	{2, (const u8[]){48, 49, ASCR_BACK, 1}},             //CharAnim_Up
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_UpAlt
+	{2, (const u8[]){50, 51, ASCR_BACK, 1}},             //CharAnim_Right
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_RightAlt
+	
+	{1, (const u8[]){59, 60, ASCR_BACK, 1}},     //PlayerAnim_LeftMiss
+	{1, (const u8[]){61, 62, ASCR_BACK, 1}},     //PlayerAnim_DownMiss
+	{1, (const u8[]){63, 64, ASCR_BACK, 1}},     //PlayerAnim_UpMiss
+	{1, (const u8[]){65, 66, ASCR_BACK, 1}},     //PlayerAnim_RightMiss
+	
+	{2, (const u8[]){52, 53, 54, ASCR_BACK, 1}},         //PlayerAnim_Peace
+	{2, (const u8[]){55, 56, 57, 58, ASCR_REPEAT}},      //PlayerAnim_Sweat
+	
+	{5, (const u8[]){27, 28, 29, 30, 30, ASCR_CHGANI, PlayerAnim_Dead1}}, //PlayerAnim_Dead0
+	{5, (const u8[]){30, ASCR_REPEAT}},                                                       //PlayerAnim_Dead1
+	{3, (const u8[]){31, 32, 33, 34, 34, 34, 34, 34, 34, 34, ASCR_CHGANI, PlayerAnim_Dead3}}, //PlayerAnim_Dead2
+	{3, (const u8[]){34, ASCR_REPEAT}},                                                       //PlayerAnim_Dead3
+	{3, (const u8[]){35, 36, 34, 34, 34, 34, 34, ASCR_CHGANI, PlayerAnim_Dead3}},             //PlayerAnim_Dead4
+	{3, (const u8[]){37, 38, 34, 34, 34, 34, 34, ASCR_CHGANI, PlayerAnim_Dead3}},             //PlayerAnim_Dead5
+	
+	{10, (const u8[]){34, 34, 34, ASCR_BACK, 1}}, //PlayerAnim_Dead4
+	{ 3, (const u8[]){37, 38, 34, ASCR_REPEAT}},  //PlayerAnim_Dead5
 };
 
 //Boyfriend player functions
@@ -259,8 +341,21 @@ void Char_BFS_Tick(Character *character)
 	}
 	
 	//Animate and draw character
-	Animatable_Animate(&character->animatable, (void*)this, Char_BFS_SetFrame);
-	Character_Draw(character, &this->tex, &char_BFS_frame[this->frame]);
+	if (silhouette == 1)
+	{
+		Animatable_Animate(&character->animatable2, (void*)this, Char_BFS_SetFrame);
+		Character_DrawCol(character, &this->tex, &char_BFS_frame[this->frame], 0, 0, 0);
+	}
+	else
+	{
+		Animatable_Animate(&character->animatable, (void*)this, Char_BFS_SetFrame);
+		Character_Draw(character, &this->tex, &char_BFS_frame[this->frame]);
+	}
+
+	if (stage.song_step == 1493)
+	{
+		silhouette = 1;
+	}
 }
 
 void Char_BFS_SetAnim(Character *character, u8 anim)
@@ -298,6 +393,7 @@ void Char_BFS_SetAnim(Character *character, u8 anim)
 	
 	//Set animation
 	Animatable_SetAnim(&character->animatable, anim);
+	Animatable_SetAnim(&character->animatable2, anim);
 	Character_CheckStartSing(character);
 }
 
@@ -307,6 +403,7 @@ void Char_BFS_Free(Character *character)
 	
 	//Free art
 	Mem_Free(this->arc_main);
+	Mem_Free(this->arc_bf);
 }
 
 Character *Char_BFS_New(fixed_t x, fixed_t y)
@@ -326,6 +423,7 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 	this->character.free = Char_BFS_Free;
 	
 	Animatable_Init(&this->character.animatable, char_BFS_anim);
+	Animatable_Init(&this->character.animatable2, char_bf_anim);
 	Character_Init((Character*)this, x, y);
 	
 	//Set character information
@@ -370,6 +468,39 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 	IO_Data *arc_ptr = this->arc_ptr;
 	for (; *pathp != NULL; pathp++)
 		*arc_ptr++ = Archive_Find(this->arc_main, *pathp);
+
+
+	//Load scene art
+	//TOTALLY not reused from VS Eteled
+	switch (stage.stage_id)
+	{
+		case StageId_1_3: //Uproar
+		{
+			//Load "BF" art
+			this->arc_bf = IO_Read("\\CHAR\\BF.ARC;1");
+			
+			const char **pathp = (const char *[]){
+				"bf0.tim",   //BF_ArcMain_BF0
+				"bf1.tim",   //BF_ArcMain_BF1
+				"bf2.tim",   //BF_ArcMain_BF2
+				"bf3.tim",   //BF_ArcMain_BF3
+				"bf4.tim",   //BF_ArcMain_BF4
+				"bf5.tim",   //BF_ArcMain_BF5
+				"bf6.tim",   //BF_ArcMain_BF6
+				"dead0.tim", //BF_ArcMain_Dead0
+				NULL
+			};
+			IO_Data *arc_ptr = &this->arc_ptr[BF_ArcMain_BF0];
+			for (; *pathp != NULL; pathp++)
+				*arc_ptr++ = Archive_Find(this->arc_bf, *pathp);
+			break;
+		}
+		default:
+		{
+			this->arc_bf = NULL;
+			break;
+		}
+	}
 	
 	//Initialize render state
 	this->tex_id = this->frame = 0xFF;
@@ -385,6 +516,7 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 		frag->xsp += RandomRange(-4, 4);
 		frag->ysp += RandomRange(-2, 2);
 	}
+	silhouette = 0;
 	
 	return (Character*)this;
 }
