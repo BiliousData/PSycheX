@@ -49,6 +49,22 @@ void Character_Draw(Character *this, Gfx_Tex *tex, const CharFrame *cframe)
 	Character_DrawParallax(this, tex, cframe, FIXED_UNIT);
 }
 
+void Character_DrawParallaxCol(Character *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax, u8 r, u8 g, u8 b)
+{
+	//Draw character
+	fixed_t x = this->x - FIXED_MUL(stage.camera.x, parallax) - FIXED_DEC(cframe->off[0],1);
+	fixed_t y = this->y - FIXED_MUL(stage.camera.y, parallax) - FIXED_DEC(cframe->off[1],1);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {x, y, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTexCol(tex, &src, &dst, stage.camera.bzoom, r, g, b);
+}
+
+void Character_DrawCol(Character *this, Gfx_Tex *tex, const CharFrame *cframe, u8 r, u8 g, u8 b)
+{
+	Character_DrawParallaxCol(this, tex, cframe, FIXED_UNIT, r, g, b);
+}
+
 void Character_CheckStartSing(Character *this)
 {
 	//Update sing end if singing animation
@@ -121,6 +137,18 @@ void Character_QuickIdle(Character *this)
 		     this->animatable.anim != CharAnim_Right &&
 		     this->animatable.anim != CharAnim_RightAlt) &&
 		    (stage.song_step & 0x3) == 0)
+			this->set_anim(this, CharAnim_Idle);
+
+		if (Animatable_Ended(&this->animatable2) &&
+		    (this->animatable.anim != CharAnim_Left &&
+		     this->animatable.anim != CharAnim_LeftAlt &&
+		     this->animatable.anim != CharAnim_Down &&
+		     this->animatable.anim != CharAnim_DownAlt &&
+		     this->animatable.anim != CharAnim_Up &&
+		     this->animatable.anim != CharAnim_UpAlt &&
+		     this->animatable.anim != CharAnim_Right &&
+		     this->animatable.anim != CharAnim_RightAlt) &&
+		    (stage.song_step & 0x7) == 0)
 			this->set_anim(this, CharAnim_Idle);
 	}
 }
