@@ -29,8 +29,17 @@ typedef struct
 
 	Gfx_Tex tex_fireplace; //fireplace
 
+	//fire
 	u8 fire_frame, fire_tex_id;
 	Animatable fire_animatable;
+
+	//gabe newell
+	u8 steam_frame, steam_tex_id;
+	Animatable steam_animatable;
+
+	//wick
+	u8 wick_frame, wick_tex_id;
+	Animatable wick_animatable;
 	
 } Back_Chop;
 
@@ -70,6 +79,78 @@ void Chop_Fire_SetFrame(void *user, u8 frame)
 	}
 }
 
+static const CharFrame steam_frame[4] = {
+	{0, {162, 143,  15,  29}, {0,   0}},
+	{0, {177, 143,  12,  35}, {-1,  6}},
+	{0, {189, 143,  13,  35}, {-6,  6}},
+	{0, {202, 143,  14,  32}, {-3,  3}},
+};
+
+static const Animation steam_anim[1] = {
+	{4, (const u8[]){0, 1, 2, 3, ASCR_REPEAT}},
+};
+
+void Chop_Steam_Draw(Back_Chop *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &steam_frame[this->steam_frame];
+	
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	//Stage_DrawTex(&this->tex_junk, &src, &dst, stage.camera.bzoom);
+	Stage_BlendTex(&this->tex_junk, &src, &dst, stage.camera.bzoom, 0);
+}
+
+void Chop_Steam_SetFrame(void *user, u8 frame)
+{
+	Back_Chop *this = (Back_Chop*)user;
+	
+	//Check if this is a new frame
+	if (frame != this->steam_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &steam_frame[this->steam_frame = frame];
+	}
+}
+
+static const CharFrame wick_frame[4] = {
+	{0, {  0, 175,  4,  8}, {0,  0}},
+	{0, {  4, 175,  4,  9}, {0,  1}},
+	{0, {  8, 175,  4,  7}, {0, -1}},
+	{0, { 12, 175,  5,  7}, {0, -1}},
+};
+
+static const Animation wick_anim[1] = {
+	{2, (const u8[]){0, 1, 2, 3, ASCR_REPEAT}},
+};
+
+void Chop_Wick_Draw(Back_Chop *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &wick_frame[this->wick_frame];
+	
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(&this->tex_junk, &src, &dst, stage.camera.bzoom);
+}
+
+void Chop_Wick_SetFrame(void *user, u8 frame)
+{
+	Back_Chop *this = (Back_Chop*)user;
+	
+	//Check if this is a new frame
+	if (frame != this->wick_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &fire_frame[this->wick_frame = frame];
+	}
+}
 
 
 
@@ -91,6 +172,8 @@ void Back_Chop_DrawBG(StageBack *back)
 	fixed_t fx, fy;
 
 	Animatable_Animate(&this->fire_animatable, (void*)this, Chop_Fire_SetFrame);
+	Animatable_Animate(&this->steam_animatable, (void*)this, Chop_Steam_SetFrame);
+	Animatable_Animate(&this->wick_animatable, (void*)this, Chop_Wick_SetFrame);
 	
 	
 	
@@ -155,6 +238,11 @@ void Back_Chop_DrawBG(StageBack *back)
 	};
 
 	Chop_Fire_Draw(this, FIXED_DEC(85,1) - fx, FIXED_DEC(31,1) - fy);
+	Chop_Steam_Draw(this, FIXED_DEC(271,1) - fx, FIXED_DEC(15,1) - fy);
+	
+	Chop_Wick_Draw(this, FIXED_DEC(41,1) - fx, FIXED_DEC(-26,1) - fy);
+	Chop_Wick_Draw(this, FIXED_DEC(55,1) - fx, FIXED_DEC(-21,1) - fy);
+	Chop_Wick_Draw(this, FIXED_DEC(184,1) - fx, FIXED_DEC(-26,1) - fy);
 	
 	Stage_DrawTex(&this->tex_fireplace, &fireplace_src, &fireplace_dst, stage.camera.bzoom);
 	Stage_DrawTex(&this->tex_junk, &table_src, &table_dst, stage.camera.bzoom);
@@ -200,6 +288,12 @@ StageBack *Back_Chop_New(void)
 
 	Animatable_Init(&this->fire_animatable, fire_anim);
 	Animatable_SetAnim(&this->fire_animatable, 0);
+
+	Animatable_Init(&this->steam_animatable, steam_anim);
+	Animatable_SetAnim(&this->steam_animatable, 0);
+
+	Animatable_Init(&this->wick_animatable, wick_anim);
+	Animatable_SetAnim(&this->wick_animatable, 0);
 	
 	
 	

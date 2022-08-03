@@ -28,6 +28,7 @@
 //Stage constants
 boolean shakey; //Uproar note shake
 boolean drawpsychic;
+boolean nobump;
 
 //psychic portrait animation stuff
 static const CharFrame psytalk_frame[] =
@@ -268,7 +269,7 @@ static void Stage_MoveChar(void)
 		    stage.player->x += FIXED_DEC(1,1);
 	}
 
-//move player 2 with second controller's d pad when debug is 4
+	//move player 2 with second controller's d pad when debug is 4
 	if (stage.debug == 4)
 	{
 		if (pad_state_2.held & INPUT_LEFT)
@@ -279,6 +280,19 @@ static void Stage_MoveChar(void)
 		    stage.opponent->y -= FIXED_DEC(1,1);
 		if (pad_state_2.held & INPUT_RIGHT)
 		    stage.opponent->x += FIXED_DEC(1,1);
+	}
+
+	//take a guess what this does
+	if (stage.debug == 5)
+	{
+		if (pad_state_2.held & INPUT_LEFT)
+		    stage.gf->x -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_DOWN)
+		    stage.gf->y += FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_UP)
+		    stage.gf->y -= FIXED_DEC(1,1);
+		if (pad_state_2.held & INPUT_RIGHT)
+		    stage.gf->x += FIXED_DEC(1,1);
 	}
 }
 
@@ -880,6 +894,39 @@ void Stage_DrawTexCol(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixe
 void Stage_DrawTex(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixed_t zoom)
 {
 	Stage_DrawTexCol(tex, src, dst, zoom, 0x80, 0x80, 0x80);
+}
+
+void Stage_BlendTex(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixed_t zoom, u8 mode)
+{
+	fixed_t xz = dst->x;
+	fixed_t yz = dst->y;
+	fixed_t wz = dst->w;
+	fixed_t hz = dst->h;
+	
+	//Don't draw if HUD and is disabled
+	if (tex == &stage.tex_hud0 || tex == &stage.tex_hud1)
+	{
+		if (nohud)
+			return;
+	}
+	
+	fixed_t l = (SCREEN_WIDTH2  << FIXED_SHIFT) + FIXED_MUL(xz, zoom);// + FIXED_DEC(1,2);
+	fixed_t t = (SCREEN_HEIGHT2 << FIXED_SHIFT) + FIXED_MUL(yz, zoom);// + FIXED_DEC(1,2);
+	fixed_t r = l + FIXED_MUL(wz, zoom);
+	fixed_t b = t + FIXED_MUL(hz, zoom);
+	
+	l >>= FIXED_SHIFT;
+	t >>= FIXED_SHIFT;
+	r >>= FIXED_SHIFT;
+	b >>= FIXED_SHIFT;
+	
+	RECT sdst = {
+		l,
+		t,
+		r - l,
+		b - t,
+	};
+	Gfx_BlendTex(tex, src, &sdst, 0);
 }
 
 void Stage_DrawTexArb(Gfx_Tex *tex, const RECT *src, const POINT_FIXED *p0, const POINT_FIXED *p1, const POINT_FIXED *p2, const POINT_FIXED *p3, fixed_t zoom)
@@ -1534,6 +1581,18 @@ static void Stage_LoadState(void)
 			time.secdown = 58;
 			break;
 		}
+		case StageId_1_2:
+		{
+			time.mindown = 1;
+			time.secdown = 58;
+			break;
+		}
+		case StageId_1_3:
+		{
+			time.mindown = 2;
+			time.secdown = 0;
+			break;
+		}
 		default:
 			break;
 	}
@@ -1594,6 +1653,7 @@ static void Stage_LoadState(void)
 
 	stage.notemode = 0;
 	shakey = 0;
+	nobump = 0;
 	stage.fadeinwhite = 0;
 }
 
@@ -2252,6 +2312,7 @@ void Stage_Tick(void)
 					break;
 				case 5: //Bg char (gf) position
 				    FntPrint("bg char pos X %d Y %d", stage.gf->x/1024, stage.gf->y/1024);
+					Stage_MoveChar();
 					break;
 				case 6: //ass
 					FntPrint("STRIKELINE X\n%d %d %d %d %d %d %d %d", note1x, note2x, note3x, note4x, note5x, note6x, note7x, note8x);
@@ -2469,6 +2530,7 @@ void Stage_Tick(void)
 					case 1152:
 						{
 							shakey = 0;
+							nobump = 1;
 							break;
 						}
 					case 1213:
@@ -2477,6 +2539,7 @@ void Stage_Tick(void)
 							stage.fadewhite = FIXED_DEC(255,1);
 							stage.fadespeed = FIXED_DEC(100,1);
 							shakey = 1;
+							nobump = 0;
 							break;
 						}
 					case 1470:
@@ -2693,8 +2756,16 @@ void Stage_Tick(void)
 					stage.bump = FIXED_DEC(103,100);
 				
 				//Bump health every 4 steps
-				if ((stage.song_step & 0x3) == 0)
+				if (nobump == 1)
+				{
+					if ((stage.song_step & 0x3) == 0)
+					stage.sbump = FIXED_DEC(100,100);
+				}
+				else
+				{
+					if ((stage.song_step & 0x3) == 0)
 					stage.sbump = FIXED_DEC(103,100);
+				}
 			}
 			
 			//Scroll camera
