@@ -213,24 +213,31 @@ void Char_SenpaiB_Tick(Character *character)
 		    switch (stage.song_step)
 			{
             case 188:
-                {
-                	this->character.focus_zoom = FIXED_DEC(14,10);
-					this->character.focus_x = FIXED_DEC(-30,1);
-	                this->character.focus_y = FIXED_DEC(-75,1);
-                };
+            {
+            	//this->character.focus_zoom = FIXED_DEC(14,10);
+				//this->character.focus_x = FIXED_DEC(-30,1);
+	            //this->character.focus_y = FIXED_DEC(-75,1);
+				//174 32
+				this->character.focus_x = FIXED_DEC(-14,1);
+				this->character.focus_y = FIXED_DEC(-51,1);
+				this->character.focus_zoom = FIXED_DEC(11,10);
+				stage.camode = 2;
+            };
             break;
 	        case 191:
 	        {
 	        	this->character.focus_zoom = FIXED_DEC(1,1);
 				this->character.focus_x = FIXED_DEC(-50,1);
 	            this->character.focus_y = FIXED_DEC(-105,1);
+				stage.camode = 0;
 	        };
 	        break;
 			case 572:
                 {
-                	this->character.focus_zoom = FIXED_DEC(14,10);
-					this->character.focus_x = FIXED_DEC(-30,1);
-	                this->character.focus_y = FIXED_DEC(-75,1);
+                	this->character.focus_x = FIXED_DEC(-14,1);
+					this->character.focus_y = FIXED_DEC(-51,1);
+					this->character.focus_zoom = FIXED_DEC(11,10);
+					stage.camode = 2;
                 };
             break;
 	        case 575:
@@ -238,13 +245,15 @@ void Char_SenpaiB_Tick(Character *character)
 	        	this->character.focus_zoom = FIXED_DEC(1,1);
 				this->character.focus_x = FIXED_DEC(-50,1);
 	            this->character.focus_y = FIXED_DEC(-105,1);
+				stage.camode = 0;
 	        };
 	        break;
 			case 1084:
                 {
-                	this->character.focus_zoom = FIXED_DEC(14,10);
-					this->character.focus_x = FIXED_DEC(-30,1);
-	                this->character.focus_y = FIXED_DEC(-75,1);
+                	this->character.focus_x = FIXED_DEC(-14,1);
+					this->character.focus_y = FIXED_DEC(-51,1);
+					this->character.focus_zoom = FIXED_DEC(11,10);
+					stage.camode = 2;
                 };
             break;
 	        case 1087:
@@ -252,13 +261,15 @@ void Char_SenpaiB_Tick(Character *character)
 	        	this->character.focus_zoom = FIXED_DEC(1,1);
 				this->character.focus_x = FIXED_DEC(-50,1);
 	            this->character.focus_y = FIXED_DEC(-105,1);
+				stage.camode = 0;
 	        };
 	        break;
 			case 1280:
                 {
-                	this->character.focus_zoom = FIXED_DEC(14,10);
-					this->character.focus_x = FIXED_DEC(-30,1);
-	                this->character.focus_y = FIXED_DEC(-75,1);
+                	this->character.focus_x = FIXED_DEC(-14,1);
+					this->character.focus_y = FIXED_DEC(-51,1);
+					this->character.focus_zoom = FIXED_DEC(11,10);
+					stage.camode = 2;
                 };
             break;
 	        case 1283:
@@ -266,6 +277,7 @@ void Char_SenpaiB_Tick(Character *character)
 	        	this->character.focus_zoom = FIXED_DEC(1,1);
 				this->character.focus_x = FIXED_DEC(-50,1);
 	            this->character.focus_y = FIXED_DEC(-105,1);
+				stage.camode = 0;
 	        };
 	        break;
 	        };
@@ -341,12 +353,16 @@ Character *Char_SenpaiB_New(fixed_t x, fixed_t y)
 	
 	//Set character information
 	this->character.spec = CHAR_SPEC_MISSANIM;
-	
+	//health icon
 	this->character.health_i = 2;
-	
+	//camera
 	this->character.focus_x = FIXED_DEC(-50,1);
 	this->character.focus_y = FIXED_DEC(-105,1);
 	this->character.focus_zoom = FIXED_DEC(1,1);
+	//healthbar color
+	this->character.hr = 255;
+	this->character.hg = 170;
+	this->character.hb = 111;
 
 	//Load art
 	this->arc_main = IO_Read("\\CHAR\\SENPAIB.ARC;1");

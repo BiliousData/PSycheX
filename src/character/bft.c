@@ -192,6 +192,12 @@ void Char_BFT_Tick(Character *character)
 				{
 					switch (stage.song_step)
 					{
+						case 0:
+							this->character.focus_x = FIXED_DEC(-16,1);
+							this->character.focus_y = FIXED_DEC(-55,1);
+							this->character.focus_zoom = FIXED_DEC(15,10);
+							stage.camode = 1;
+							break;
 						case 22:
 							character->set_anim(character, CharAnim_Down);
 							break;
@@ -264,9 +270,9 @@ Character *Char_BFT_New(fixed_t x, fixed_t y)
 	
 	this->character.health_i = 2;
 	
-	this->character.focus_zoom = FIXED_DEC(14,10);
-	this->character.focus_x = FIXED_DEC(-30,1);
-	this->character.focus_y = FIXED_DEC(-65,1);
+	this->character.focus_zoom = FIXED_DEC(1,1);
+	this->character.focus_x = FIXED_DEC(-50,1);
+	this->character.focus_y = (stage.stage_id == StageId_1_4) ? FIXED_DEC(-105,1) : FIXED_DEC(-105,1);
 	
 	//Load art
 	this->arc_main = IO_Read("\\CHAR\\BFT.ARC;1");

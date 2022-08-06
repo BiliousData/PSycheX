@@ -434,6 +434,10 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 	this->character.focus_x = FIXED_DEC(-50,1);
 	this->character.focus_y = (stage.stage_id == StageId_1_4) ? FIXED_DEC(-105,1) : FIXED_DEC(-105,1);
 	this->character.focus_zoom = FIXED_DEC(1,1);
+
+	this->character.hr = 247;
+	this->character.hg = 58;
+	this->character.hb = 107;
 	
 	//Load art
 	this->arc_main = IO_Read("\\CHAR\\BFSPIRIT.ARC;1");

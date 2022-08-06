@@ -220,9 +220,6 @@ typedef struct
 	u16 step_base;
 	Section *section_base;
 
-	u8 healthe;
-	u8 healthp;
-
     //0 is normal
 	//1 is left and right flip
 	//2 is full note flip
@@ -272,6 +269,8 @@ typedef struct
 	u8 debug; //0 is nothing, 1 is step counter, 2 is camera positions
 	u8 freecam; //give player 1 control of the camera, and disables the auto cam
 	u8 movietog; //turns off movies
+
+	u8 camode;
 
 	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeinwhite;
 	

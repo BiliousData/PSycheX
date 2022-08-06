@@ -13,6 +13,9 @@
 #include "../timer.h"
 #include "../animation.h"
 
+fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeblack2;
+boolean fademode;
+
 //Week 4 background structure
 typedef struct
 {
@@ -237,6 +240,41 @@ void Back_Chop_DrawBG(StageBack *back)
 		FIXED_DEC(256,1)
 	};
 
+	//bft cutscene shit
+	if (fadeblack > 0 && fademode == 0)
+	{
+		if (fadeblack >= 81858)
+		{
+			//This sucks
+			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+			u8 flash_col = fadeblack >> FIXED_SHIFT;
+			u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+			Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+		}
+		else
+		{
+    		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+			u8 flash_col = fadeblack >> FIXED_SHIFT;
+			u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+			Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+			fadeblack += FIXED_MUL(fadespeed, timer_dt*3);  
+		}
+
+    
+	}
+
+	if (fadeblack2 > 0 && fademode == 1)
+	{
+    	static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+		u8 flash_col = fadeblack2 >> FIXED_SHIFT;
+		u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+		Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+		fadeblack2 -= FIXED_MUL(fadespeed, timer_dt*3); 
+    
+	}
+	if (stage.stage_id == StageId_1_5)
+		FntPrint("1 %d\n2 %d\nmode %d", fadeblack, fadeblack2, fademode);
+
 	Chop_Fire_Draw(this, FIXED_DEC(85,1) - fx, FIXED_DEC(31,1) - fy);
 	Chop_Steam_Draw(this, FIXED_DEC(271,1) - fx, FIXED_DEC(15,1) - fy);
 	
@@ -251,6 +289,27 @@ void Back_Chop_DrawBG(StageBack *back)
 	Stage_DrawTex(&this->tex_floor, &floorr_src, &floorr_dst, stage.camera.bzoom);
 	Stage_DrawTex(&this->tex_back0, &halll_src, &halll_dst, stage.camera.bzoom);
 	Stage_DrawTex(&this->tex_back1, &hallr_src, &hallr_dst, stage.camera.bzoom);
+
+	if (stage.stage_id == StageId_1_5)
+	{
+		switch (stage.song_step)
+		{
+			case 10:
+			{
+				fadeblack = 1;
+				fadeextra = FIXED_DEC(0,1);
+				fadespeed = FIXED_DEC(46,10);
+				break;
+			}
+			case 103:
+			{
+				fademode = 1;
+				fadeblack2 = fadeblack;
+				fadespeed = FIXED_DEC(80,1);
+				break;
+			}
+		}
+	}
 }
 
 void Back_Chop_Free(StageBack *back)
@@ -294,6 +353,10 @@ StageBack *Back_Chop_New(void)
 
 	Animatable_Init(&this->wick_animatable, wick_anim);
 	Animatable_SetAnim(&this->wick_animatable, 0);
+
+	fademode = 0;
+	fadeblack = 0;
+	fadeblack2 = 0;
 	
 	
 	

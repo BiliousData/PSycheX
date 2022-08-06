@@ -46,13 +46,13 @@ void SongTimer(void)
 		
 		stage.font_cdr.draw(&stage.font_cdr, timer1, 149, 10, FontAlign_Left);
 	}
-	else //but if finished,
-	{
-		if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
-			FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is over with a 0.
-		else
-			FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is  over without a 0.
-	}
+	//else //but if finished,
+	//{
+	//	if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
+	//		FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is over with a 0.
+	//	else
+	//		FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is  over without a 0.
+	//}
 
 	//Voila!
 	
@@ -89,15 +89,20 @@ void SongTimerDown(void)
 			sprintf(timer1, "%d:%d", timer_visual[2], timer_visual[1]);
 		}
 		
-		stage.font_cdr.draw(&stage.font_cdr, timer1, 149, 10, FontAlign_Left);
-	}
-	else //but if finished,
-	{
-		if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
-			FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is over with a 0.
+		if (time.mindown == NULL)
+		{}
 		else
-			FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is  over without a 0.
+		{
+			stage.font_cdr.draw(&stage.font_cdr, timer1, 149, 10, FontAlign_Left);
+		}
 	}
+	//else //but if finished,
+	//{
+	//	if (timer_visual[1] < 10) //Trying to avoid cases like "1:5"
+	//		FntPrint("Timer's out at %d:0%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is over with a 0.
+	//	else
+	//		FntPrint("Timer's out at %d:%d", timer_visual[2], timer_visual[1]); //Telling the player that the timer is  over without a 0.
+	//}
 
 	//Voila!
 	

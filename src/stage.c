@@ -238,9 +238,29 @@ static void Stage_ScrollCamera(void)
 		fixed_t dz = stage.camera.tz - stage.camera.zoom;
 		
 		//Scroll based off current divisor
-		stage.camera.x += FIXED_MUL(dx, stage.camera.td);
-		stage.camera.y += FIXED_MUL(dy, stage.camera.td);
-		stage.camera.zoom += FIXED_MUL(dz, stage.camera.td);
+		switch (stage.camode)
+		{
+			case 0: //normal
+			{
+				stage.camera.x += FIXED_MUL(dx, stage.camera.td);
+				stage.camera.y += FIXED_MUL(dy, stage.camera.td);
+				stage.camera.zoom += FIXED_MUL(dz, stage.camera.td);
+				break;
+			}
+			case 1: //slow
+			{
+				stage.camera.x += FIXED_MUL(dx, stage.camera.td) / 8;
+				stage.camera.y += FIXED_MUL(dy, stage.camera.td) / 8;
+				stage.camera.zoom += FIXED_MUL(dz, stage.camera.td) / 8;
+				break;
+			}
+			case 2: //fast
+			{
+				stage.camera.x += FIXED_MUL(dx, stage.camera.td) * 2;
+				stage.camera.y += FIXED_MUL(dy, stage.camera.td) * 2;
+				stage.camera.zoom += FIXED_MUL(dz, stage.camera.td) * 2;
+			}
+		}
 		
 		////Shake in Week 4
 		//if (stage.stage_id >= StageId_4_1 && stage.stage_id <= StageId_4_3)
@@ -977,7 +997,7 @@ static void Stage_DrawHealth(s16 health, u8 i, s8 ox)
 	fixed_t hx = (128 << FIXED_SHIFT) * (10000 - health) / 10000;
 	RECT src = {
 		(i % 3) * 70 + dying,
-		48 + (i / 3) * 35,
+		8 + (i / 3) * 35,
 		35,
 		35
 	};
@@ -1584,7 +1604,7 @@ static void Stage_LoadState(void)
 		case StageId_1_2:
 		{
 			time.mindown = 1;
-			time.secdown = 58;
+			time.secdown = 54;
 			break;
 		}
 		case StageId_1_3:
@@ -1594,6 +1614,8 @@ static void Stage_LoadState(void)
 			break;
 		}
 		default:
+			time.mindown = NULL;
+			time.secdown = NULL;
 			break;
 	}
 
@@ -1655,6 +1677,7 @@ static void Stage_LoadState(void)
 	shakey = 0;
 	nobump = 0;
 	stage.fadeinwhite = 0;
+	stage.camode = 0;
 }
 
 int note1x = 26;
@@ -2460,34 +2483,6 @@ void Stage_Tick(void)
 						break;
 				}
 		    }
-
-
-
-			if (stage.stage_id == StageId_1_1)
-			{
-			stage.healthe = 0;
-			stage.healthp = 8;
-			}
-			else if (stage.stage_id == StageId_1_2)
-			{
-            stage.healthe = 0;
-			stage.healthp = 16;
-			}
-			else if (stage.stage_id == StageId_1_3)
-			{
-			stage.healthe = 0;
-			stage.healthp = 24;
-			}
-			else if (stage.stage_id == StageId_2_1)
-			{
-				stage.healthe = 40;
-				stage.healthp = 32;
-			}
-			else if (stage.stage_id == StageId_2_2)
-			{
-			stage.healthe = 40;
-			stage.healthp = 32;
-			};
 			
 			if (stage.stage_id == StageId_1_1)
 			   nohud = 0;
@@ -2982,16 +2977,16 @@ void Stage_Tick(void)
 				Stage_DrawHealth(stage.player_state[0].health, stage.opponent->health_i, -1);
 				
 				//Draw health bar
-				RECT health_fill = {0, stage.healthe, 256 - (256 * stage.player_state[0].health / 20000), 8};
-				RECT health_back = {0, stage.healthp, 256, 8};
+				RECT health_fill = {0, 0, 256 - (256 * stage.player_state[0].health / 20000), 8};
+				RECT health_back = {0, 0, 256, 8};
 				RECT_FIXED health_dst = {FIXED_DEC(-128,1), (SCREEN_HEIGHT2 - 32) << FIXED_SHIFT, 0, FIXED_DEC(8,1)};
 				if (stage.downscroll)
 					health_dst.y = -health_dst.y - health_dst.h;
 				
 				health_dst.w = health_fill.w << FIXED_SHIFT;
-				Stage_DrawTex(&stage.tex_hud1, &health_fill, &health_dst, stage.bump);
+				Stage_DrawTexCol(&stage.tex_hud1, &health_fill, &health_dst, stage.bump, stage.opponent->hr / 2, stage.opponent->hg / 2, stage.opponent->hb / 2); //opponent
 				health_dst.w = health_back.w << FIXED_SHIFT;
-				Stage_DrawTex(&stage.tex_hud1, &health_back, &health_dst, stage.bump);
+				Stage_DrawTexCol(&stage.tex_hud1, &health_back, &health_dst, stage.bump, stage.player->hr / 2, stage.player->hg / 2, stage.player->hb / 2); //player
 			}
 
 			//uproar fade shit
@@ -3454,6 +3449,7 @@ void Stage_Tick(void)
 			if (pad_state.press & PAD_START)
 			{
 			    Audio_StopXA();
+				Mem_Free(this->arc_psytalk);
 			    stage.state = StageState_Play;
 			}
 			

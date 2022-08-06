@@ -57,6 +57,9 @@ typedef struct Character
 	Animatable animatable2;
 	fixed_t sing_end;
 	u16 pad_held;
+
+	//healthbar colors
+	u16 hr, hg, hb;
 } Character;
 
 //Character functions

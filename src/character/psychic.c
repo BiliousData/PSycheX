@@ -207,6 +207,19 @@ Character *Char_Psychic_New(fixed_t x, fixed_t y)
 	this->character.focus_x = FIXED_DEC(65,1);
 	this->character.focus_y = FIXED_DEC(-95,1);
 	this->character.focus_zoom = FIXED_DEC(1,1);
+
+	if (stage.demo == 1) //if demo, use og health color
+	{
+		this->character.hr = 254;
+		this->character.hg = 0;
+		this->character.hb = 0;
+	}
+	else
+	{
+		this->character.hr = 88;
+		this->character.hg = 7;
+		this->character.hb = 135;
+	}
 	
 	//Load art
 	this->arc_idle = IO_Read("\\CHAR\\PSYCHIC1.ARC;1");
