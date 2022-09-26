@@ -18,7 +18,6 @@ SRCS = src/main.c \
        src/psx/pad.c \
        src/psx/timer.c \
        src/psx/movie.c \
-       src/custom.c \
        src/stime.c \
        src/stage/dummy.c \
        src/stage/fplace.c \
@@ -41,8 +40,9 @@ SRCS = src/main.c \
        src/character/psychm.c \
        src/character/sendai.c \
        src/character/bfspirit.c \
-       src/character/end.c \
        src/character/bft.c \
+       src/portraits/psyport.c \
+       src/portraits/bfport.c \
        src/object.c \
        src/object/combo.c \
        src/object/splash.c \

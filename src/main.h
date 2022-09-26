@@ -13,7 +13,7 @@ typedef enum
 	GameLoop_Menu,
   GameLoop_Demu,
 	GameLoop_Stage,
-  GameLoop_Custom,
+  //GameLoop_Custom,
 } GameLoop;
 
 extern GameLoop gameloop;

@@ -21,6 +21,17 @@ void Character_Free(Character *this)
 	Mem_Free(this);
 }
 
+void Portrait_Free(Portrait *this)
+{
+	//Check if NULL
+	if (this == NULL)
+		return;
+	
+	//Free character
+	this->free(this);
+	Mem_Free(this);
+}
+
 void Character_Init(Character *this, fixed_t x, fixed_t y)
 {
 	//Perform common character initialization
@@ -63,6 +74,38 @@ void Character_DrawParallaxCol(Character *this, Gfx_Tex *tex, const CharFrame *c
 void Character_DrawCol(Character *this, Gfx_Tex *tex, const CharFrame *cframe, u8 r, u8 g, u8 b)
 {
 	Character_DrawParallaxCol(this, tex, cframe, FIXED_UNIT, r, g, b);
+}
+
+void Character_DrawPortParallax(Character *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax)
+{
+	//Draw character
+	fixed_t x = this->x - FIXED_DEC(cframe->off[0],1);
+	fixed_t y = this->y - FIXED_DEC(cframe->off[1],1);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {x, y, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(tex, &src, &dst, stage.camera.bzoom);
+}
+
+void Character_DrawPort(Character *this, Gfx_Tex *tex, const CharFrame *cframe)
+{
+	Character_DrawPortParallax(this, tex, cframe, FIXED_UNIT);
+}
+
+void DrawPortParallax(Portrait *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax)
+{
+	//Draw character
+	fixed_t x = this->x - FIXED_DEC(cframe->off[0],1);
+	fixed_t y = this->y - FIXED_DEC(cframe->off[1],1);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {x, y, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(tex, &src, &dst, stage.camera.bzoom);
+}
+
+void DrawPort(Portrait *this, Gfx_Tex *tex, const CharFrame *cframe)
+{
+	DrawPortParallax(this, tex, cframe, FIXED_UNIT);
 }
 
 void Character_CheckStartSing(Character *this)

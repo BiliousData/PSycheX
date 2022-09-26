@@ -145,7 +145,7 @@
 	},
 	{ //StageId_2_3 (Monster)
 		//Characters
-		{Char_End_New,  FIXED_DEC(310,1),   FIXED_DEC(-155,1)},
+		{Char_Dad_New,  FIXED_DEC(310,1),   FIXED_DEC(-155,1)},
 		{Char_Sendai_New,  FIXED_DEC(-90,1),   FIXED_DEC(85,1)},
 		{NULL},
 		

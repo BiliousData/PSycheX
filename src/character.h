@@ -29,6 +29,15 @@ typedef enum
 	CharAnim_Max //Max standard/shared animation
 } CharAnim;
 
+typedef enum
+{
+	PortAnim1, PortAnim2,
+	PortAnim3, PortAnim4,
+	PortAnim5, PortAnim6,
+
+	PortAnim_Max
+} PortAnim;
+
 //Character structures
 typedef struct
 {
@@ -62,6 +71,20 @@ typedef struct Character
 	u16 hr, hg, hb;
 } Character;
 
+typedef struct Portrait
+{
+	//Portrait functuons
+	void (*tick)(struct Portrait*);
+	void (*set_anim)(struct Portrait*, u8);
+	void (*free)(struct Portrait*);
+
+	//Position
+	fixed_t x, y;
+
+	//Animation state
+	Animatable animatable;
+} Portrait;
+
 //Character functions
 void Character_Free(Character *this);
 void Character_Init(Character *this, fixed_t x, fixed_t y);
@@ -69,6 +92,12 @@ void Character_DrawParallax(Character *this, Gfx_Tex *tex, const CharFrame *cfra
 void Character_Draw(Character *this, Gfx_Tex *tex, const CharFrame *cframe);
 void Character_DrawCol(Character *this, Gfx_Tex *tex, const CharFrame *cframe, u8 r, u8 g, u8 b);
 void Character_DrawParallaxCol(Character *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax, u8 r, u8 g, u8 b);
+void Character_DrawPortParallax(Character *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax);
+void Character_DrawPort(Character *this, Gfx_Tex *tex, const CharFrame *cframe);
+
+void DrawPortParallax(Portrait *this, Gfx_Tex *tex, const CharFrame *cframe, fixed_t parallax);
+void DrawPort(Portrait *this, Gfx_Tex *tex, const CharFrame *cframe);
+void Portrait_Free(Portrait *this);
 
 void Character_CheckStartSing(Character *this);
 void Character_CheckEndSing(Character *this);

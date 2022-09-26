@@ -254,7 +254,7 @@ typedef struct
 
 	u8 botplay;
 
-	boolean coolhud;
+	boolean oldhud;
 
 	u8 ratingselect;
 
@@ -263,6 +263,10 @@ typedef struct
 	Animatable psytalk_animatable;
 
 	u8 psytalk_frame, psytalk_tex_id;
+
+	Character *psytalk;
+
+	Portrait *p1port;
 
 	
 	//EPIC DEBUG SHIT
@@ -285,6 +289,12 @@ typedef struct
 	int ratingpercent;
 	int notes_passed;
 	int notes_played;
+	u8 ratingfc;
+
+	u16 sicks, goods, bads, shits;
+
+	u16 p1score;
+
 
 	u8 misses;
 
@@ -299,6 +309,7 @@ typedef struct
 		StageState_DeadRetry,  //Retry prompt
 		StageState_DeadDecide, //Decided
 		StageState_Dialogue,   //Dialogue
+		StageState_Tea,        //Pause
 	} state;
 	
 	u8 note_swap;
@@ -320,6 +331,7 @@ void Stage_DrawBox();
 //Stage functions
 void Stage_Load(StageId id, StageDiff difficulty, boolean story);
 void Stage_LoadDia();
+void Stage_LoadTea();
 void Stage_Unload();
 void Stage_Tick();
 void Stage_RatingCalc();

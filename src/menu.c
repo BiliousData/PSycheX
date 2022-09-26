@@ -24,7 +24,7 @@
 #include "trans.h"
 #include "loadscr.h"
 #include "movie.h"
-#include "custom.h"
+//#include "custom.h"
 #include "stime.h"
 
 #include "stage.h"
@@ -141,7 +141,7 @@ static struct
 
 	Character *StoryPsychic;
 
-	u8 custom;
+	//u8 custom;
 
 } menu;
 
@@ -1023,7 +1023,7 @@ void Menu_Tick(void)
 				//{StageId_4_4, 0xFFFC96D7, "TEST"},
 				{StageId_1_4, 0xFF9B30F3,"OG MIND GAMES CREW"},
 				{StageId_1_4, 0xFFb4007b, " "},
-				{StageId_1_4, 0xFFb4007b,"RIVEROAKEN"},
+				{StageId_1_4, 0xFFb4007b,"FAKHERRIE"}, //formerly RiverOaken.
 				{StageId_1_4, 0xFFb4007b,"PROJECT LEAD AND"},
 				{StageId_1_4, 0xFFb4007b,"ANIMATOR"},
 				{StageId_1_4, 0xFFb4007b,"WAIT I MADE THIS"},
@@ -1224,13 +1224,13 @@ void Menu_Tick(void)
 			} menu_options[] = {
 				{OptType_Enum,    "GAMEMODE", &stage.mode, {.spec_enum = {COUNT_OF(gamemode_strs), gamemode_strs}}},
 				//{OptType_Boolean, "INTERPOLATION", &stage.expsync},
-				{OptType_Enum, "CUSTOMIZE", &menu.custom, {.spec_enum = {COUNT_OF(null_str), null_str}}},
+				//{OptType_Enum, "CUSTOMIZE", &menu.custom, {.spec_enum = {COUNT_OF(null_str), null_str}}},
 				//ASS SHIT
 				//{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
 				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
 				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
 				{OptType_Enum, "TIMER", &time.timeropt, {.spec_enum = {COUNT_OF(time_str), time_str}}},
-				{OptType_Boolean, "PSYCH HUD", &stage.coolhud, {.spec_boolean = {0}}},
+				{OptType_Boolean, "CLASSIC HUD", &stage.oldhud, {.spec_boolean = {0}}},
 				{OptType_Boolean, "BOTPLAY", &stage.botplay, {.spec_boolean = {0}}},
 				{OptType_Boolean, "MOVIES", &stage.movietog, {.spec_boolean = {0}}},
 			};
@@ -1287,14 +1287,14 @@ void Menu_Tick(void)
 								*((s32*)menu_options[menu.select].value) = 0;
 						break;
 
-					case OptType_Custom:
-					    if (pad_state.press & (PAD_CROSS))
-						    Trans_Start();
-						    menu.next_page = MenuPage_Custom;
-				            menu.trans_time = FIXED_UNIT;
-				            menu.page_state.title.fade = FIXED_DEC(255,1);
-				            menu.page_state.title.fadespd = FIXED_DEC(300,1);
-						break;
+					//case OptType_Custom:
+					//    if (pad_state.press & (PAD_CROSS))
+					//	    Trans_Start();
+					//	    menu.next_page = MenuPage_Custom;
+				    //        menu.trans_time = FIXED_UNIT;
+				    //        menu.page_state.title.fade = FIXED_DEC(255,1);
+				    //        menu.page_state.title.fadespd = FIXED_DEC(300,1);
+					//	break;
 				}
 				
 				//Return to main menu if circle is pressed
@@ -1305,18 +1305,18 @@ void Menu_Tick(void)
 					Trans_Start();
 				}
 
-				if (pad_state.press & PAD_CROSS && menu.select == 1)
-				{
-				    Trans_Start();
-					menu.next_page = MenuPage_Custom;
-				}
+				//if (pad_state.press & PAD_CROSS && menu.select == 1)
+				//{
+				//    Trans_Start();
+				//	menu.next_page = MenuPage_Custom;
+				//}
 
 				//epic
-				if (menu.custom == 1)
-				{
-					menu.next_page = MenuPage_Custom;
-					Trans_Start();
-				}
+				//if (menu.custom == 1)
+				//{
+				//	menu.next_page = MenuPage_Custom;
+				//	Trans_Start();
+				//}
 			}
 			
 			//Draw options
@@ -1342,9 +1342,9 @@ void Menu_Tick(void)
 					case OptType_Enum:
 						sprintf(text, "%s %s", menu_options[i].text, menu_options[i].spec.spec_enum.strs[*((s32*)menu_options[i].value)]);
 						break;
-					case OptType_Custom:
-					    sprintf(text, "%s %s", menu_options[i].text);
-						break;
+					//case OptType_Custom:
+					//    sprintf(text, "%s %s", menu_options[i].text);
+					//	break;
 				}
 				menu.font_bold.draw(&menu.font_bold,
 					Menu_LowerIf(text, menu.select != i),
@@ -1918,18 +1918,18 @@ void Menu_Tick(void)
 			LoadScr_End();
 			break;
 		}
-		case MenuPage_Custom:
-		{
-			//Unload
-			Menu_Unload();
-
-			//Begin loading customization menu
-			LoadScr_Start();
-			gameloop = GameLoop_Custom;
-			Custom_Load();
-			LoadScr_End();
-			break;
-		}
+		//case MenuPage_Custom:
+		//{
+		//	//Unload
+		//	Menu_Unload();
+		//
+		//	//Begin loading customization menu
+		//	LoadScr_Start();
+		//	gameloop = GameLoop_Custom;
+		//	Custom_Load();
+		//	LoadScr_End();
+		//	break;
+		//}
 		default:
 			break;
 	}

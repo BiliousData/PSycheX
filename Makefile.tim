@@ -42,6 +42,7 @@ all: \
 	iso/space/back.arc \
 	iso/fplacechop/back.arc \
 	iso/diaports/psychic/psytalk.arc \
+	iso/diaports/bf/bfport.arc \
 	iso/bft/hell.arc \
 	iso/flamec/back.arc \
 	iso/flamec/firel.arc \
@@ -135,3 +136,5 @@ iso/flamec/firer.arc: iso/flamec/firer0.tim iso/flamec/firer1.tim
 
 #dialogue
 iso/diaports/psychic/psytalk.arc: iso/diaports/psychic/talk.tim iso/diaports/psychic/piss.tim iso/diaports/psychic/erect0.tim iso/diaports/psychic/erect1.tim iso/diaports/psychic/annoy.tim iso/diaports/psychic/confuse.tim iso/diaports/psychic/shock.tim
+
+iso/diaports/bf/bfport.arc: iso/diaports/bf/bf0.tim

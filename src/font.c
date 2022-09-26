@@ -105,7 +105,7 @@ void Font_Arial_DrawCol(struct FontData *this, const char *text, s32 x, s32 y, F
 			continue;
 		
 		//Draw character
-		RECT src = {font_arialmap[c].ix, font_arialmap[c].iy, font_arialmap[c].iw, font_arialmap[c].ih};
+		RECT src = {font_arialmap[c].ix, font_arialmap[c].iy + 128, font_arialmap[c].iw, font_arialmap[c].ih};
 		Gfx_BlitTexCol(&this->tex, &src, x + font_arialmap[c].gx, y + font_arialmap[c].gy, r, g, b);
 		
 		//Increment X

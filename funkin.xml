@@ -300,6 +300,7 @@
 			<!-- Dialogue portraits -->
 			<dir name = "dia">
 				<file name = "psytalk.arc" type = "data" source = "iso/diaports/psychic/psytalk.arc"/>
+				<file name = "bf.arc" type = "data" source = "iso/diaports/bf/bfport.arc"/>
 			</dir>
 			
 			<!-- Dummy sectors -->

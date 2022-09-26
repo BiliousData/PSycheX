@@ -17,7 +17,7 @@
 #include "demu.h"
 #include "stage.h"
 #include "movie.h"
-#include "custom.h"
+//#include "custom.h"
 
 //Game loop
 GameLoop gameloop;
@@ -70,9 +70,12 @@ int main(int argc, char **argv)
 	
 	Timer_Init();
 
-	custom.leftcol.red = 194;
-	custom.leftcol.green = 75;
-	custom.leftcol.blue = 153;
+	//custom.leftcol.red = 194;
+	//custom.leftcol.green = 75;
+	//custom.leftcol.blue = 153;
+
+	//make ghost tapping on by default
+	stage.ghost = 1;
 	
 	//Start game depending on variable
     if (stage.demo == 1)
@@ -115,9 +118,9 @@ int main(int argc, char **argv)
 			case GameLoop_Stage:
 				Stage_Tick();
 				break;
-			case GameLoop_Custom:
-			    Custom_Tick();
-				break;
+			//case GameLoop_Custom:
+			//    Custom_Tick();
+			//	break;
 		}
 		
 		//Flip gfx buffers

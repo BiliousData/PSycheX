@@ -23,56 +23,41 @@
 #include "object/combo.h"
 #include "object/splash.h"
 
+#include "portraits/psyport.h"
+#include "portraits/bfport.h"
+
 #include "stime.h"
 
 //Stage constants
 boolean shakey; //Uproar note shake
 boolean drawpsychic;
 boolean nobump;
+boolean teaselect;
 
-//psychic portrait animation stuff
-static const CharFrame psytalk_frame[] =
+typedef struct
 {
-	//normal
-	{0, {  0,   0, 111, 114}, {0, 0}}, //0
-	{0, {111,   0, 109, 114}, {-2, 0}}, //1
-	{0, {  0, 114, 108, 114}, {-3, 0}}, //2
-	{0, {108, 114, 108, 112}, {-3, -2}}, //3
-	//piss
-	{1, {   0,   0,  87, 106}, {0, 0}}, //4
-	{1, {  87,   0,  87, 106}, {0, 0}}, //5
-	{1, {   0, 106,  90, 105}, {0, 0}}, //6
-	{1, {  90, 106,  90, 105}, {0, 0}}, //7
-	//erect
-	{2, {   0,   0, 130, 119}, {0, 0}}, //8
-	{2, {   0, 119, 129, 119}, {0, 0}}, //9
-	{3, {   0,   0, 128, 120}, {0, 0}}, //10
-	{3, {   0, 120, 128, 117}, {0, 0}}, //11
-	//annoyed
-	{4, {   0,   0, 111, 114}, {0, 0}}, //12
-	{4, { 111,   0, 109, 114}, {0, 0}}, //13
-	{4, {   0, 114, 108, 114}, {0, 0}}, //14
-	{4, { 108, 114, 108, 112}, {0, 0}}, //15
-	//confused
-	{5, {   0,   0,  86, 116}, {0, 0}}, //16
-	{5, {  86,   0,  85, 117}, {0, 0}}, //17
-	{5, {   0, 117,  83, 118}, {0, 0}}, //18
-	{5, {  83, 117,  83, 115}, {0, 0}}, //19
-	//shock
-	{6, {   0,   0,  97, 124}, {0, 0}}, //20
-	{6, {  97,   0,  96, 124}, {0, 0}}, //21
-	{6, {   0, 124,  96, 124}, {0, 0}}, //22
-	{6, {  96, 124,  95, 123}, {0, 0}}, //23
+	Gfx_Tex tex_junk;
+
+	//gabe newell
+	u8 steam_frame, steam_tex_id;
+	Animatable steam_animatable;
+
+	char stats;
+
+	
+} TeaScreen;
+
+TeaScreen tea;
+
+static const CharFrame steam_frame[4] = {
+	{0, {162, 143,  15,  29}, {0,   0}},
+	{0, {177, 143,  12,  35}, {-1,  6}},
+	{0, {189, 143,  13,  35}, {-6,  6}},
+	{0, {202, 143,  14,  32}, {-3,  3}},
 };
 
-//animations
-static const Animation psytalk_anim[] = {
-	{1, (const u8[]){0, 0, 1, 1, 2, 2, 3, ASCR_REPEAT}}, //normal
-	{1, (const u8[]){4, 4, 5, 5, 6, 6, 7, ASCR_REPEAT}}, //piss
-	{1, (const u8[]){8, 8, 9, 9, 10, 10, 11, ASCR_REPEAT}}, //erect
-	{1, (const u8[]){12, 12, 13, 13, 14, 14, 15, ASCR_REPEAT}}, //annoyed
-	{1, (const u8[]){16, 16, 17, 17, 18, 18, 19, ASCR_REPEAT}}, //confused
-	{1, (const u8[]){20, 20, 21, 21, 22, 22, 23, ASCR_REPEAT}}, //shock
+static const Animation steam_anim[1] = {
+	{4, (const u8[]){0, 1, 2, 3, ASCR_REPEAT}},
 };
 
 //Ratings
@@ -91,6 +76,20 @@ static const struct
 	{"Sick!"}, //90% to 99%
 	{"Perfect!!"}, //100%
 };
+
+//FC stuff
+static const struct
+{
+	const char *text;
+}fcs[] = {
+	{""}, //Nothin'
+	{"SFC"}, //Sick Full Combo
+	{"GFC"}, //Great Full Combo
+	{"FC"}, //Full Combo
+	{"SDCB"}, //I dunno what it stands for
+	{"Clear"}, //If you miss a lot
+};
+
 
 
 //welcome to the shitshow
@@ -167,7 +166,6 @@ boolean nohud;
 #include "character/psychic.h"
 #include "character/sendai.h"
 #include "character/bfspirit.h"
-#include "character/end.h"
 #include "character/bft.h"
 
 #include "stage/dummy.h"
@@ -388,13 +386,25 @@ static u8 Stage_HitNote(PlayerState *this, u8 type, fixed_t offset)
 	
 	u8 hit_type;
 	if (offset > stage.late_safe * 9 / 11)
+	{
 		hit_type = 3; //SHIT
+		stage.shits++;
+	}
 	else if (offset > stage.late_safe * 6 / 11)
+	{
 		hit_type = 2; //BAD
+		stage.bads++;
+	}
 	else if (offset > stage.late_safe * 3 / 11)
+	{
 		hit_type = 1; //GOOD
+		stage.goods++;
+	}
 	else
+	{
 		hit_type = 0; //SICK
+		stage.sicks++;
+	}
 	
 	//Increment combo and score
 	this->combo++;
@@ -575,8 +585,6 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 	
 	//Missed a note
 	this->arrow_hitan[type & 0x3] = -1;
-	stage.notes_passed++;
-	stage.misses++;
 	
 	if (!stage.ghost)
 	{
@@ -585,6 +593,9 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 		else
 			this->character->set_anim(this->character, note_anims[type & 0x3][0]);
 		Stage_MissNote(this);
+
+		stage.notes_passed++;
+		stage.misses++;
 		
 		this->health -= 400;
 		this->score -= 1;
@@ -697,7 +708,7 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 
 			if (this->pad_press & DEBUG_SWITCH)
 			{
-				if (stage.debug < 5)
+				if (stage.debug < 6)
 				    stage.debug += 1;
 				else 
 				    stage.debug = 0;
@@ -1350,31 +1361,17 @@ void Stage_DrawBox()
 	Stage_DrawTex(&stage.tex_dia, &dia_src, &dia_dst, stage.bump);
 }
 
-void PsyTalk_Draw(Stage *this, fixed_t x, fixed_t y)
+void Stage_DrawTable()
 {
-	//Draw animated object
-	const CharFrame *cframe = &psytalk_frame[this->psytalk_frame];
-	
-	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
-	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
-	
-	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
-	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
-	Stage_DrawTex(&stage.tex_psytalk, &src, &dst, stage.camera.bzoom);
-}
+	RECT table_src = {105, 0, 64, 79};
+	RECT_FIXED table_dst = {
+		FIXED_DEC(20,1),
+		FIXED_DEC(42,1),
+		FIXED_DEC(64,1),
+		FIXED_DEC(79,1)
+	};
 
-void PsyTalk_SetFrame(void *user, u8 frame)
-{
-	Stage *this = (Stage*)user;
-	
-	//Check if this is a new frame
-	if (frame != stage.psytalk_frame)
-	{
-		//Check if new art shall be loaded
-		const CharFrame *cframe = &psytalk_frame[this->psytalk_frame = frame];
-		if (cframe->tex != this->psytalk_tex_id)
-			Gfx_LoadTex(&this->tex_psytalk, this->arc_psytalk_ptr[this->psytalk_tex_id = cframe->tex], 0);
-	}
+	Stage_DrawTex(&tea.tex_junk, &table_src, &table_dst, stage.bump);
 }
 
 //Stage loads
@@ -1666,6 +1663,11 @@ static void Stage_LoadState(void)
 	stage.notes_passed = 0;
 	stage.notes_played = 0;
 
+	stage.sicks = 0;
+	stage.goods = 0;
+	stage.bads = 0;
+	stage.shits = 0;
+
 	//refresh score for psych hud
 	stage.player_state[0].refresh_score = true;
 	
@@ -1678,6 +1680,7 @@ static void Stage_LoadState(void)
 	nobump = 0;
 	stage.fadeinwhite = 0;
 	stage.camode = 0;
+	teaselect = 0;
 }
 
 int note1x = 26;
@@ -2103,32 +2106,64 @@ void Stage_LoadDia(void)
 
 	Gfx_LoadTex(&stage.tex_dia, IO_Read("\\STAGE\\DIA.TIM;1"), GFX_LOADTEX_FREE);
 
-	//load different assets depending on stage
+	stage.psytalk = Port_Psy_New(FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+
 	switch (stage.stage_id)
 	{
 		case StageId_1_1:
 		{
-			Animatable_Init(&stage.psytalk_animatable, psytalk_anim);
-	        Animatable_SetAnim(&stage.psytalk_animatable, 0);
-	
-			this->arc_psytalk = IO_Read("\\DIA\\PSYTALK.ARC;1");
-			this->arc_psytalk_ptr[0] = Archive_Find(this->arc_psytalk, "talk.tim");
-			this->arc_psytalk_ptr[1] = Archive_Find(this->arc_psytalk, "piss.tim");
-			this->arc_psytalk_ptr[2] = Archive_Find(this->arc_psytalk, "erect0.tim");
-			this->arc_psytalk_ptr[3] = Archive_Find(this->arc_psytalk, "erect1.tim");
-			this->arc_psytalk_ptr[4] = Archive_Find(this->arc_psytalk, "annoy.tim");
-			this->arc_psytalk_ptr[5] = Archive_Find(this->arc_psytalk, "confuse.tim");
-			this->arc_psytalk_ptr[6] = Archive_Find(this->arc_psytalk, "shock.tim");
-	
-	        //Initialize render state
-	        this->psytalk_tex_id = this->psytalk_frame = 0xFF;
+			stage.p1port = Port_BF_New(FIXED_DEC(20,1), FIXED_DEC(-50,1));
 			break;
 		}
 		default:
-		    break;
+			break;
+
 	}
 
 	FontData_Load(&stage.font_arial, Font_Arial);
+}
+
+//load teatime screen files
+void Stage_LoadTea(void)
+{
+	TeaScreen *this = (TeaScreen*)Mem_Alloc(sizeof(TeaScreen));
+
+	IO_Data arc_chop = IO_Read("\\PSYCHE\\COOL.ARC;1");
+	Gfx_LoadTex(&this->tex_junk, Archive_Find(arc_chop, "junk.tim"), 0);
+	Mem_Free(arc_chop);
+
+	printf("setting anims\n");
+	Animatable_Init(&this->steam_animatable, steam_anim);
+	Animatable_SetAnim(&this->steam_animatable, 0);
+	printf("tea anims set\n");
+
+	FontData_Load(&stage.font_cdr, Font_CDR);
+}
+
+void Tea_Steam_Draw(TeaScreen *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &steam_frame[this->steam_frame];
+	
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	//Stage_DrawTex(&this->tex_junk, &src, &dst, stage.camera.bzoom);
+	Stage_BlendTex(&this->tex_junk, &src, &dst, stage.camera.bzoom, 0);
+}
+
+void Tea_Steam_SetFrame(void *user, u8 frame)
+{
+	TeaScreen *this = (TeaScreen*)user;
+	
+	//Check if this is a new frame
+	if (frame != this->steam_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &steam_frame[this->steam_frame = frame];
+	}
 }
 
 void Stage_Tick(void)
@@ -2156,11 +2191,17 @@ void Stage_Tick(void)
 			switch (stage.state)
 			{
 				case StageState_Play:
-				    stage.trans = StageTrans_Menu;
-					Trans_Start();
+					printf("start pressed, swtiching to teatime\n");
+					Audio_StopXA();
+					Stage_Unload();
+					Stage_LoadTea();
+					printf("switching state\n");
+				   	stage.state = StageState_Tea;
 					break;
 				case StageState_Dialogue:
 				    break;
+				case StageState_Tea:
+					break;
 				default:
 				    stage.trans = StageTrans_Reload;
 					Trans_Start();
@@ -2865,7 +2906,7 @@ void Stage_Tick(void)
 				PlayerState *this = &stage.player_state[i];
 				
 
-				if (stage.coolhud == 0)
+				if (stage.oldhud == 1)
 				{
 					//Get string representing number
 					if (this->refresh_score)
@@ -2917,7 +2958,7 @@ void Stage_Tick(void)
 						if (this->score != 0)
 						{
 
-							//Calculate accuracy by dividing the notes that have passed by the notes that were actually hit, and then multiplying that by 100
+							//Calculate accuracy by multiplying the notes that were hit by 100, then dividing that by the total notes that have passed, regardless if they were hit or not
 							stage.ratingpercent = stage.notes_played * 100 / stage.notes_passed;
 
 							//get rating
@@ -2942,8 +2983,21 @@ void Stage_Tick(void)
 								stage.ratingselect = 8;
 							else if (stage.ratingpercent ==100) //Perfect!!
 								stage.ratingselect = 9;
+							
+							//get fc thing
+							if (stage.sicks > 0)
+								stage.ratingfc = 1; //SFC
+							if (stage.goods > 0)
+								stage.ratingfc = 2; //GFC
+							if (stage.bads > 0 || stage.shits > 0)
+								stage.ratingfc = 3; //FC
+							if (stage.misses > 0 && stage.misses < 10)
+								stage.ratingfc = 4; //SDCB
+							else if (stage.misses >= 10)
+								stage.ratingfc = 5; //Clear
+							
 
-							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent);
+							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%) - %s", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent, fcs[stage.ratingfc]);
 						}
 						else
 							sprintf(this->score_text, "Score:0  |  Misses:?  |  Rating:? (?%%)");
@@ -2952,8 +3006,10 @@ void Stage_Tick(void)
 					char bungo;
 					//sprintf(bungo, "White Fade-in %d\nStep %d", stage.fadeinwhite, stage.song_step);
 
+					stage.p1score = this->score * stage.max_score / this->max_score;
+
 					//Display Score
-					stage.font_cdr.draw(&stage.font_cdr, this->score_text, 65, 220, FontAlign_Left);
+					stage.font_cdr.draw(&stage.font_cdr, this->score_text, 180, 220, FontAlign_Center);
 
 					//stage.font_cdr.draw(&stage.font_cdr, bungo, 65, 210, FontAlign_Left);
 				}
@@ -3195,18 +3251,18 @@ void Stage_Tick(void)
 				const char *text; //The text that is displayed
 				u8 camera; //Who the camera is pointing at, 0 for bf, 1 for dad
 				u8 charcount; //how many characters are in the line of dialogue
-				//s16 p1port; //player 1's portrait
+				u8 p1port; //player 1's portrait
 				u8 p2port; //player 2's portrait
 			}psydia[] = {
-				{"What brings you here so late at night?",1,38,1},
-				{"Beep.",0,5},
-				{"Drop the act already.",1,21,3},
-				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67,1},
-				{"Bep bee aa skoo dep?",0,20},
-				{"I wouldn't try the door if I were you.",1,38,6},
+				{"What brings you here so late at night?",1,38,0,1},
+				{"Beep.",0,5,1},
+				{"Drop the act already.",1,21,0,3},
+				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67,0,1},
+				{"Bep bee aa skoo dep?",0,20,2},
+				{"I wouldn't try the door if I were you.",1,38,0,6},
 				{"Now...",1,6,5},
-				{"I have a couple of questions\nto ask you...",1,41,1},
-				{"And you WILL answer them.",1,25,3},
+				{"I have a couple of questions\nto ask you...",1,41,0,1},
+				{"And you WILL answer them.",1,25,0,3},
 			};
 			
 
@@ -3287,7 +3343,8 @@ void Stage_Tick(void)
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
-						Mem_Free(this->arc_psytalk);
+						Character_Free(stage.psytalk);
+						Portrait_Free(stage.p1port);
 						FontData_Load(&stage.font_cdr, Font_CDR);
 			            stage.state = StageState_Play;
 					}
@@ -3379,38 +3436,74 @@ void Stage_Tick(void)
 			        {
 			        	//normal
 			        	case 1:
-							Animatable_SetAnim(&this->psytalk_animatable, 0);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Idle)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Idle);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 						//piss
 						case 2:
-							Animatable_SetAnim(&this->psytalk_animatable, 1);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Left)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Left);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 						//erect
 						case 3:
-							Animatable_SetAnim(&this->psytalk_animatable, 2);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_LeftAlt)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_LeftAlt);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 						//annoyed
 						case 4:
-							Animatable_SetAnim(&this->psytalk_animatable, 3);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Down)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Down);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 						//confused
 						case 5:
-							Animatable_SetAnim(&this->psytalk_animatable, 4);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_DownAlt)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_DownAlt);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 						//shock
 						case 6:
-							Animatable_SetAnim(&this->psytalk_animatable, 5);
-			        		PsyTalk_Draw(this, FIXED_DEC(-90,1), FIXED_DEC(-70,1));
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Up)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Up);
+							stage.psytalk->tick(stage.psytalk);
 			        		break;
+						}
 			        	//nothing
 			        	default:
 			        	    break;
 			        }
+
+					switch (psydia[stage.delect].p1port)
+					{
+						case 1:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim1);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						case 2:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim2);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						default:
+							break;
+					}
 				}
 				
 			}
@@ -3449,7 +3542,7 @@ void Stage_Tick(void)
 			if (pad_state.press & PAD_START)
 			{
 			    Audio_StopXA();
-				Mem_Free(this->arc_psytalk);
+				Character_Free(stage.psytalk);
 			    stage.state = StageState_Play;
 			}
 			
@@ -3467,6 +3560,67 @@ void Stage_Tick(void)
 
 
 			
+			break;
+		}
+		case StageState_Tea:
+		{
+			TeaScreen *this = (TeaScreen*)this;
+
+
+			//Relax, and have some tea.
+			if (Audio_PlayingXA() != 1)
+			{
+				printf("starting TeaTime\n");
+				Audio_PlayXA_Track(XA_TeaTime, 0x40, 2, true);
+			}
+
+			sprintf(this->stats, "Accuracy:%d%%\nMisses:%d\nSicks:%d\nGoods:%d\nBads:%d\nShits:%d", stage.ratingpercent, stage.misses, stage.sicks, stage.goods, stage.bads, stage.shits);
+
+			stage.font_cdr.draw(&stage.font_cdr, "Game is stopped.", 166, 53, FontAlign_Center);
+
+			//Stats
+			stage.font_cdr.draw(&stage.font_cdr, "Stats:", 160, 68, FontAlign_Center);
+
+			stage.font_cdr.draw(&stage.font_cdr, this->stats, 130, 80, FontAlign_Left);
+
+			if (teaselect == 0)
+			{
+				stage.font_cdr.draw (&stage.font_cdr, ">Restart", 177, 180, FontAlign_Right);
+				stage.font_cdr.draw (&stage.font_cdr, "Exit", 161, 190, FontAlign_Right);
+				if (pad_state.press & PAD_DOWN)
+				{
+					teaselect = 1;
+				}
+			}
+			else if (teaselect == 1)
+			{
+				stage.font_cdr.draw (&stage.font_cdr, "Restart", 176, 180, FontAlign_Right);
+				stage.font_cdr.draw (&stage.font_cdr, ">Exit", 162, 190, FontAlign_Right);
+				if (pad_state.press & PAD_UP)
+				{
+					teaselect = 0;
+				}
+			}
+
+			if (pad_state.press & PAD_CROSS)
+			{
+				switch (teaselect)
+				{
+					case 0:
+					{
+						stage.trans = StageTrans_Reload;
+						Trans_Start();
+						break;
+					}
+					case 1:
+					{
+						stage.trans = StageTrans_Menu;
+						Trans_Start();
+					}
+				}
+			}
+
+
 			break;
 		}
 		default:
