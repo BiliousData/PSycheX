@@ -45,6 +45,16 @@ enum
 	BFS_ArcMain_Idle4,
 	BFS_ArcMain_Idle5,
 	BFS_ArcMain_Idle6,
+
+	BF_ArcMain_BF0,
+	BF_ArcMain_BF1,
+	BF_ArcMain_BF2,
+	BF_ArcMain_BF3,
+	BF_ArcMain_BF4,
+	BF_ArcMain_BF5,
+	BF_ArcMain_BF6,
+	BF_ArcMain_Dead0, //BREAK
+
 	BFS_ArcMain_Left0,
 	BFS_ArcMain_Left1,
 	BFS_ArcMain_Down0,
@@ -60,15 +70,10 @@ enum
 	BFS_ArcMain_Missu,
 	BFS_ArcMain_Missr,
 	BFS_ArcMain_Dead0,
-
-	BF_ArcMain_BF0,
-	BF_ArcMain_BF1,
-	BF_ArcMain_BF2,
-	BF_ArcMain_BF3,
-	BF_ArcMain_BF4,
-	BF_ArcMain_BF5,
-	BF_ArcMain_BF6,
-	BF_ArcMain_Dead0, //BREAK
+	BFS_ArcMain_AltLeft,
+	BFS_ArcMain_AltDown,
+	BFS_ArcMain_AltUp,
+	BFS_ArcMain_AltRight,
 	
 	BFS_Arc_Max,
 };
@@ -88,7 +93,7 @@ typedef struct
 	Character character;
 	
 	//Render data and state
-	IO_Data arc_main, arc_dead, arc_bf;
+	IO_Data arc_main, arc_dead, arc_bf, arc_notes;
 	CdlFILE file_dead_arc; //dead.arc file position
 	IO_Data arc_ptr[BFS_Arc_Max];
 	
@@ -190,18 +195,31 @@ static const CharFrame char_BFS_frame[] = {
 	
 	{BF_ArcMain_BF6, {  0, 108,  99, 108}, { 42, 101}}, //65 right miss 1
 	{BF_ArcMain_BF6, {100, 109, 101, 108}, { 43, 101}}, //66 right miss 2
+
+	//alt sprites
+	{BFS_ArcMain_AltLeft, {  0,   0, 116, 213}, { 61, 192}}, //67
+	{BFS_ArcMain_AltLeft, {116,   0, 116, 212}, { 61, 191}}, //68
+
+	{BFS_ArcMain_AltDown, {  0,   0, 106, 204}, { 32, 192}}, //69
+	{BFS_ArcMain_AltDown, {106,   0, 112, 199}, { 35, 187}}, //70
+
+	{BFS_ArcMain_AltUp,    {  0,   0,103, 218}, { 42, 206}}, //71
+	{BFS_ArcMain_AltUp,    {103,   0, 95, 227}, { 38, 215}}, //72
+
+	{BFS_ArcMain_AltRight, {  0,   0, 117, 222}, { 37, 210}},//73
+	{BFS_ArcMain_AltRight, {117,   0, 114, 217}, { 30, 206}},//74
 };
 
 static const Animation char_BFS_anim[PlayerAnim_Max] = {
 	{1, (const u8[]){ 0, 1, 2, 3, 4, 5, 6, ASCR_BACK, 3}}, //CharAnim_Idle
 	{2, (const u8[]){ 7, 8, 9, 10, ASCR_BACK, 0}},         //CharAnim_Left
-	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_LeftAlt
+	{2, (const u8[]){67, 68, ASCR_BACK, 1}},   //CharAnim_LeftAlt
 	{2, (const u8[]){ 11, 12, 13, 14, ASCR_BACK, 0}},         //CharAnim_Down
-	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_DownAlt
+	{2, (const u8[]){69, 70, ASCR_BACK, 1}},   //CharAnim_DownAlt
 	{2, (const u8[]){ 17, 18, 16, 15, ASCR_BACK, 0}},         //CharAnim_Up
-	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},  //CharAnim_UpAlt
+	{2, (const u8[]){71, 72, ASCR_BACK, 1}},  //CharAnim_UpAlt
 	{2, (const u8[]){22, 21, 20, 19, ASCR_BACK, 0}},         //CharAnim_Right
-	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_RightAlt
+	{2, (const u8[]){73, 74, ASCR_BACK, 1}},   //CharAnim_RightAlt
 	
 	
 	{1, (const u8[]){ 7, 23, 23, 23, ASCR_BACK, 1}},     //PlayerAnim_LeftMiss
@@ -356,6 +374,41 @@ void Char_BFS_Tick(Character *character)
 	{
 		silhouette = 1;
 	}
+
+	//Load note sprites when dialogue is done
+	if (stage.loadp1flag == true) //check if flag is up
+	{
+		//begin reading
+		this->arc_notes = IO_Read("\\CHAR\\SPIRITN.ARC;1");
+
+		const char **pathp = (const char *[]){
+			"left0.tim", 
+			"left1.tim", 
+			"down0.tim", 
+			"down1.tim",
+			"up0.tim",
+			"up1.tim", 
+			"right0.tim", 
+			"right1.tim", 
+			"right2.tim", 
+			"right3.tim",
+			"missl.tim",
+			"missd.tim",
+			"missu.tim",
+			"missr.tim", 
+			"dead0.tim",  
+			"lefta.tim",
+			"downa.tim",
+			"upa.tim",  
+			"righta.tim",
+			NULL
+		};
+		IO_Data *arc_ptr = &this->arc_ptr[BFS_ArcMain_Left0];
+		for (; *pathp != NULL; pathp++)
+			*arc_ptr++ = Archive_Find(this->arc_notes, *pathp);
+		
+		stage.loadp1flag = false; //lower flag once done, so that we aren't constantly loading the arc
+	}
 }
 
 void Char_BFS_SetAnim(Character *character, u8 anim)
@@ -404,6 +457,7 @@ void Char_BFS_Free(Character *character)
 	//Free art
 	Mem_Free(this->arc_main);
 	Mem_Free(this->arc_bf);
+	Mem_Free(this->arc_notes);
 }
 
 Character *Char_BFS_New(fixed_t x, fixed_t y)
@@ -452,21 +506,6 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 		"idle4.tim", 
 		"idle5.tim",
 		"idle6.tim", 
-		"left0.tim", 
-		"left1.tim", 
-		"down0.tim", 
-		"down1.tim",
-		"up0.tim",
-		"up1.tim", 
-		"right0.tim", 
-		"right1.tim", 
-		"right2.tim", 
-		"right3.tim",
-		"missl.tim",
-		"missd.tim",
-		"missu.tim",
-		"missr.tim", 
-		"dead0.tim",    
 		NULL
 	};
 	IO_Data *arc_ptr = this->arc_ptr;
@@ -505,6 +544,39 @@ Character *Char_BFS_New(fixed_t x, fixed_t y)
 			break;
 		}
 	}
+
+	if (!stage.story)
+	{
+		this->arc_notes = IO_Read("\\CHAR\\SPIRITN.ARC;1");
+
+		const char **pathp = (const char *[]){
+			"left0.tim", 
+			"left1.tim", 
+			"down0.tim", 
+			"down1.tim",
+			"up0.tim",
+			"up1.tim", 
+			"right0.tim", 
+			"right1.tim", 
+			"right2.tim", 
+			"right3.tim",
+			"missl.tim",
+			"missd.tim",
+			"missu.tim",
+			"missr.tim", 
+			"dead0.tim",  
+			"lefta.tim",
+			"downa.tim",
+			"upa.tim",  
+			"righta.tim",
+			NULL
+		};
+		IO_Data *arc_ptr = &this->arc_ptr[BFS_ArcMain_Left0];
+		for (; *pathp != NULL; pathp++)
+			*arc_ptr++ = Archive_Find(this->arc_notes, *pathp);
+	}
+	else
+		this->arc_notes = NULL;
 	
 	//Initialize render state
 	this->tex_id = this->frame = 0xFF;

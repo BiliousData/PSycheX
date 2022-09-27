@@ -132,6 +132,8 @@ int main(int argc, char *argv[])
 				new_note.type |= NOTE_FLAG_FLIPX;
 			if (j[3] == "No Copy X") //no megaman zx
 				new_note.type |= NOTE_FLAG_NOFLIP;
+			if (j[3] == "Alt Animation") //Psych Engine alt notes
+				new_note.type |= NOTE_FLAG_ALT_ANIM;
 			
 			if (note_fudge.count(*((uint32_t*)&new_note)))
 			{

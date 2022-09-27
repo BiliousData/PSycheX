@@ -7,12 +7,17 @@ all: \
 	iso/demo/demo.arc \
 	iso/demo/loading.tim \
 	iso/menu/loading.tim \
+	iso/diaports/psychic/psytalk.arc \
+	iso/diaports/bf/bfport.arc \
+	iso/diaports/senpai/senpai.arc \
 	iso/font/boldfont.tim \
 	iso/font/arial.tim \
 	iso/font/ared.tim \
 	iso/font/cdr.tim \
 	iso/stage/hud0.tim \
 	iso/stage/hud0butn.tim \
+	iso/stage/hud0futr.tim \
+	iso/stage/hud0chip.tim \
 	iso/stage/hud1.tim \
 	iso/stage/hud0weeb.tim \
 	iso/stage/dia.tim \
@@ -25,6 +30,7 @@ all: \
 	iso/senpaib/dead.arc \
 	iso/sendai/main.arc \
 	iso/bfspirit/main.arc \
+	iso/bfspirit/notes.arc \
 	iso/bfspirit/dead.arc \
 	iso/gf/main.arc \
 	iso/gf/tut.arc \
@@ -41,13 +47,12 @@ all: \
 	iso/flames/back.arc \
 	iso/space/back.arc \
 	iso/fplacechop/back.arc \
-	iso/diaports/psychic/psytalk.arc \
-	iso/diaports/bf/bfport.arc \
 	iso/bft/hell.arc \
 	iso/flamec/back.arc \
 	iso/flamec/firel.arc \
 	iso/flamec/firem.arc \
-	iso/flamec/firer.arc
+	iso/flamec/firer.arc \
+	iso/old/back.arc \
 
 iso/%.tim: iso/%.png
 	tools/funkintimconv/funkintimconv $@ $<
@@ -88,7 +93,8 @@ iso/spirit/main.arc: iso/spirit/spirit0.tim iso/spirit/spirit1.tim
 iso/sendai/main.arc: iso/sendai/panic.tim iso/sendai/pain0.tim iso/sendai/pain1.tim iso/sendai/die0.tim iso/sendai/die1.tim iso/sendai/die2.tim
 
 # BFS bfspirit
-iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim iso/bfspirit/missl.tim iso/bfspirit/missd.tim iso/bfspirit/missu.tim iso/bfspirit/missr.tim iso/bfspirit/dead0.tim
+iso/bfspirit/main.arc: iso/bfspirit/idle0.tim iso/bfspirit/idle1.tim iso/bfspirit/idle2.tim iso/bfspirit/idle3.tim iso/bfspirit/idle4.tim iso/bfspirit/idle5.tim iso/bfspirit/idle6.tim
+iso/bfspirit/notes.arc: iso/bfspirit/left0.tim iso/bfspirit/left1.tim iso/bfspirit/down0.tim iso/bfspirit/down1.tim iso/bfspirit/up0.tim iso/bfspirit/up1.tim iso/bfspirit/right0.tim iso/bfspirit/right1.tim iso/bfspirit/right2.tim iso/bfspirit/right3.tim iso/bfspirit/missl.tim iso/bfspirit/missd.tim iso/bfspirit/missu.tim iso/bfspirit/missr.tim iso/bfspirit/dead0.tim iso/bfspirit/lefta.tim iso/bfspirit/downa.tim iso/bfspirit/upa.tim iso/bfspirit/righta.tim
 
 iso/bfspirit/dead.arc: iso/bfspirit/dead1.tim iso/bfspirit/dead2.tim
 
@@ -138,3 +144,8 @@ iso/flamec/firer.arc: iso/flamec/firer0.tim iso/flamec/firer1.tim
 iso/diaports/psychic/psytalk.arc: iso/diaports/psychic/talk.tim iso/diaports/psychic/piss.tim iso/diaports/psychic/erect0.tim iso/diaports/psychic/erect1.tim iso/diaports/psychic/annoy.tim iso/diaports/psychic/confuse.tim iso/diaports/psychic/shock.tim
 
 iso/diaports/bf/bfport.arc: iso/diaports/bf/bf0.tim
+
+iso/diaports/senpai/senpai.arc: iso/diaports/senpai/bf0.tim iso/diaports/senpai/bf1.tim
+
+#demo fireplace
+iso/old/back.arc: iso/old/back0.tim iso/old/back1.tim iso/old/floor.tim iso/old/junk.tim iso/old/fplace.tim

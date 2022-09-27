@@ -25,6 +25,7 @@
 
 #include "portraits/psyport.h"
 #include "portraits/bfport.h"
+#include "portraits/senport.h"
 
 #include "stime.h"
 
@@ -33,6 +34,8 @@ boolean shakey; //Uproar note shake
 boolean drawpsychic;
 boolean nobump;
 boolean teaselect;
+
+boolean normo;
 
 typedef struct
 {
@@ -171,6 +174,7 @@ boolean nohud;
 #include "stage/dummy.h"
 #include "stage/fplace.h"
 #include "stage/flames.h"
+#include "stage/old.h"
 #include "stage/space.h"
 #include "stage/chop.h"
 #include "stage/flamec.h"
@@ -586,7 +590,7 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 	//Missed a note
 	this->arrow_hitan[type & 0x3] = -1;
 	
-	if (!stage.ghost)
+	if (!stage.ghost || stage.demo == 1)
 	{
 		if (this->character->spec & CHAR_SPEC_MISSANIM)
 			this->character->set_anim(this->character, note_anims[type & 0x3][2]);
@@ -1187,8 +1191,14 @@ static void Stage_DrawNotes(void)
 						note_src.w = 32;
 						note_src.h = 28 - (clip >> FIXED_SHIFT);
 						
-					
-					    note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						if (normo == true && note->type & NOTE_FLAG_FLIPX)
+							note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else if (note->type & NOTE_FLAG_FLIPX)
+							note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else if (normo == true)
+							note_dst.x = note_norm[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else
+							note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
 					    note_dst.y = y + clip;
 					    note_dst.w = note_src.w << FIXED_SHIFT;
 					    note_dst.h = (note_src.h << FIXED_SHIFT);
@@ -1216,7 +1226,14 @@ static void Stage_DrawNotes(void)
 						note_src.w = 32;
 						note_src.h = 16;
 						
-						note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						if (normo == true && note->type & NOTE_FLAG_FLIPX)
+							note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else if (note->type & NOTE_FLAG_FLIPX)
+							note_dst.x = note_flip[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else if (normo == true)
+							note_dst.x = note_norm[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
+						else
+							note_dst.x = note_x[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
 						note_dst.y = y + clip;
 						note_dst.w = note_src.w << FIXED_SHIFT;
 						note_dst.h = (next_y - y) - clip;
@@ -1335,7 +1352,7 @@ static void Stage_DrawNotes(void)
 				note_src.w = 32;
 				note_src.h = 32;
 			
-			    if (stage.stage_id == StageId_1_2)
+			    if (stage.stage_id == StageId_1_2 || normo == 1)
 				{
 					note_dst.x = note_norm[(note->type & 0x7) ^ stage.note_swap] - FIXED_DEC(16,1);
 				}
@@ -1681,6 +1698,9 @@ static void Stage_LoadState(void)
 	stage.fadeinwhite = 0;
 	stage.camode = 0;
 	teaselect = 0;
+
+	normo = false;
+	stage.loadp1flag = false;
 }
 
 int note1x = 26;
@@ -1948,7 +1968,34 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 	stage.story = story;
 	
 	//Load HUD textures
-	Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
+	if (stage.demo == 0)
+	{
+		switch (stage.noteskin)
+		{
+			case Default:
+			{
+				Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
+				break;
+			}
+			case Future:
+			{
+				Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0FUTR.TIM;1"), GFX_LOADTEX_FREE);
+				break;
+			}
+			case Chip:
+			{
+				Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0CHIP.TIM;1"), GFX_LOADTEX_FREE);
+				break;
+			}
+			case Button:
+			{
+				Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0BUTN.TIM;1"), GFX_LOADTEX_FREE);
+				break;
+			}
+		}
+	}
+	else
+		Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
 	Gfx_LoadTex(&stage.tex_hud1, IO_Read("\\STAGE\\HUD1.TIM;1"), GFX_LOADTEX_FREE);
 	
 	//Load stage background
@@ -2115,6 +2162,9 @@ void Stage_LoadDia(void)
 			stage.p1port = Port_BF_New(FIXED_DEC(20,1), FIXED_DEC(-50,1));
 			break;
 		}
+		case StageId_1_2:
+			stage.p1port = Port_Senpai_New(FIXED_DEC(18,1), FIXED_DEC(-70,1));
+			break;
 		default:
 			break;
 
@@ -2194,10 +2244,19 @@ void Stage_Tick(void)
 					printf("start pressed, swtiching to teatime\n");
 					Audio_StopXA();
 					Stage_Unload();
-					Stage_LoadTea();
-					printf("switching state\n");
-				   	stage.state = StageState_Tea;
-					break;
+					if (stage.demo == 0)
+					{
+						Stage_LoadTea();
+						printf("switching state\n");
+				   		stage.state = StageState_Tea;	
+						break;
+					}
+					else
+					{
+						stage.trans = StageTrans_Menu;
+						Trans_Start();
+						break;
+					}
 				case StageState_Dialogue:
 				    break;
 				case StageState_Tea:
@@ -2433,8 +2492,14 @@ void Stage_Tick(void)
 					case 253:
 					    stage.notemode = 4;
 						break;
+					case 362:
+						normo = true;
+						break;
 					case 378:
 					    stage.notemode = 5;
+						break;
+					case 416:
+						normo = false;
 						break;
 					case 441:
 					    stage.notemode = 1;
@@ -2445,8 +2510,14 @@ void Stage_Tick(void)
 					case 637:
 					    stage.notemode = 4;
 						break;
+					case 748:
+						normo = true;
+						break;
 					case 765:
 					    stage.notemode = 5;
+						break;
+					case 814:
+						normo = false;
 						break;
 					case 956:
 					    stage.notemode = 3;
@@ -2997,7 +3068,10 @@ void Stage_Tick(void)
 								stage.ratingfc = 5; //Clear
 							
 
-							sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%) - %s", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent, fcs[stage.ratingfc]);
+							if (stage.demo == 0)
+								sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%) - %s", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent, fcs[stage.ratingfc]);
+							else
+								sprintf(this->score_text, "Score:%d0  |  Misses:%d  |  Rating:%s (%d%%)", this->score * stage.max_score / this->max_score, stage.misses, ratings[stage.ratingselect].text, stage.ratingpercent);
 						}
 						else
 							sprintf(this->score_text, "Score:0  |  Misses:?  |  Rating:? (?%%)");
@@ -3260,7 +3334,7 @@ void Stage_Tick(void)
 				{"I could feel your malicious intent the\nmoment you set foot in here.",1,67,0,1},
 				{"Bep bee aa skoo dep?",0,20,2},
 				{"I wouldn't try the door if I were you.",1,38,0,6},
-				{"Now...",1,6,5},
+				{"Now...",1,6,0,5},
 				{"I have a couple of questions\nto ask you...",1,41,0,1},
 				{"And you WILL answer them.",1,25,0,3},
 			};
@@ -3270,35 +3344,42 @@ void Stage_Tick(void)
 			{
 				const char *text;
 				u8 camera;
+				u8 p1port;
+				u8 p2port;
 			}wiltdia[] = {
-				{"Welp, you got me!",0},
-				{"You're very clever, I'll give you\nthat much.",0},
-				{"No ordinary person would have seen\nthrough my facade.",0},
-				{"Yeah, um...",1},
-				{"...Who are you again?",1},
-				{"Kh...!",0},
-				{"You don't even remember me?!",0},
-				{"Not in the slightest.",1},
-				{"Seriously?! W-Whatever!",0},
-				{"Now listen here!",0},
-				{"I've taken this body hostage, so\ndon't even try anything!",0},
-				{"Summon Daddy Dearest here this instant,\nor else he gets it!",0},
-				{"...Daddy Dearest, huh..?",1},
-				{"I don't know what your deal is, but...",1},
-				{"I don't take commands from freaks of\nnature like you.",1},
-				{"What did you just call me?!",0},
+				{"Welp, you got me!",0,1,0},
+				{"You're very clever, I'll give you\nthat much.",0,1,0},
+				{"No ordinary person would have seen\nthrough my facade.",0,1,0},
+				{"Yeah, um...",1,0,4},
+				{"...Who are you again?",1,0,6},
+				{"Kh...!",0,2,0},
+				{"You don't even remember me?!",0,2,0},
+				{"Not in the slightest.",1,0,5},
+				{"Seriously?! W-Whatever!",0,3,0},
+				{"Now listen here!",0,3,0},
+				{"I've taken this body hostage, so\ndon't even try anything!",0,3,0},
+				{"Summon Daddy Dearest here this instant,\nor else he gets it!",0,3,0},
+				{"...Daddy Dearest, huh..?",1,0,5},
+				{"I don't know what your deal is, but...",1,0,4},
+				{"I don't take commands from freaks of\nnature like you.",1,0,3},
+				{"What did you just call me?!",0,4,0},
 			};
 
-			char uproardia[9] [150] = {
-				"At least that guy's gone, he was\ngetting on my nerves.",
-				"Let me guess, you're another thorn\nin my side, huh?",
-				". . .",
-				"...You took the words straight\nfrom my mouth...",
-				"I had finally escaped that wretched\ngame, and of course YOU are here to\ngreet me...",
-				"...No matter...",
-				"...I'll just kill you and finally get\nmy revenge... It's really that simple...",
-				"...You don't mind your body being\ndissipated, right? It's only fair...",
-				"You took the words straight from\nmy mouth.",
+			static const struct
+			{
+				const char *text;
+				u8 camera;
+			}uproardia[] = {
+			
+				{"At least that guy's gone, he was\ngetting on my nerves.",1},
+				{"Let me guess, you're another thorn\nin my side, huh?",1},
+				{". . .",0},
+				{"...You took the words straight\nfrom my mouth...",0},
+				{"I had finally escaped that wretched\ngame, and of course YOU are here to\ngreet me...",0},
+				{"...No matter...",0},
+				{"...I'll just kill you and finally get\nmy revenge... It's really that simple...",0},
+				{"...You don't mind your body being\ndissipated, right? It's only fair...",0},
+				{"You took the words straight from\nmy mouth.",1},
 			};
 
 			static const struct
@@ -3373,6 +3454,9 @@ void Stage_Tick(void)
 					if (stage.delect == 16)
 					{
 						Audio_StopXA();
+						Character_Free(stage.psytalk);
+						Portrait_Free(stage.p1port);
+						FontData_Load(&stage.font_cdr, Font_CDR);
 			            stage.state = StageState_Play;
 					}
 
@@ -3385,12 +3469,28 @@ void Stage_Tick(void)
 
 				case StageId_1_3:
 				{
-					FntPrint("%s", uproardia[stage.delect]);
+					stage.font_arial.draw_col(&stage.font_arial,
+						uproardia[stage.delect].text,
+						25,
+						170,
+						FontAlign_Left,
+						0 >> 1,
+						0 >> 1,
+						0 >> 1
+					);
 					if (stage.delect == 9)
 					{
 						Audio_StopXA();
+						Character_Free(stage.psytalk);
+						FontData_Load(&stage.font_cdr, Font_CDR);
+						stage.loadp1flag = true;
 						stage.state = StageState_Play;
 					}
+
+					if (uproardia[stage.delect].camera == 1)
+					    Stage_FocusCharacter(stage.opponent, FIXED_UNIT / 24);
+					else
+					    Stage_FocusCharacter(stage.player, FIXED_UNIT / 24);
 					break;
 				}
 
@@ -3503,6 +3603,93 @@ void Stage_Tick(void)
 						}
 						default:
 							break;
+					}
+					break;
+				}
+				case StageId_1_2:
+				{
+					switch(wiltdia[stage.delect].p1port)
+					{
+						case 1:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim1);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						case 2:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim2);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						case 3:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim3);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						case 4:
+						{
+							stage.p1port->set_anim(stage.p1port, PortAnim4);
+							stage.p1port->tick(stage.p1port);
+							break;
+						}
+						default:
+							break;
+					}
+					switch(wiltdia[stage.delect].p2port)
+					{
+						//normal
+			        	case 1:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Idle)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Idle);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+						//piss
+						case 2:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Left)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Left);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+						//erect
+						case 3:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_LeftAlt)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_LeftAlt);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+						//annoyed
+						case 4:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Down)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Down);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+						//confused
+						case 5:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_DownAlt)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_DownAlt);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+						//shock
+						case 6:
+						{
+							if (stage.psytalk->animatable.anim != CharAnim_Up)
+								stage.psytalk->set_anim(stage.psytalk, CharAnim_Up);
+							stage.psytalk->tick(stage.psytalk);
+			        		break;
+						}
+			        	//nothing
+			        	default:
+			        	    break;
 					}
 				}
 				

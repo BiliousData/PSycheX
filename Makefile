@@ -22,6 +22,7 @@ SRCS = src/main.c \
        src/stage/dummy.c \
        src/stage/fplace.c \
        src/stage/flames.c \
+       src/stage/old.c \
        src/stage/space.c \
        src/stage/chop.c \
        src/stage/flamec.c \
@@ -43,6 +44,7 @@ SRCS = src/main.c \
        src/character/bft.c \
        src/portraits/psyport.c \
        src/portraits/bfport.c \
+       src/portraits/senport.c \
        src/object.c \
        src/object/combo.c \
        src/object/splash.c \

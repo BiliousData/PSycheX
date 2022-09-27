@@ -12,4 +12,6 @@
 //Dad character functions
 Character *Char_BFS_New(fixed_t x, fixed_t y);
 
+void Char_BFS_LoadNote(Character *character);
+
 #endif

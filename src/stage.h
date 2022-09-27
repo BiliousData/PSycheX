@@ -268,6 +268,13 @@ typedef struct
 
 	Portrait *p1port;
 
+	//noteskin shit
+	s8 noteskin;
+
+	s32 widemovie;
+
+	boolean loadp1flag;
+
 	
 	//EPIC DEBUG SHIT
 	u8 debug; //0 is nothing, 1 is step counter, 2 is camera positions
@@ -317,6 +324,20 @@ typedef struct
 	//Object lists
 	ObjectList objlist_splash, objlist_fg, objlist_bg;
 } Stage;
+
+typedef enum
+{
+	Default,
+	Future,
+	Chip,
+	Button,
+} NoteSkin;
+
+typedef enum
+{
+	Standard,
+	Wide,
+} WideMovie;
 
 extern Stage stage;
 

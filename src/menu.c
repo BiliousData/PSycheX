@@ -808,16 +808,17 @@ void Menu_Tick(void)
 				if (pad_state.press & (PAD_START | PAD_CROSS))
 				{
 					printf("Starting Week\n");
-					if (stage.movietog == 1)
-					{
-						printf("Movies are on, going to intro\n");
-						menu.next_page = MenuPage_Stage;
-					}
-					else
-					{
-						printf("Movies are off, skipping straight to stage\n");
-						menu.next_page = MenuPage_Stage;
-					}
+					//if (stage.movietog == 1)
+					//{
+					//	printf("Movies are on, going to intro\n");
+					//	menu.next_page = MenuPage_Stage;
+					//}
+					//else
+					//{
+					//	printf("Movies are off, skipping straight to stage\n");
+					//	menu.next_page = MenuPage_Stage;
+					//}
+					menu.next_page = MenuPage_Movie;
 					menu.page_param.stage.story = true;
 					menu.trans_time = FIXED_UNIT;
 					menu.page_state.title.fade = FIXED_DEC(255,1);
@@ -1198,6 +1199,7 @@ void Menu_Tick(void)
 			static const char *movieratio_strs[] = {"STANDARD", "WIDE"};
 			static const char *null_str[] = {""};
 			static const char *time_str[] = {"COUNT DOWN", "COUNT UP", "DISABLED"};
+			static const char *noteskin_str[] = {"DEFAULT", "FUTURE", "CHIP", "BUTTON"};
 			static const struct
 			{
 				enum
@@ -1231,12 +1233,12 @@ void Menu_Tick(void)
 				//{OptType_Enum, "CUSTOMIZE", &menu.custom, {.spec_enum = {COUNT_OF(null_str), null_str}}},
 				//ASS SHIT
 				//{OptType_Enum,    "MOVIE RATIO", &movie.ratio, {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
-				{OptType_Boolean, "GHOST TAP ", &stage.ghost, {.spec_boolean = {0}}},
-				{OptType_Boolean, "DOWNSCROLL", &stage.downscroll, {.spec_boolean = {0}}},
-				{OptType_Enum, "TIMER", &time.timeropt, {.spec_enum = {COUNT_OF(time_str), time_str}}},
-				{OptType_Boolean, "CLASSIC HUD", &stage.oldhud, {.spec_boolean = {0}}},
-				{OptType_Boolean, "BOTPLAY", &stage.botplay, {.spec_boolean = {0}}},
-				{OptType_Boolean, "MOVIES", &stage.movietog, {.spec_boolean = {0}}},
+				{OptType_Boolean, "GHOST TAP ",  &stage.ghost,      {.spec_boolean = {0}}},
+				{OptType_Boolean, "DOWNSCROLL",  &stage.downscroll, {.spec_boolean = {0}}},
+				{OptType_Enum,    "NOTE SKIN ",  &stage.noteskin,   {.spec_enum = {COUNT_OF(noteskin_str), noteskin_str}}},
+				{OptType_Enum,    "TIMER",       &time.timeropt,    {.spec_enum = {COUNT_OF(time_str), time_str}}},
+				{OptType_Enum,    "MOVIE RATIO", &stage.widemovie,  {.spec_enum = {COUNT_OF(movieratio_strs), movieratio_strs}}},
+				{OptType_Boolean, "BOTPLAY",     &stage.botplay,    {.spec_boolean = {0}}},
 			};
 			
 			//Initialize page
@@ -1888,10 +1890,6 @@ void Menu_Tick(void)
 		{
 			//Unload menu state
 			Menu_Unload();
-
-			//Start movie if enabled
-			if (stage.movietog == 1)
-				Movie_Play("\\STR\\INTRO.STR;1", 429);
 			
 			//Load new stage
 			LoadScr_Start();
@@ -1918,7 +1916,15 @@ void Menu_Tick(void)
 			Menu_Unload();
 
 			//Play movie
+			if (stage.widemovie == Wide)
+				Movie_Play("\\STR\\INTROW.STR;1", 429);
+			else
+				Movie_Play("\\STR\\INTRO.STR;1", 429);
+
+			//load stage
 			LoadScr_Start();
+			Stage_Load(menu.page_param.stage.id, menu.page_param.stage.diff, menu.page_param.stage.story);
+			gameloop = GameLoop_Stage;
 			LoadScr_End();
 			break;
 		}

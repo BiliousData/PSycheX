@@ -76,6 +76,8 @@ int main(int argc, char **argv)
 
 	//make ghost tapping on by default
 	stage.ghost = 1;
+
+	stage.widemovie = Wide;
 	
 	//Start game depending on variable
     if (stage.demo == 1)

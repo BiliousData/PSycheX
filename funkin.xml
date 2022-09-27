@@ -44,6 +44,9 @@
 			<!-- Stage assets -->
 			<dir name = "stage">
 				<file name = "hud0.tim" type = "data" source = "iso/stage/hud0.tim"/>
+				<file name = "hud0futr.tim" type = "data" source = "iso/stage/hud0futr.tim"/>
+				<file name = "hud0chip.tim" type = "data" source = "iso/stage/hud0chip.tim"/>
+				<file name = "hud0butn.tim" type = "data" source = "iso/stage/hud0butn.tim"/>
 				<file name = "hud1.tim" type = "data" source = "iso/stage/hud1.tim"/>
 				<file name = "hud0weeb.tim" type = "data" source = "iso/stage/hud0weeb.tim"/>
 				<file name = "dia.tim" type = "data" source = "iso/stage/dia.tim"/>
@@ -220,6 +223,7 @@
 			<dir name = "psyche">
 			    <file name = "fplace.arc" type = "data" source = "iso/fplace/back.arc"/>
 				<file name = "flames.arc" type = "data" source = "iso/flames/back.arc"/> 
+				<file name = "old.arc" type = "data" source = "iso/old/back.arc"/>
 				<file name = "space.arc" type = "data" source = "iso/space/back.arc"/>
 				<file name = "cool.arc" type = "data" source = "iso/fplacechop/back.arc"/>
 				<file name = "inferno.arc" type = "data" source = "iso/flamec/back.arc"/>
@@ -237,6 +241,7 @@
 				
 				<!-- Bfspirit assets -->
 				<file name = "bfspirit.arc" type = "data" source = "iso/bfspirit/main.arc"/>
+				<file name = "spiritn.arc" type = "data" source = "iso/bfspirit/notes.arc"/>
 				<file name = "spirit.arc" type = "data" source = "iso/bfspirit/dead.arc"/>
 				
 				<!-- Dad assets -->
@@ -295,12 +300,14 @@
 			<dir name = "str">
 			    <file name = "intro.str" type = "str" source = "iso/movie/introfix.str"/>
 				<file name = "end.str" type = "str" source = "iso/movie/end.str"/>
+				<file name = "introw.str" type = "str" source = "iso/movie/wintro.str"/>
 			</dir>
 
 			<!-- Dialogue portraits -->
 			<dir name = "dia">
 				<file name = "psytalk.arc" type = "data" source = "iso/diaports/psychic/psytalk.arc"/>
 				<file name = "bf.arc" type = "data" source = "iso/diaports/bf/bfport.arc"/>
+				<file name = "senport.arc" type = "data" source = "iso/diaports/senpai/senpai.arc"/>
 			</dir>
 			
 			<!-- Dummy sectors -->
