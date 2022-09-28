@@ -91,6 +91,7 @@ static const struct
 	{"FC"}, //Full Combo
 	{"SDCB"}, //I dunno what it stands for
 	{"Clear"}, //If you miss a lot
+	{"Botplay"}, //Botplay user smh
 };
 
 
@@ -3066,6 +3067,8 @@ void Stage_Tick(void)
 								stage.ratingfc = 4; //SDCB
 							else if (stage.misses >= 10)
 								stage.ratingfc = 5; //Clear
+							if (stage.botplay == true)
+								stage.ratingfc = 6; //Botplay
 							
 
 							if (stage.demo == 0)
