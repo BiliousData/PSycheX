@@ -68,6 +68,8 @@
 	#define DCT_MODE    2
 #endif
 
+#include "strplay.h"
+
 
 // A simple struct to make STR handling a bit easier
 //typedef struct {

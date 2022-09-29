@@ -9,7 +9,7 @@
 
 #include "../movie.h"
 
-#include "../strplay.c"
+#include "../strplay.h"
 #include <sys/types.h>
 #include <libetc.h>
 #include <libgte.h>
