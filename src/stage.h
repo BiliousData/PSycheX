@@ -234,18 +234,6 @@ typedef struct
 	//9 is swaptr2
 	u8 notemode;
 
-	//strikeline values
-	//player
-	u8 strike1;
-	u8 strike2;
-	u8 strike3;
-	u8 strike4;
-    //opponent
-	u8 strike5;
-	u8 strike6;
-	u8 strike7;
-	u8 strike8;
-
 	u8 backpick; //this is just for the main menu
 
 	u8 coolfade;
@@ -284,6 +272,8 @@ typedef struct
 	u8 camode;
 
 	fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeinwhite;
+
+	fixed_t fadepurp1, fadepurp2, fadepurp3;
 	
 	s16 song_step;
 	

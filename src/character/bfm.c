@@ -76,9 +76,13 @@ void Char_BFMenu_Tick(Character *character)
 {
 	Char_BFMenu *this = (Char_BFMenu*)character;
 	
-	//Perform idle dance
-	if ((character->pad_held & (INPUT_LEFT | INPUT_DOWN | INPUT_UP | INPUT_RIGHT)) == 0)
-		Character_QuickIdle(character);
+	if (stage.flag & STAGE_FLAG_JUST_STEP)
+	{	
+		//Perform dance
+		if (stage.note_scroll >= character->sing_end && (stage.song_step % stage.gf_speed) == 0)
+			character->set_anim(character, CharAnim_Idle);
+		
+	}
 	
 	//Animate and draw
 	Animatable_Animate(&character->animatable, (void*)this, Char_BFMenu_SetFrame);

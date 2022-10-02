@@ -13,8 +13,13 @@
 #include "../timer.h"
 #include "../animation.h"
 
-fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeblack2;
+fixed_t fadewhite, fadeblack, fadespeed, fadeextra, fadeextra2, fadeextra3, fadeblack2, fadepurp, fadepurp2;
+fixed_t purpout1, purpout2, purpout3;
 boolean fademode;
+
+//too many fucking variables
+fixed_t fadered, fadered2, redspeed;
+boolean redmode;
 
 //Week 4 background structure
 typedef struct
@@ -155,17 +160,6 @@ void Chop_Wick_SetFrame(void *user, u8 frame)
 	}
 }
 
-
-
-void Back_Chop_DrawFG(StageBack *back)
-{
-	Back_Chop *this = (Back_Chop*)back;
-	
-	fixed_t fx, fy;
-	
-	
-}
-
 void Back_Chop_DrawBG(StageBack *back)
 {
 	Back_Chop *this = (Back_Chop*)back;
@@ -240,40 +234,97 @@ void Back_Chop_DrawBG(StageBack *back)
 		FIXED_DEC(256,1)
 	};
 
-	//bft cutscene shit
-	if (fadeblack > 0 && fademode == 0)
-	{
-		if (fadeblack >= 81858)
-		{
-			//This sucks
-			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-			u8 flash_col = fadeblack >> FIXED_SHIFT;
-			u8 flash_col2 = fadeextra >> FIXED_SHIFT;
-			Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
-		}
-		else
-		{
-    		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-			u8 flash_col = fadeblack >> FIXED_SHIFT;
-			u8 flash_col2 = fadeextra >> FIXED_SHIFT;
-			Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
-			fadeblack += FIXED_MUL(fadespeed, timer_dt*3);  
-		}
-
-    
-	}
-
-	if (fadeblack2 > 0 && fademode == 1)
-	{
-    	static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-		u8 flash_col = fadeblack2 >> FIXED_SHIFT;
-		u8 flash_col2 = fadeextra >> FIXED_SHIFT;
-		Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
-		fadeblack2 -= FIXED_MUL(fadespeed, timer_dt*3); 
-    
-	}
 	if (stage.stage_id == StageId_1_5)
-		FntPrint("1 %d\n2 %d\nmode %d", fadeblack, fadeblack2, fademode);
+	{
+		//bft cutscene shit
+		if (fadeblack > 0 && fademode == 0)
+		{
+			if (fadeblack >= 81858)
+			{
+				//This sucks
+				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadeblack >> FIXED_SHIFT;
+				u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+			}
+			else
+			{
+   	 		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadeblack >> FIXED_SHIFT;
+				u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+				fadeblack += FIXED_MUL(fadespeed, timer_dt*3);  
+			}
+
+	
+		}
+
+		if (fadeblack2 > 0 && fademode == 1)
+		{
+   	 	static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+			u8 flash_col = fadeblack2 >> FIXED_SHIFT;
+			u8 flash_col2 = fadeextra >> FIXED_SHIFT;
+			Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 2);
+			fadeblack2 -= FIXED_MUL(fadespeed, timer_dt*3); 
+	
+		}
+	}
+
+	//wilter purple
+	if (stage.stage_id == StageId_1_2)
+	{
+		if (fadepurp > 0 && fademode == 0)
+		{
+			if (fadepurp >= FIXED_DEC(45,1) && fadeextra2 >= FIXED_DEC(65,1) && fadeextra3 >= FIXED_DEC(0,1))
+			{
+				//This sucks
+				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadepurp >> FIXED_SHIFT;
+				u8 flash_col2 = fadeextra2 >> FIXED_SHIFT;
+				u8 flash_col3 = fadeextra3 >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, flash_col2, flash_col3, 2);
+			}
+			else
+			{
+   	 			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadepurp >> FIXED_SHIFT;
+				u8 flash_col2 = fadeextra2 >> FIXED_SHIFT;
+				u8 flash_col3 = fadeextra3 >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, flash_col2, flash_col3, 2);
+				if (fadepurp < FIXED_DEC(45,1))
+					fadepurp += FIXED_MUL(fadespeed, timer_dt*3);    
+				if (fadeextra2 < FIXED_DEC(65,1))
+					fadeextra2 += FIXED_MUL(fadespeed, timer_dt*3);  
+				if (fadeextra3 < FIXED_DEC(0,1))
+					fadeextra3 += FIXED_MUL(fadespeed, timer_dt*3);  
+			}
+
+	
+		}
+
+		if (purpout1 > FIXED_DEC(1,1) && fademode == 1|| purpout2 > FIXED_DEC(1,1) && fademode == 1)
+		{
+			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+			u8 flash_col = purpout1 >> FIXED_SHIFT;
+			u8 flash_col2 = purpout2 >> FIXED_SHIFT;
+			u8 flash_col3 = purpout3 >> FIXED_SHIFT;
+			Gfx_BlendRect(&flash, flash_col, flash_col2, flash_col3, 2);
+			if (purpout1 > FIXED_DEC(1,1))
+				purpout1 -= FIXED_MUL(fadespeed, timer_dt*3);    
+			if (purpout2 > FIXED_DEC(1,1))
+				purpout2 -= FIXED_MUL(fadespeed, timer_dt*3);  
+			if (purpout3 > FIXED_DEC(0,1))
+				purpout3 -= FIXED_MUL(fadespeed, timer_dt*3);  
+			//try to prevent weird colors from flashing
+			if (purpout1 < 0)
+				purpout1 = 0;
+			if (purpout2 < 0)
+				purpout2 = 0;
+			if (purpout3 < 0)
+				purpout3 = 0;
+		}
+	}
+
 
 	Chop_Fire_Draw(this, FIXED_DEC(85,1) - fx, FIXED_DEC(31,1) - fy);
 	Chop_Steam_Draw(this, FIXED_DEC(271,1) - fx, FIXED_DEC(15,1) - fy);
@@ -289,6 +340,56 @@ void Back_Chop_DrawBG(StageBack *back)
 	Stage_DrawTex(&this->tex_floor, &floorr_src, &floorr_dst, stage.camera.bzoom);
 	Stage_DrawTex(&this->tex_back0, &halll_src, &halll_dst, stage.camera.bzoom);
 	Stage_DrawTex(&this->tex_back1, &hallr_src, &hallr_dst, stage.camera.bzoom);
+
+	if (stage.stage_id == StageId_1_2)
+	{
+		switch (stage.song_step)
+		{
+			case 383:
+			{
+				fademode = 0;
+				fadepurp = 1;
+				fadespeed = FIXED_DEC(81,1);
+				break;
+			}
+			case 511:
+			{
+				purpout1 = fadepurp;
+				purpout2 = fadeextra2;
+				purpout3 = fadeextra3;
+				fademode = 1;
+				break;
+			}
+			case 703:
+			{
+				fademode = 0;
+				fadepurp = 1;
+				fadeextra2 = 0;
+				fadeextra3 = 0;
+				break;
+			}
+			case 960:
+			{
+				redspeed = FIXED_DEC(8,1);
+				fadered = FIXED_DEC(1,1);
+				break;
+			}
+			case 1023:
+			{
+				purpout1 = fadepurp;
+				purpout2 = fadeextra2;
+				purpout3 = fadeextra3;
+				fademode = 1;
+				break;
+			}
+			case 1024:
+			{
+				redspeed = FIXED_DEC(20,1);
+				redmode = 1;
+				break;
+			}
+		}
+	}
 
 	if (stage.stage_id == StageId_1_5)
 	{
@@ -310,6 +411,51 @@ void Back_Chop_DrawBG(StageBack *back)
 			}
 		}
 	}
+
+
+}
+
+void Back_Chop_DrawRed(StageBack *back)
+{
+	Back_Chop *this = (Back_Chop*)back;
+
+	if (stage.stage_id == StageId_1_2)
+	{
+		if (fadered > 0 && redmode == 0)
+		{
+			if (fadered >= FIXED_DEC(255,1))
+			{
+				//This sucks
+				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadered >> FIXED_SHIFT;
+				u8 flash_col2 = fadered2 >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, 0, flash_col2, 1);
+			}
+			else
+			{
+				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+				u8 flash_col = fadered >> FIXED_SHIFT;
+				u8 flash_col2 = fadered2 >> FIXED_SHIFT;
+				Gfx_BlendRect(&flash, flash_col, 0, flash_col2, 1);
+				if (fadered < FIXED_DEC(255,1))
+					fadered += FIXED_MUL(redspeed, timer_dt*3); 
+				if (fadered2 < FIXED_DEC(55,1))
+					fadered2 += FIXED_MUL(redspeed, timer_dt*3);
+			}
+		}
+
+		if (fadered > 0 && redmode == 1)
+		{
+			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+			u8 flash_col = fadered >> FIXED_SHIFT;
+			u8 flash_col2 = fadered2 >> FIXED_SHIFT;
+			Gfx_BlendRect(&flash, flash_col, 0, flash_col2, 1);
+			if (fadered > FIXED_DEC(0,1))
+				fadered -= FIXED_MUL(redspeed, timer_dt*3);
+			if (fadered2 > FIXED_DEC(1,1)) //no more blue flashbangs please
+				fadered2 -= FIXED_MUL(redspeed, timer_dt*3);
+		}
+	}
 }
 
 void Back_Chop_Free(StageBack *back)
@@ -329,7 +475,7 @@ StageBack *Back_Chop_New(void)
 		return NULL;
 	
 	//Set background functions
-	this->back.draw_fg = Back_Chop_DrawFG;
+	this->back.draw_fg = Back_Chop_DrawRed;
 	this->back.draw_md = NULL;
 	this->back.draw_bg = Back_Chop_DrawBG;
 	this->back.free = Back_Chop_Free;
@@ -357,6 +503,19 @@ StageBack *Back_Chop_New(void)
 	fademode = 0;
 	fadeblack = 0;
 	fadeblack2 = 0;
+
+	fadepurp = 0;
+	fadeextra2 = 0;
+	fadeextra3= 0;
+
+	purpout1 = 0;
+	purpout2 = 0;
+	purpout3 = 0;
+
+	fadered = 0;
+	fadered2 = 0;
+	redmode = 0;
+	redspeed = 0;
 	
 	
 	

@@ -94,6 +94,18 @@ void SongTimerDown(void)
 		else
 		{
 			stage.font_cdr.draw(&stage.font_cdr, timer1, 149, 10, FontAlign_Left);
+
+			//Draw time bar
+			RECT time_fill = {0, 0, 0 + (128 * time.timer_total / time.converted_time), 8};
+			RECT time_back = {0, 0, 128, 8};
+			RECT_FIXED time_dst = {FIXED_DEC(-64,1), (SCREEN_HEIGHT2 - 230) << FIXED_SHIFT, 0, FIXED_DEC(8,1)};
+			if (stage.downscroll)
+				time_dst.y = -time_dst.y - time_dst.h;
+			
+			time_dst.w = time_fill.w << FIXED_SHIFT;
+			Stage_DrawTexCol(&stage.tex_hud1, &time_fill, &time_dst, FIXED_DEC(1,1), 255, 255, 255); //white bar moving to the right
+			time_dst.w = time_back.w << FIXED_SHIFT;
+			Stage_DrawTexCol(&stage.tex_hud1, &time_back, &time_dst, FIXED_DEC(1,1), 0, 0, 0); //black background bar
 		}
 	}
 	//else //but if finished,

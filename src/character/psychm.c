@@ -71,10 +71,13 @@ void Char_PsychicM_Tick(Character *character)
 {
 	Char_PsychicM *this = (Char_PsychicM*)character;
 	
-	//Perform idle dance
-	if ((character->pad_held & (INPUT_LEFT | INPUT_DOWN | INPUT_UP | INPUT_RIGHT)) == 0)
-		Character_QuickIdle(character);
-	
+	if (stage.flag & STAGE_FLAG_JUST_STEP)
+	{	
+		//Perform dance
+		if (stage.note_scroll >= character->sing_end && (stage.song_step % stage.gf_speed) == 0)
+			character->set_anim(character, CharAnim_Idle);
+		
+	}
 	//Animate and draw
 	Animatable_Animate(&character->animatable, (void*)this, Char_PsychicM_SetFrame);
 	Character_Draw(character, &this->tex, &char_PsychicM_frame[this->frame]);

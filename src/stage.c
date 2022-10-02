@@ -32,7 +32,8 @@
 //Stage constants
 boolean shakey; //Uproar note shake
 boolean drawpsychic;
-boolean nobump;
+boolean noheadbump;
+u8 cambump;
 boolean teaselect;
 
 boolean normo;
@@ -163,8 +164,6 @@ static const u8 note_anims[4][3] = {
 boolean nohud;
 
 #include "character/bf.h"
-#include "character/bfweeb.h"
-#include "character/dad.h"
 #include "character/gf.h"
 #include "character/senpaib.h"
 #include "character/psychic.h"
@@ -1695,7 +1694,8 @@ static void Stage_LoadState(void)
 
 	stage.notemode = 0;
 	shakey = 0;
-	nobump = 0;
+	noheadbump = 0;
+	cambump = 0;
 	stage.fadeinwhite = 0;
 	stage.camode = 0;
 	teaselect = 0;
@@ -2242,11 +2242,12 @@ void Stage_Tick(void)
 			switch (stage.state)
 			{
 				case StageState_Play:
+				{
 					printf("start pressed, swtiching to teatime\n");
 					Audio_StopXA();
-					Stage_Unload();
-					if (stage.demo == 0)
+					if (stage.demo == 0 && stage.botplay == 0) //skip tea screen if botplay, because going there with it is a guaranteed crash for some reason
 					{
+						Stage_Unload();
 						Stage_LoadTea();
 						printf("switching state\n");
 				   		stage.state = StageState_Tea;	
@@ -2258,6 +2259,7 @@ void Stage_Tick(void)
 						Trans_Start();
 						break;
 					}
+				}
 				case StageState_Dialogue:
 				    break;
 				case StageState_Tea:
@@ -2403,21 +2405,6 @@ void Stage_Tick(void)
 			//trackers
 			//pressing select switches selected tracker
 
-			if (stage.song_step >= 0)
-			{
-				switch (time.timeropt)
-				{
-					case CountDown:
-						SongTimerDown();
-						break;
-					case CountUp:
-						SongTimer();
-						break;
-					case Disabled:
-						break;
-				}
-			}
-
 			switch (stage.debug)
 			{
 				case 1: //step counter
@@ -2442,7 +2429,38 @@ void Stage_Tick(void)
 					FntPrint("STRIKELINE X\n%d %d %d %d %d %d %d %d", note1x, note2x, note3x, note4x, note5x, note6x, note7x, note8x);
 					break;
 			}
-			//FntPrint("uh %d", stage.fadeblack);
+			
+			//SECRET COLOR DEBUG
+			//switch (stage.debug)
+			//{
+			//	case 1:
+			//	{
+			//		FntPrint("red %d green %d blue %d", stage.fadepurp1/1024, stage.fadepurp2/1024, stage.fadepurp3/1024);
+			//		if (pad_state.held & PAD_LEFT)
+			//			stage.fadepurp1 -= FIXED_DEC(1,1);
+			//		if (pad_state.held & PAD_RIGHT)
+			//			stage.fadepurp1 += FIXED_DEC(1,1);
+			//		break;
+			//	}
+			//	case 2:
+			//	{
+			//		FntPrint("red %d green %d blue %d", stage.fadepurp1/1024, stage.fadepurp2/1024, stage.fadepurp3/1024);
+			//		if (pad_state.held & PAD_LEFT)
+			//			stage.fadepurp2 -= FIXED_DEC(1,1);
+			//		if (pad_state.held & PAD_RIGHT)
+			//			stage.fadepurp2 += FIXED_DEC(1,1);
+			//		break;
+			//	}
+			//	case 3:
+			//	{
+			//		FntPrint("red %d green %d blue %d", stage.fadepurp1/1024, stage.fadepurp2/1024, stage.fadepurp3/1024);
+			//		if (pad_state.held & PAD_LEFT)
+			//			stage.fadepurp3 -= FIXED_DEC(1,1);
+			//		if (pad_state.held & PAD_RIGHT)
+			//			stage.fadepurp3 += FIXED_DEC(1,1);
+			//		break;
+			//	}
+			//}
 
 			Stage_Note_Move();
 
@@ -2470,17 +2488,33 @@ void Stage_Tick(void)
 			{
 				switch (stage.song_step)
 				{
+					case 368:
+						cambump = 3;
+						break;
 					case 381:
 					    stage.notemode = 4;
+						cambump = 0;
+						break;
+					case 496:
+						cambump = 3;
 						break;
 					case 510:
 					    stage.notemode = 5;
+						cambump = 0;
+						break;
+					case 688:
+						cambump = 3;
 						break;
 					case 702:
 					    stage.notemode = 4;
+						cambump = 0;
+						break;
+					case 1008:
+						cambump = 3;
 						break;
 					case 1022:
 					    stage.notemode = 5;
+						cambump = 0;
 						break;
 					
 				}
@@ -2534,22 +2568,10 @@ void Stage_Tick(void)
 				switch (stage.song_step)
 				{
 					case 531:
-					    stage.notemode = 6;
+					    stage.notemode = 3;
 						break;
-					case 532:
-					    stage.notemode = 7;
-						break;
-					case 533:
-					    stage.notemode = 2;
-					    break;
 					case 767:
-					    stage.notemode = 7;
-						break;
-					case 768:
-					    stage.notemode = 6;
-						break;
-					case 769:
-					    stage.notemode = 0;
+					    stage.notemode = 2;
 						break;
 				}
 			}
@@ -2559,40 +2581,16 @@ void Stage_Tick(void)
 				switch (stage.song_step)
 				{
 					case 190:
-					    stage.notemode = 6;
+					    stage.notemode = 2;
 						break;
-					case 191:
-					    stage.notemode = 7;
-						break;
-		            case 192:
-		                stage.notemode = 2;
-				    	break;
 					case 316:
-					    stage.notemode = 7;
+					    stage.notemode = 1;
 						break;
-					case 317:
-					    stage.notemode = 6;
-						break;
-				    case 318:
-				        stage.notemode = 0;
-				    	break;
 					case 572:
-					    stage.notemode = 6;
-						break;
-					case 573:
-					    stage.notemode = 7;
-						break;
-					case 574:
 					    stage.notemode = 2;
 						break;
 					case 701:
-					    stage.notemode = 7;
-						break;
-					case 702:
-					    stage.notemode = 6;
-						break;
-					case 703:
-					    stage.notemode = 0;
+					    stage.notemode = 1;
 						break;
 				}
 		    }
@@ -2638,7 +2636,7 @@ void Stage_Tick(void)
 					case 1152:
 						{
 							shakey = 0;
-							nobump = 1;
+							noheadbump = 1;
 							break;
 						}
 					case 1213:
@@ -2647,7 +2645,7 @@ void Stage_Tick(void)
 							stage.fadewhite = FIXED_DEC(255,1);
 							stage.fadespeed = FIXED_DEC(100,1);
 							shakey = 1;
-							nobump = 0;
+							noheadbump = 0;
 							break;
 						}
 					case 1470:
@@ -2854,17 +2852,44 @@ void Stage_Tick(void)
 					if (stage.song_step >= 1150 && stage.song_step <= 1213)
 						is_bump_step = NULL;
 				}
+
+				switch (cambump)
+				{
+					case 0: //normal, bump every 4 beats
+					{
+						if (is_bump_step)
+							stage.bump = FIXED_DEC(103,100);
+						break;
+					}
+					case 1: //no bumping
+					{
+						is_bump_step = NULL;
+						if (is_bump_step)
+							stage.bump = FIXED_DEC(103,100);
+						break;
+					}
+					case 2: //bump every 2 beats
+					{
+						is_bump_step = (stage.song_step  & 0x7) == 0;
+						if (is_bump_step)
+							stage.bump = FIXED_DEC(103,100);
+						break;
+					}
+					case 3: //bump violently every beat
+					{
+						is_bump_step = (stage.song_step & 0x3) == 0;
+						if (is_bump_step)
+							stage.bump = FIXED_DEC(109,100);
+						break;
+					}
+				}
 				
 				//M.I.L.F bumps
 				//if (stage.stage_id == StageId_4_3 && stage.song_step >= (168 << 2) && stage.song_step < (200 << 2))
 				//	is_bump_step = (stage.song_step & 0x3) == 0;
 				
-				//Bump screen
-				if (is_bump_step)
-					stage.bump = FIXED_DEC(103,100);
-				
 				//Bump health every 4 steps
-				if (nobump == 1)
+				if (noheadbump == 1)
 				{
 					if ((stage.song_step & 0x3) == 0)
 					stage.sbump = FIXED_DEC(100,100);
@@ -2970,6 +2995,22 @@ void Stage_Tick(void)
 			   Stage_DrawStrum(i | 4, &note_src, &note_dst);
 			   Stage_DrawTex(&stage.tex_hud0, &note_src, &note_dst, stage.bump);
 			
+			}
+
+			//timer stuff
+			if (stage.song_step >= 0)
+			{
+				switch (time.timeropt)
+				{
+					case CountDown:
+						SongTimerDown();
+						break;
+					case CountUp:
+						SongTimer();
+						break;
+					case Disabled:
+						break;
+				}
 			}
 			
 			//Draw score
@@ -3762,9 +3803,9 @@ void Stage_Tick(void)
 			{
 				printf("starting TeaTime\n");
 				Audio_PlayXA_Track(XA_TeaTime, 0x40, 2, true);
+				printf("grabbing stats\n");
+				sprintf(this->stats, "Accuracy:%d%%\nMisses:%d\nSicks:%d\nGoods:%d\nBads:%d\nShits:%d", stage.ratingpercent, stage.misses, stage.sicks, stage.goods, stage.bads, stage.shits);
 			}
-
-			sprintf(this->stats, "Accuracy:%d%%\nMisses:%d\nSicks:%d\nGoods:%d\nBads:%d\nShits:%d", stage.ratingpercent, stage.misses, stage.sicks, stage.goods, stage.bads, stage.shits);
 
 			stage.font_cdr.draw(&stage.font_cdr, "Game is stopped.", 166, 53, FontAlign_Center);
 

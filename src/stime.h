@@ -14,7 +14,7 @@ typedef struct
 {
 	u8 total_time; //in centiseconds
 	u8 converted_time; //from centiseconds to seconds
-	u8 timer_tick; //???
+	u8 timer_tick; //increases every frame, and since PSXFunkin is 60fps, logically, 60 ticks is a second.
 	u8 timer_total; //Non-visual timer, counting in seconds
 	s32 timeropt; //for choosing timer type
 	//variables just for preparing for countdown
