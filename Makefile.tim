@@ -2,6 +2,7 @@ all: \
 	iso/menu/menu.arc \
 	iso/menu/char/bf.arc \
 	iso/menu/char/psychic.arc \
+	iso/menu/char/gfm.arc \
 	iso/menu/storybg/stback.arc \
 	iso/menu/customize/notes.arc \
 	iso/demo/demo.arc \
@@ -67,6 +68,8 @@ iso/menu/char/bf.arc: iso/menu/char/bf.tim
 
 iso/menu/char/psychic.arc: iso/menu/char/psychic.tim
 
+iso/menu/char/gfm.arc: iso/menu/char/gfm0.tim iso/menu/char/gfm1.tim
+
 iso/menu/storybg/stback.arc: iso/menu/storybg/fplace.tim
 
 iso/menu/customize/notes.arc: iso/menu/customize/normal.tim
@@ -129,7 +132,7 @@ iso/flames/back.arc: iso/flames/back0.tim iso/flames/back1.tim iso/flames/back2.
 
 iso/space/back.arc: iso/space/back3.tim iso/space/back4.tim
 
-iso/fplacechop/back.arc: iso/fplacechop/back0.tim iso/fplacechop/back1.tim iso/fplacechop/floor.tim iso/fplacechop/junk.tim iso/fplacechop/fplace.tim
+iso/fplacechop/back.arc: iso/fplacechop/back0.tim iso/fplacechop/back0p.tim iso/fplacechop/back1.tim iso/fplacechop/back1p.tim iso/fplacechop/floor.tim iso/fplacechop/floorp.tim iso/fplacechop/junk.tim iso/fplacechop/junkp.tim iso/fplacechop/fplace.tim iso/fplacechop/fplacep.tim
 
 #insanity
 iso/bft/hell.arc: iso/bft/idle.tim iso/bft/oof.tim iso/bft/eh.tim iso/bft/eey.tim iso/bft/ack.tim iso/bft/beh.tim iso/bft/agga.tim iso/bft/deh.tim iso/bft/ded.tim iso/bft/switch0.tim iso/bft/switch1.tim iso/bft/switch2.tim iso/bft/switch3.tim iso/bft/switch4.tim iso/bft/switch5.tim iso/bft/switch6.tim iso/bft/wink0.tim iso/bft/wink1.tim iso/bft/wink2.tim

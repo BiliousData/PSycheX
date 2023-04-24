@@ -31,6 +31,7 @@
 #include "character/titlepsy.h"
 #include "character/bfm.h"
 #include "character/psychm.h"
+#include "character/gfm.h"
 
 //Menu messages
 static const char *funny_messages[][2] = {
@@ -140,6 +141,8 @@ static struct
 	Character *StoryBF;
 
 	Character *StoryPsychic;
+	
+	Character *StoryGF;
 
 	//u8 custom;
 
@@ -353,6 +356,7 @@ void Menu_Load(MenuPage page)
 
 	menu.Titlepsy = Char_Titlepsy_New(FIXED_DEC(45,1), FIXED_DEC(94,1));
 	menu.StoryBF = Char_BFMenu_New(FIXED_DEC(15,1), FIXED_DEC(35,1));
+	menu.StoryGF = Char_GFM_New(FIXED_DEC(80,1), FIXED_DEC(100,1));
 	menu.StoryPsychic = Char_PsychicM_New(FIXED_DEC(-80,1), FIXED_DEC(100,1));
 	stage.camera.x = stage.camera.y = FIXED_DEC(0,1);
 	stage.camera.bzoom = FIXED_UNIT;
@@ -396,6 +400,7 @@ void Menu_Unload(void)
 	Character_Free(menu.Titlepsy);
 	Character_Free(menu.StoryBF);
 	Character_Free(menu.StoryPsychic);
+	Character_Free(menu.StoryGF);
 }
 
 void Menu_ToStage(StageId id, StageDiff diff, boolean story)
@@ -868,6 +873,8 @@ void Menu_Tick(void)
 			menu.StoryBF->tick(menu.StoryBF);
 
 			menu.StoryPsychic->tick(menu.StoryPsychic);
+			
+			menu.StoryGF->tick(menu.StoryGF);
 
 			Menu_DrawStoryBG();
 			

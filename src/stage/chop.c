@@ -29,17 +29,25 @@ typedef struct
 	
 	//Textures
 	Gfx_Tex tex_back0; //Wall left
+	Gfx_Tex tex_back0p; //Wall left
 	Gfx_Tex tex_back1; //Wall right
+	Gfx_Tex tex_back1p; //Wall right
 
 	Gfx_Tex tex_floor; //Floor
+	Gfx_Tex tex_floorp; //Floor
 
 	Gfx_Tex tex_junk; //random objects
+	Gfx_Tex tex_junkp; //random objects
 
 	Gfx_Tex tex_fireplace; //fireplace
-
+	Gfx_Tex tex_fireplacep; //random objects
 	//fire
 	u8 fire_frame, fire_tex_id;
 	Animatable fire_animatable;
+	
+	//fire purple
+	u8 firep_frame, firep_tex_id;
+	Animatable firep_animatable;
 
 	//gabe newell
 	u8 steam_frame, steam_tex_id;
@@ -48,6 +56,12 @@ typedef struct
 	//wick
 	u8 wick_frame, wick_tex_id;
 	Animatable wick_animatable;
+	
+	//wick purple
+	u8 wickp_frame, wickp_tex_id;
+	Animatable wickp_animatable;
+	
+	
 	
 } Back_Chop;
 
@@ -84,6 +98,42 @@ void Chop_Fire_SetFrame(void *user, u8 frame)
 	{
 		//Check if new art shall be loaded
 		const CharFrame *cframe = &fire_frame[this->fire_frame = frame];
+	}
+}
+
+static const CharFrame firep_frame[4] = {
+	{0, {169,   0,  59, 51}, {0,  0}},
+	{0, {105,  79,  55, 51}, {-1, 0}},
+	{0, {160,  79,  59, 64}, {0, 12}},
+	{0, {105, 143,  57, 59}, {-1, 8}},
+};
+
+static const Animation firep_anim[1] = {
+	{2, (const u8[]){0, 1, 2, 3, ASCR_REPEAT}},
+};
+
+void Chop_Firep_Draw(Back_Chop *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &firep_frame[this->firep_frame];
+				
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+				
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(&this->tex_junkp, &src, &dst, stage.camera.bzoom);
+}
+			
+void Chop_Firep_SetFrame(void *user, u8 frame)
+{
+	Back_Chop *this = (Back_Chop*)user;
+	
+	//Check if this is a new frame
+	if (frame != this->firep_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &firep_frame[this->firep_frame = frame];
 	}
 }
 
@@ -160,6 +210,42 @@ void Chop_Wick_SetFrame(void *user, u8 frame)
 	}
 }
 
+static const CharFrame wickp_frame[4] = {
+	{0, {  0, 175,  4,  8}, {0,  0}},
+	{0, {  4, 175,  4,  9}, {0,  1}},
+	{0, {  8, 175,  4,  7}, {0, -1}},
+	{0, { 12, 175,  5,  7}, {0, -1}},
+};
+
+static const Animation wickp_anim[1] = {
+	{2, (const u8[]){0, 1, 2, 3, ASCR_REPEAT}},
+};
+
+void Chop_Wickp_Draw(Back_Chop *this, fixed_t x, fixed_t y)
+{
+	//Draw animated object
+	const CharFrame *cframe = &wickp_frame[this->wickp_frame];
+	
+	fixed_t ox = x - ((fixed_t)cframe->off[0] << FIXED_SHIFT);
+	fixed_t oy = y - ((fixed_t)cframe->off[1] << FIXED_SHIFT);
+	
+	RECT src = {cframe->src[0], cframe->src[1], cframe->src[2], cframe->src[3]};
+	RECT_FIXED dst = {ox, oy, src.w << FIXED_SHIFT, src.h << FIXED_SHIFT};
+	Stage_DrawTex(&this->tex_junkp, &src, &dst, stage.camera.bzoom);
+}
+
+void Chop_Wickp_SetFrame(void *user, u8 frame)
+{
+	Back_Chop *this = (Back_Chop*)user;
+	
+	//Check if this is a new frame
+	if (frame != this->wickp_frame)
+	{
+		//Check if new art shall be loaded
+		const CharFrame *cframe = &fire_frame[this->wickp_frame = frame];
+	}
+}
+
 void Back_Chop_DrawBG(StageBack *back)
 {
 	Back_Chop *this = (Back_Chop*)back;
@@ -169,8 +255,10 @@ void Back_Chop_DrawBG(StageBack *back)
 	fixed_t fx, fy;
 
 	Animatable_Animate(&this->fire_animatable, (void*)this, Chop_Fire_SetFrame);
+	Animatable_Animate(&this->firep_animatable, (void*)this, Chop_Firep_SetFrame);
 	Animatable_Animate(&this->steam_animatable, (void*)this, Chop_Steam_SetFrame);
 	Animatable_Animate(&this->wick_animatable, (void*)this, Chop_Wick_SetFrame);
+	Animatable_Animate(&this->wickp_animatable, (void*)this, Chop_Wickp_SetFrame);
 	
 	
 	
@@ -233,6 +321,63 @@ void Back_Chop_DrawBG(StageBack *back)
 		FIXED_DEC(213 + SCREEN_WIDEOADD,1),
 		FIXED_DEC(256,1)
 	};
+	
+	RECT halllp_src = {0, 0, 255, 256};
+	RECT_FIXED halllp_dst = {
+		FIXED_DEC(-165 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(-140,1) - fy,
+		FIXED_DEC(256 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(256,1)
+	};
+
+	RECT hallrp_src = {0, 0, 256, 256};
+	RECT_FIXED hallrp_dst = {
+		FIXED_DEC(90 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(-140,1) - fy,
+		FIXED_DEC(256 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(256,1)
+	};
+	
+	RECT floorlp_src = {0, 0, 255, 125};
+	RECT_FIXED floorlp_dst = {
+		FIXED_DEC(-165 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(76,1) - fy,
+		FIXED_DEC(256 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(128,1)
+	};
+
+	RECT floorrp_src = {0, 125, 255, 125};
+	RECT_FIXED floorrp_dst = {
+		FIXED_DEC(91 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(74,1) - fy,
+		FIXED_DEC(256 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(128,1)
+	};
+
+	RECT chairp_src = {0, 0, 105, 175};
+	RECT_FIXED chairp_dst = {
+		FIXED_DEC(-107 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(-52,1) - fy,
+		FIXED_DEC(105 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(175,1)
+	};
+
+	RECT tablep_src = {105, 0, 64, 79};
+	RECT_FIXED tablep_dst = {
+		FIXED_DEC(245 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(42,1) - fy,
+		FIXED_DEC(64 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(79,1)
+	};
+
+	RECT fireplacep_src = {0, 0, 213, 256};
+	RECT_FIXED fireplacep_dst = {
+		FIXED_DEC(8 - SCREEN_WIDEOADD2,1) - fx,
+		FIXED_DEC(-145,1) - fy,
+		FIXED_DEC(213 + SCREEN_WIDEOADD,1),
+		FIXED_DEC(256,1)
+			
+	};
 
 	if (stage.stage_id == StageId_1_5)
 	{
@@ -274,30 +419,23 @@ void Back_Chop_DrawBG(StageBack *back)
 	if (stage.stage_id == StageId_1_2)
 	{
 		if (fadepurp > 0 && fademode == 0)
-		{
-			if (fadepurp >= FIXED_DEC(45,1) && fadeextra2 >= FIXED_DEC(65,1) && fadeextra3 >= FIXED_DEC(0,1))
-			{
-				//This sucks
-				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = fadepurp >> FIXED_SHIFT;
-				u8 flash_col2 = fadeextra2 >> FIXED_SHIFT;
-				u8 flash_col3 = fadeextra3 >> FIXED_SHIFT;
-				Gfx_BlendRect(&flash, flash_col, flash_col2, flash_col3, 2);
-			}
-			else
-			{
-   	 			static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = fadepurp >> FIXED_SHIFT;
-				u8 flash_col2 = fadeextra2 >> FIXED_SHIFT;
-				u8 flash_col3 = fadeextra3 >> FIXED_SHIFT;
-				Gfx_BlendRect(&flash, flash_col, flash_col2, flash_col3, 2);
-				if (fadepurp < FIXED_DEC(45,1))
-					fadepurp += FIXED_MUL(fadespeed, timer_dt*3);    
-				if (fadeextra2 < FIXED_DEC(65,1))
-					fadeextra2 += FIXED_MUL(fadespeed, timer_dt*3);  
-				if (fadeextra3 < FIXED_DEC(0,1))
-					fadeextra3 += FIXED_MUL(fadespeed, timer_dt*3);  
-			}
+		{	
+			//purple animation
+			Chop_Firep_Draw(this, FIXED_DEC(85,1) - fx, FIXED_DEC(31,1) - fy);
+			Chop_Steam_Draw(this, FIXED_DEC(271,1) - fx, FIXED_DEC(15,1) - fy);
+			
+			Chop_Wickp_Draw(this, FIXED_DEC(41,1) - fx, FIXED_DEC(-26,1) - fy);
+			Chop_Wickp_Draw(this, FIXED_DEC(55,1) - fx, FIXED_DEC(-21,1) - fy);
+			Chop_Wickp_Draw(this, FIXED_DEC(184,1) - fx, FIXED_DEC(-26,1) - fy);
+			
+			//purple background
+			Stage_DrawTex(&this->tex_fireplacep, &fireplacep_src, &fireplacep_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_junkp, &tablep_src, &tablep_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_junkp, &chairp_src, &chairp_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_floorp, &floorlp_src, &floorlp_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_floorp, &floorrp_src, &floorrp_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_back0p, &halllp_src, &halllp_dst, stage.camera.bzoom);
+			Stage_DrawTex(&this->tex_back1p, &hallrp_src, &hallrp_dst, stage.camera.bzoom);
 
 	
 		}
@@ -487,18 +625,29 @@ StageBack *Back_Chop_New(void)
 	Gfx_LoadTex(&this->tex_floor, Archive_Find(arc_back, "floor.tim"), 0);
 	Gfx_LoadTex(&this->tex_junk, Archive_Find(arc_back, "junk.tim"), 0);
 	Gfx_LoadTex(&this->tex_fireplace, Archive_Find(arc_back, "fplace.tim"), 0);
+	Gfx_LoadTex(&this->tex_back0p, Archive_Find(arc_back, "back0p.tim"), 0);
+	Gfx_LoadTex(&this->tex_back1p, Archive_Find(arc_back, "back1p.tim"), 0);
+	Gfx_LoadTex(&this->tex_floorp, Archive_Find(arc_back, "floorp.tim"), 0);
+	Gfx_LoadTex(&this->tex_junkp, Archive_Find(arc_back, "junkp.tim"), 0);
+	Gfx_LoadTex(&this->tex_fireplacep, Archive_Find(arc_back, "fplacep.tim"), 0);
 	Mem_Free(arc_back);
 
 	Gfx_SetClear(0, 0, 0);
 
 	Animatable_Init(&this->fire_animatable, fire_anim);
 	Animatable_SetAnim(&this->fire_animatable, 0);
+	
+	Animatable_Init(&this->firep_animatable, firep_anim);
+	Animatable_SetAnim(&this->firep_animatable, 0);
 
 	Animatable_Init(&this->steam_animatable, steam_anim);
 	Animatable_SetAnim(&this->steam_animatable, 0);
 
 	Animatable_Init(&this->wick_animatable, wick_anim);
 	Animatable_SetAnim(&this->wick_animatable, 0);
+	
+	Animatable_Init(&this->wickp_animatable, wickp_anim);
+	Animatable_SetAnim(&this->wickp_animatable, 0);
 
 	fademode = 0;
 	fadeblack = 0;
